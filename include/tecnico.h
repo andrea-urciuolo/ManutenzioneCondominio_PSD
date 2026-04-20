@@ -3,7 +3,8 @@ typedef struct {
     int codiceIdentificativo;   // code that identifies the technician
     char nome[50];
     char specializzazione[50];
-    int disponibilita;          /* 1 = available, 0 = busy */
+    int disponibilita;        /* 1 = available, 0 = busy */
+    int numeroInterventi;
 } Tecnico;
 
 /* Function prototypes (Syntactic Specification) */
@@ -16,6 +17,8 @@ void stampaTecnico(const Tecnico* t);
 
 /* Modifies the availability status of the technician (e.g. after assigning an intervention) */
 void impostaDisponibilita(Tecnico* t, int stato);
+/* Increase the number of interventions assigned to the technician by 1 */
+void aggiungiIntervento(Tecnico* t);
 
 /* Frees the memory allocated for the technician when it is no longer needed */
 void eliminaTecnico(Tecnico* t);

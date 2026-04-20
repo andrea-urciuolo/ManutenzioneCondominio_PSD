@@ -52,3 +52,8 @@ void impostaDisponibilita(Tecnico *t, int stato){
         }
     }
 }
+void aggiungiIntervento(Tecnico *t) {
+    if (t != NULL) {
+        t->numeroInterventi += 1;
+    }
+}
