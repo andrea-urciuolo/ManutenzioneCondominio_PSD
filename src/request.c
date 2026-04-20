@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "../include/request.h"
 
 struct c_request {
@@ -13,10 +12,9 @@ struct c_request {
     char submissionDate[11];     // Format: XX/XX/XXXX   day/month/year
     char* description;           // Description of the problem
     int isCompleted;             // 1 = Yes | 0 = No
-}
+};
 
 request newRequest(char type, int urgency, int apartment, int idAssignedTechnician, char submissionDate[], char* description) {
-    srand(time(NULL));
     request *r;
     r = malloc(sizeof(struct c_request));
     if (r == NULL) return NULL;
@@ -47,11 +45,15 @@ request newRequest(char type, int urgency, int apartment, int idAssignedTechnici
     r->apartment = apartment;
 
     if (idAssignedTechnician != 0) {
-        r->idCode += (rand() % 9999) + 1;
+        r->idCode += (rand() % 9999) + 1;   //  TODO: add <time.h> to main and srand(time(NULL)) 
         r->idAssignedTechnician = idAssignedTechnician;
     }
 
     strcpy(r->submissionDate, submissionDate);
+    
+    r->description = malloc(strlen(description) + 1);
+    if (r->description == NULL) return NULL;
+
     strcpy(r->description, description);
 
     r->isCompleted = 0;
@@ -59,3 +61,41 @@ request newRequest(char type, int urgency, int apartment, int idAssignedTechnici
     return r;
 }
 
+int getIdCode(request r) {
+    if (r == NULL) return -1;
+    return r->idCode;
+}
+
+char getType(request r) {
+    if (r == NULL) return 'z';
+    return r->type;
+}
+
+int getUrgency(request r) {
+    if (r == NULL) return -1;
+    return r->urgency;
+}
+
+int getApartment(request r) {
+    if (r == NULL) return -1;
+    return r->apartment;
+}
+
+int getIdAssignedTechnician(request r) {
+    if (r == NULL) return -1;
+    return r->idAssignedTechnician;
+}
+
+char* getSubmissionDate(request r) {
+    if (r == NULL) return NULL;
+    return r->submissionDate;
+}
+
+char* getDescription(request r) {
+    if (r == NULL) return NULL;
+    return r->description;
+}
+
+int getIsCompleted(request r) {
+    return r->isCompleted;
+}
