@@ -4,59 +4,42 @@
 #include "../include/request.h"
 
 struct c_request {
-    int idCode;                  // Id code for the request   Es: 10000
+    int idCode;                  // Id code for the request
     char type;                   // Type of request   Es: Fixing the plumbering
     int urgency;                 // Level of urgency  1 (low) - 5 (high)
     int apartment;               // Civic number who sent the request
-    int idAssignedTechnician;    // Id code of the Technician Assigned
-    char submissionDate[11];     // Format: XX/XX/XXXX   day/month/year
+    char submissionDate[11];     // Format: DD/MM/YYYY   day/month/year
     char* description;           // Description of the problem
-    int isCompleted;             // 1 = Yes | 0 = No
 };
 
-request newRequest(char type, int urgency, int apartment, int idAssignedTechnician, char submissionDate[], char* description) {
-    request *r;
-    r = malloc(sizeof(struct c_request));
+request newRequest(int idCode, char type, int urgency, int apartment, char submissionDate[], char* description) {
+    // Allocate memory for the request adt
+    request r = malloc(sizeof(struct c_request));
     if (r == NULL) return NULL;
 
-    r->idCode = 0;
-    switch (type) {
-        case 'a':
-            r->idCode += 10000;
-            break;
-        case 'e':
-            r->idCode += 20000;
-            break;
-        case 'i':
-            r->idCode += 30000;
-            break;
-        case 'o':
-            r->idCode += 40000;
-            break;
-        case 'u':
-            r->idCode += 50000;
-            break;
-        default:
-            return NULL;
-    }
-
+    // Assign parameter values
+    r->idCode = idCode;
     r->type = type;
     r->urgency = urgency;
     r->apartment = apartment;
 
-    if (idAssignedTechnician != 0) {
-        r->idCode += (rand() % 9999) + 1;   //  TODO: add <time.h> to main and srand(time(NULL)) 
-        r->idAssignedTechnician = idAssignedTechnician;
+    // Copying submissionDate avoiding a Buffer Overflow
+    strncpy(r->submissionDate, submissionDate, sizeof(r->submissionDate) - 1);
+    r->submissionDate[sizeof(r->submissionDate) - 1] = '\0';
+
+    // Error handling in case of missing description
+    if (description == NULL) {
+        free(r);
+        return NULL;
     }
 
-    strcpy(r->submissionDate, submissionDate);
-    
+    // Allocate memory for the description of the request
     r->description = malloc(strlen(description) + 1);
-    if (r->description == NULL) return NULL;
-
+    if (r->description == NULL) {
+        free(r);
+        return NULL;
+    }
     strcpy(r->description, description);
-
-    r->isCompleted = 0;
 
     return r;
 }
@@ -67,7 +50,7 @@ int getIdCode(request r) {
 }
 
 char getType(request r) {
-    if (r == NULL) return 'z';
+    if (r == NULL) return 'z'; // Return Default value for the type parameter
     return r->type;
 }
 
@@ -81,11 +64,6 @@ int getApartment(request r) {
     return r->apartment;
 }
 
-int getIdAssignedTechnician(request r) {
-    if (r == NULL) return -1;
-    return r->idAssignedTechnician;
-}
-
 char* getSubmissionDate(request r) {
     if (r == NULL) return NULL;
     return r->submissionDate;
@@ -96,6 +74,8 @@ char* getDescription(request r) {
     return r->description;
 }
 
-int getIsCompleted(request r) {
-    return r->isCompleted;
+void deallocateRequest(request r) {
+    if (r == NULL) return;
+    free(r->description);
+    free(r);
 }
