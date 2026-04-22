@@ -8,7 +8,7 @@ struct c_request {
     char type;                   // Type of request   Es: Fixing the plumbering
     int urgency;                 // Level of urgency  1 (low) - 5 (high)
     int apartment;               // Civic number who sent the request
-    char submissionDate[11];     // Format: DD/MM/YYYY   day/month/year
+    char submissionDate[11];     // Format: YYYY/MM/DD
     char* description;           // Description of the problem
 };
 
