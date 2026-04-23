@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/tecnico.h"
+#include "../include/technician.h"
+#include "../include/utils.h" 
 
 #define PLUMBER 'a'
 #define ELECTRICIAN 'b'
@@ -10,110 +11,119 @@
 #define ELEVETOR 'e'
 #define BLACKSMITH 'f'
 
-struct c_tecnico {
-    int codiceIdentificativo;   // code that identifies the technician
-    char nome[50];
-    char specializzazione;
-    int disponibilita;          /* 1 = available, 0 = busy */
-    int numeroInterventi;
+struct c_technician {
+    int idCode;                 // Code that identifies the technician
+    char name[50];              // Technician's name
+    char specialization;        // Character representing the specialization
+    int availability;           // 1 = available, 0 = busy
+    int interventionCount;      // Total number of interventions
 }; 
 
-/* Allocates memory and initializes a new technician with a random ID, given name, specialization, and default values. */
-tecnico creaTecnico(const char* nome, char specializzazione){
-    
-    tecnico nuovotecnico = (tecnico)malloc(sizeof(struct c_tecnico)); 
 
-    if(nuovotecnico == NULL){                      
-        printf("Errore nell'allocazione della memoria per creare il tecnico \n");       
+/* Allocates memory and initializes a new technician asking the user for their details */
+technician createTechnician() { 
+    
+    technician newTechnician = (technician)malloc(sizeof(struct c_technician)); 
+
+    if(newTechnician == NULL){                      
+        printf("Error allocating memory to create the technician\n");       
         return NULL;
     }
 
-    nuovotecnico->codiceIdentificativo = (rand() % 9999) + 1;        
-    // TODO: add <time.h> to main and srand(time(NULL))
+    newTechnician->idCode = (rand() % 9999) + 1;        
     
-    strncpy(nuovotecnico->nome, nome, 49);
-    nuovotecnico->nome[49] = '\0';
-
-   
-    nuovotecnico->specializzazione = specializzazione;
-
-    nuovotecnico->disponibilita = 1;       
-    nuovotecnico->numeroInterventi = 0; 
+    /* Asks the user for the technician's name directly from the terminal */
+    printf("Enter the technician's name: ");
+    readString(newTechnician->name, sizeof(newTechnician->name));
     
-    return nuovotecnico;
+    /* Asks for the specialization */
+    printf("Enter the specialization (a=PLUMBER, b=ELECTRICIAN, c=CONSTRUCTOR, d=TERMOHYDRAULIC, e=ELEVETOR, f=BLACKSMITH): ");
+    
+    
+    /* Reads a single character directly from the standard input */
+    newTechnician->specialization = getchar();
+    
+    /* Clears the buffer to remove the trailing newline (\n) left by the user pressing Enter */
+    clearBuffer();
+       
+    newTechnician->availability = 1; // Default to available
+    newTechnician->interventionCount = 0; 
+    
+    return newTechnician;
 }
 
 /* Frees the memory previously allocated for the given technician. */
-void eliminaTecnico(tecnico t){        
-    if( t != NULL)
-        free(t);            
+void deleteTechnician(technician tech) {        
+    if(tech != NULL)
+        free(tech);            
 }
 
 /* Prints all the details and current status of the technician to the standard output. */
-void stampaTecnico(const tecnico t){
-    if(t == NULL){
-        printf("Nessun tecnico da stampare\n");
+void printTechnician(const technician tech) {
+    if(tech == NULL){
+        printf("No technician to print\n");
         return;
     }
 
-    printf("--- Scheda Tecnico ---\n");
-    printf("Codice ID: %d\n", t->codiceIdentificativo);
-    printf("Nome: %s\n", t->nome);
-    printf("Specializzazione: %c\n", t->specializzazione); // Usato %c per il singolo char
+    printf("--- Technician Details ---\n");
+    printf("ID Code: %d\n", tech->idCode);
+    printf("Name: %s\n", tech->name);
+    printf("Specialization: %c\n", tech->specialization); 
     
-    if (t->disponibilita == 1) {
-        printf("Stato: Disponibile\n");
-    } else {                                
-        printf("Stato: Occupato\n");
+    if (tech->availability == 1) {
+        printf("Status: Available\n");
+    } else {
+        printf("Status: Busy\n");
     }
-    printf("Interventi effettuati: %d\n", t->numeroInterventi);
+    
+    printf("Interventions completed: %d\n", tech->interventionCount);
     printf("----------------------\n");
 }
 
 /* Updates the availability status of the technician (1 for available, 0 for busy). */
-void impostaDisponibilita(tecnico t, int stato){
-    if(t != NULL){
-        if(stato == 0 || stato == 1 ){
-            t->disponibilita = stato;
+void setAvailability(technician tech, int status) {
+    if(tech != NULL){
+        if(status == 0 || status == 1 ){
+            tech->availability = status;
         } else{
-            printf("Errore: stato non valido. Usare 1 (Disponibile) o 0 (Occupato)\n");
+            printf("Error: invalid status. Use 1 (Available) or 0 (Busy)\n");
         }
     }
 }
 
 /* Increments the total number of interventions assigned to the technician by one. */
-void aggiungiIntervento(tecnico t) {
-    if (t != NULL) {
-        t->numeroInterventi += 1;
+void addIntervention(technician tech) {
+    if (tech != NULL) {
+        tech->interventionCount += 1;
     }
 }
 
 /* Returns the unique identification code of the technician. */
-int getCodiceIdentificativo(tecnico t) {
-    if (t == NULL) return -1;
-    return t->codiceIdentificativo;
+int getIdCode(technician tech) {
+    if (tech == NULL) return -1;
+    return tech->idCode;
 }
 
 /* Returns the current availability status of the technician. */
-int getDisponibilita(tecnico t) {
-    if (t == NULL) return -1;
-    return t->disponibilita;
+int getAvailability(technician tech) {
+    if (tech == NULL) return -1;
+    return tech->availability;
 }
 
 /* Returns the total number of interventions currently assigned to or completed by the technician. */
-int getIntervento(tecnico t) {
-    if (t == NULL) return -1;
-    return t->numeroInterventi;
+int getInterventionCount(technician tech) {
+    if (tech == NULL) return -1;
+    return tech->interventionCount;
 }
 
 /* Returns a pointer to the string containing the technician's name. */
-const char* getNome(tecnico t) {
-    if (t == NULL) return NULL;
-    return t->nome;
+const char* getName(technician tech) {
+    if (tech == NULL) return NULL;
+    return tech->name;
 }
 
 /* Returns the character representing the technician's specific area of expertise. */
-char getSpecializzazione(tecnico t) {
-    if (t == NULL) return 'z';
-    return t->specializzazione;
+char getSpecialization(technician tech) {
+    if (tech == NULL) return 'z';
+    return tech->specialization;
 }
