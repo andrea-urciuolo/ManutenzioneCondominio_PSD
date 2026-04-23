@@ -14,4 +14,6 @@ char* getSubmissionDate(request r);
 
 char* getDescription(request r);
 
+void printRequest(request r);
+
 void deallocateRequest(request r);
