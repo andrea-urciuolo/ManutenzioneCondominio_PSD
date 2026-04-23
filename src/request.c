@@ -79,22 +79,22 @@ void printRequest(request r) {
 	printf("------------\n");
 	printf("---Richiesta id: %d---\n", getIdCode(r));
 	switch (getType(r)) {
-		case PLUMBER:
+		case 'a':	//PLUMBER
 			printf("- Intervento all'impianto idraulico\n");
 			break;
-		case ELECTRICIAN:
+		case 'b': 	//ELECTRICIAN
 			printf("- Intervento all'impianto elettrico\n");
 			break;
-		case CONSTRUCTION:
+		case 'c':	//CONSTRUCTOR
 			printf("- Intervento edile\n");
 			break;
-		case TERMOHYDRAULIC:
+		case 'd':	//TERMOHYDRAULIC
 			printf("- Intervento all'impianto termoidraulico\n");
 			break;
-		case ELEVETOR:
+		case 'e':	//ELEVETOR
 			printf("- Intervento sull'ascensore\n");
 			break;
-		case BLACKSMITH:
+		case 'f':	//BLACKSMITH
 			printf("- Intervento su serrature e metalli\n");
 			break;
 		default:
