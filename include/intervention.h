@@ -1,7 +1,13 @@
-/*
- * IMPLEMENT an ADT intervention witch connects the request to a technician and schedules an appointment
- * request
- * technician
- * date for the appointment
- * status
-*/
+typedef struct c_intervention *intervention;
+
+intervention newIntervention();
+
+request getRequestIntervention(intervention inter);
+
+tecnico getTecnicoIntervention(intervention inter);
+
+char* getDateAppointment(intervention inter);
+
+char* getTimeAppointment(intervention inter);
+
+int getEstimatedTime(intervention inter);
