@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/request.h"
+#include "../include/utils.h"
 
 struct c_request {
     int idCode;                  // Id code for the request
@@ -12,34 +13,105 @@ struct c_request {
     char* description;           // Description of the problem
 };
 
-request newRequest(int idCode, char type, int urgency, int apartment, char submissionDate[], char* description) {
-    // Allocate memory for the request adt
-    request r = malloc(sizeof(struct c_request));
-    if (r == NULL) return NULL;
+request newRequest() {
+	request r = malloc(sizeof(struct c_request));
+	if (r == NULL) return NULL;
 
-    // Assign parameter values
-    r->idCode = idCode;
-    r->type = type;
-    r->urgency = urgency;
-    r->apartment = apartment;
+	int error = 0;
+	int idCode;
+	do {
+		if (!error) printf("Inserire l'id della richiesta: ");
+		else printf("ERRORE! Inserire un id valido (solo cifre): ");
+		error = 1;
+	} while (scanf("%d", &idCode) != 1);
 
-    // Copying submissionDate avoiding a Buffer Overflow
+	r->idCode = idCode;
+
+	error = 0;
+	char type;
+	while (true) {
+		if (!error) {
+			printf("Inserire la tipologia della richiesta\n");
+			printf("[a] Intervento all'impianto idraulico\n");
+			printf("[b] Intervento all'impianto elettrico\n");
+			printf("[c] Intervento edile\n");
+			printf("[d] Intervento all'impianto termoidraulico\n");
+			printf("[e] Intervento sull'ascensore\n");
+			printf("[f] Intervento su serrature e metalli\n");
+		}
+		printf(".. : ");
+		type = getchar();
+		if (type < 97 || type > 102) {
+			printf("ERRORE! Inserire un type valido\n");
+			error = 1;
+			continue;
+		}
+
+		r->type = type;
+		break;
+	}
+
+	error = 0;
+	int urgency;
+	do {
+		if (!error) printf("Inserire l'urgenza della richiesta [1 (bassa) - 5 (alta)]: ");
+		else printf("ERRORE! Inserire un livello di urgenza valido: ");
+		error = 1;
+	} while ((scanf("%d", &urgency) != 1) || (urgency < 1 || urgency > 5));
+
+	r->urgency = urgency;
+
+
+	error = 0;
+	int apartment;
+	if (type == 'e') {
+		apartment = 0;
+	} else {
+		do {
+			if (!error) printf("Inserire il numero civico della richiesta: ");
+			else printf("ERRORE! Inserire un numero civico valido: ");
+			error = 1;
+		} while ((scanf("%d", &apartment) != 1) || (apartment < 1));
+	}
+
+
+	// TODO: Aggiungere controlli in caso di data inesistente
+	error = 0;
+	char submissionDate[11];
+    clearBuffer();
+
+    do {
+       if (!error) printf("Inserire la data di sottomissione (YYYY/MM/DD): ");
+       else printf("ERRORE! Formato non valido. Riprova (YYYY/MM/DD): ");
+       error = 1;
+    } while (scanf("%10s", submissionDate) != 1);
+
     strncpy(r->submissionDate, submissionDate, sizeof(r->submissionDate) - 1);
     r->submissionDate[sizeof(r->submissionDate) - 1] = '\0';
 
-    // Error handling in case of missing description
-    if (description == NULL) {
-        free(r);
-        return NULL;
-    }
 
-    // Allocate memory for the description of the request
-    r->description = malloc(strlen(description) + 1);
+	error = 0;
+	char buffer[512];
+	clearBuffer();
+
+	do {
+       if (!error) printf("Inserire una breve descrizione del problema: ");
+       else printf("ERRORE! La descrizione non può essere vuota: ");
+       error = 1;
+
+       if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+           buffer[strcspn(buffer, "\n")] = '\0';
+       }
+
+    } while (strlen(buffer) == 0);
+
+    r->description = malloc(strlen(buffer) + 1);
     if (r->description == NULL) {
         free(r);
         return NULL;
     }
-    strcpy(r->description, description);
+
+    strcpy(r->description, buffer);
 
     return r;
 }
@@ -79,22 +151,22 @@ void printRequest(request r) {
 	printf("------------\n");
 	printf("---Richiesta id: %d---\n", getIdCode(r));
 	switch (getType(r)) {
-		case PLUMBER:
+		case 'a':
 			printf("- Intervento all'impianto idraulico\n");
 			break;
-		case ELECTRICIAN:
+		case 'b':
 			printf("- Intervento all'impianto elettrico\n");
 			break;
-		case CONSTRUCTION:
+		case 'c':
 			printf("- Intervento edile\n");
 			break;
-		case TERMOHYDRAULIC:
+		case 'd':
 			printf("- Intervento all'impianto termoidraulico\n");
 			break;
-		case ELEVETOR:
+		case 'e':
 			printf("- Intervento sull'ascensore\n");
 			break;
-		case BLACKSMITH:
+		case 'f':
 			printf("- Intervento su serrature e metalli\n");
 			break;
 		default:

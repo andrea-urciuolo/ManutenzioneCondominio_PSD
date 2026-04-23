@@ -16,6 +16,7 @@ int StrToInt(char str[]) {
 
     return convertedInt;
 }
+
 void clearBuffer() {
     int c;
     /* Reads and discards characters until it finds a newline or End Of File */
