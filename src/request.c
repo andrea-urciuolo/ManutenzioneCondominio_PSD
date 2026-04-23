@@ -29,7 +29,7 @@ request newRequest() {
 
 	error = 0;
 	char type;
-	while (true) {
+	while (1) {
 		if (!error) {
 			printf("Inserire la tipologia della richiesta\n");
 			printf("[a] Intervento all'impianto idraulico\n");

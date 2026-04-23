@@ -1,6 +1,6 @@
 typedef struct c_request *request;
 
-request newRequest(int idCode, char type, int urgency, int apartment, char submissionDate[], char* description);
+request newRequest();
 
 int getIdCode(request r);
 

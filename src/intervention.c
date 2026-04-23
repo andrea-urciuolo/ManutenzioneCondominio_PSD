@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "intervention.h"
-#include "request.h"
-#include "tecnico.h"
+#include "../include/intervention.h"
+#include "../include/request.h"
+#include "../include/tecnico.h"
 
 struct c_intervention {
     request r;
@@ -15,7 +15,7 @@ struct c_intervention {
 
 intervention newIntervention(request r, tecnico t, char dateAppointment[], char timeAppointment[], int estimatedTime) {
     // Allocate memory for the intervention adt
-    intervention inter = malloc(sizeof(struct intervention));
+    intervention inter = malloc(sizeof(struct c_intervention));
     if (inter == NULL) return NULL;
 
     // Assign parameter values
