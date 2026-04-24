@@ -1,196 +1,185 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "item.h"
-#include "list.h"
+#include "../include/list.h"
+#include "technician.h" 
 
 struct node {
-    item data;
-    node* next;
+    technician data;
+    struct node* next;
 };
-
 
 list newList() {
     return NULL;
 }
 
-
 int emptyList(list l) {
     if (l == NULL) {
         return 1;
     }
-
     return 0;
 }
-
 
 list tailList(list l) {
     if (l == NULL) {
         return NULL;
     }
-
     l = l->next;
     return l;
 }
 
-
-item getFirst(list l) {
+technician getFirst(list l) {
     if (l == NULL) {
-        return NULLITEM;
+        return NULL;
     }
-
     return l->data;
 }
 
-
-list consList(list l, item value) {
-    node* newNode = (node* ) malloc(sizeof(node));
+list consList(list l, technician tech) {
+    node* newNode = (node*)malloc(sizeof(node));
     if (newNode != NULL) {
-        newNode->data = value;
+        newNode->data = tech;
         newNode->next = l;
         l = newNode;
     }
-
     return l;
 }
-
 
 int sizeList(list l) {
     int count = 0;
-    while (!emptyList(l)) {
+    list current = l;
+    while (!emptyList(current)) {
         count++;
-        l = tailList(l);
+        current = tailList(current);
     }
-
     return count;
 }
 
-
-int searchItem(list l, item value) {
-    list temp_next = l;
-    while (temp_next != NULL) {
-        if (temp_next->data == value) {
+int searchTechnician(list l, int targetIdCode) {
+    list current = l;
+    while (current != NULL) {
+        if (getIdCode(current->data) == targetIdCode) {
             return 1;
         }
-        temp_next = temp_next->next;
+        current = current->next;
     }
-
     return 0;
 }
 
-
-int posItem (list l, item value) {
+int posTechnician(list l, int targetIdCode) {
     int i = 0;
     int found = 0;
-    while (!emptyList(l) && !found) {
-        if (eq(getFirst(l), value)) {
+    list current = l;
+    
+    while (!emptyList(current) && !found) {
+        if (getIdCode(getFirst(current)) == targetIdCode) {
             found = 1;
         } else {
             i++;
-            l = tailList(l);
+            current = tailList(current);
         }
     }
 
-    if(!found) {
+    if (!found) {
         return -1;
     }
-
     return i;
 }
 
-
-item getItem(list l, int pos) {
+/* Helper function to get a technician at a specific position */
+technician getTechnicianAt(list l, int pos) {
     int i = 0;
-    while (!emptyList(l)) {
+    list current = l;
+    while (!emptyList(current)) {
         if (i == pos) {
-            return getFirst(l);
+            return getFirst(current);
         }
         i++;
-        l = tailList(l);
+        current = tailList(current);
     }
-
-    return NULLITEM;
+    return NULL;
 }
-
 
 list reverseList(list l) {
-    list l1 = newList();
-    while (!emptyList(l)) {
-        l1 = consList(l1, getFirst(l));
-        l = tailList(l);
+    list reversedList = newList();
+    list current = l;
+    while (!emptyList(current)) {
+        reversedList = consList(reversedList, getFirst(current));
+        current = tailList(current);
     }
-
-    return l1;
+    return reversedList;
 }
 
-
-list removeItem(list l, item value) {
-    list l1 = newList();
-    while (!emptyList(l)) {
-        if (!eq(getFirst(l), value)) {
-            l1 = consList(l1, getFirst(l));
+list removeTechnician(list l, int targetIdCode) {
+    list temp = newList();
+    list current = l;
+    
+    while (!emptyList(current)) {
+        if (getIdCode(getFirst(current)) != targetIdCode) {
+            temp = consList(temp, getFirst(current));
         }
-        l = tailList(l);
+        current = tailList(current);
     }
 
-    list reverse = reverseList(l1);
-
-    return reverse;
+    list finalReversedList = reverseList(temp);
+    return finalReversedList;
 }
-
 
 void outputList(list l) {
     if (emptyList(l)) {
-        printf("Empty list");
+        printf("Empty list of technicians.\n");
+        return;
     }
 
-    while (!emptyList(l)) {
-        printf("|%d|", getFirst(l));
-        l = tailList(l);
-        if (!emptyList(l)) {
-            printf(" -> ");
+    list current = l;
+    while (!emptyList(current)) {
+        printf("[Tech ID: %d] ", getIdCode(getFirst(current)));
+        current = tailList(current);
+        if (!emptyList(current)) {
+            printf("-> ");
         }
     }
-
     printf("\n");
 }
 
-
 list inputList(int n) {
-    item temp;
+    technician tempTech;
     list l = newList();
+    
     for (int i = 0; i < n; i++) {
-        inputItem(&temp);
-        l = consList(l, temp);
+        printf("Creating technician %d of %d...\n", i + 1, n);
+        tempTech = createTechnician(); // Uses the function from your ADT
+        if (tempTech != NULL) {
+            l = consList(l, tempTech);
+        }
     }
 
     l = reverseList(l);
-
     return l;
 }
 
-
-list insertList(list l, int p, item value) {
+list insertList(list l, int p, technician tech) {
     if (p == 0) {
-        return consList(l, value);
+        return consList(l, tech);
     }
+    
     int i = 0;
-    list prec = l;
-    while (i < p-1 && prec != NULL) {
-        prec = prec->next;
+    list current = l;
+    
+    while (i < p - 1 && current != NULL) {
+        current = current->next;
         i++;
     }
 
-    if (prec == NULL) {
-        printf("List too short");
+    if (current == NULL) {
+        printf("List is too short to insert at position %d.\n", p);
         return l;
     }
 
-    list l1 = consList(prec->next, value);
-    prec->next = l1;
+    list newNode = consList(current->next, tech);
+    current->next = newNode;
 
     return l;
 }
-
 
 list removeList(list l, int p) {
     if (l == NULL) {
@@ -199,26 +188,27 @@ list removeList(list l, int p) {
 
     if (p == 0) {
         list tmp = l;
-        l =  tailList(l);
-        free(tmp);
+        l = tailList(l);
+        // Note: we free the node, but we DO NOT call deleteTechnician(tmp->data) 
+        // because usually lists don't destroy the data they hold unless specified.
+        free(tmp); 
     } else {
         int i = 0;
-        list prec = l;
+        list current = l;
 
-        while (i < p-1 && prec != NULL) {
-            prec = prec->next;
+        while (i < p - 1 && current != NULL) {
+            current = current->next;
             i++;
         }
 
-        if (prec == NULL || prec->next == NULL) {
-            printf("List too short");
+        if (current == NULL || current->next == NULL) {
+            printf("List is too short to remove element at position %d.\n", p);
             return l;
         }
 
-        list remove = prec->next;
-        list l1 = (remove)->next;
-        prec->next = l1;
-        free(remove);
+        list nodeToRemove = current->next;
+        current->next = nodeToRemove->next;
+        free(nodeToRemove);
     }
 
     return l;

@@ -1,83 +1,73 @@
+#include "technician.h" //
+
 typedef struct node* list;
 typedef struct node node;
 
-//Crea una nuova lista vuota e restituisce la lista creata
+/* Creates a new empty list and returns it */
 list newList();
 
-
-//Restituisce 1 se la lista è vuota, altrimenti 0
+/* Returns 1 if the list is empty, 0 otherwise */
 int emptyList(list l);
 
-
-//Restituisce una lista che contiene tutti gli elementi di l, tranne il primo
-//Precondizioni:
-//  l non deve essere una lista vuota
-//Postcondizioni:
-//  l = <a1, a2, ..., an>  /  tailList(l) -> l' = <a2, ..., an>
+/* Returns a list containing all the elements of l, except the first one
+   Preconditions:
+     l must not be an empty list
+   Postconditions:
+     l = <a1, a2, ..., an>  /  tailList(l) -> l' = <a2, ..., an> */
 list tailList(list l);
 
+/* Adds a node to the list, placing it in the first position
+   Postconditions:
+     l = <a1, a2, ..., an>  /  consList(l, tech) -> l' = <tech, a1, a2, ..., an> */
+list consList(list l, technician tech);
 
-//Aggiunge un nodo alla lista, ponendolo in prima posizione
-//PostCondizioni:
-//  l = <a1, a2, ..., an>  /  consList(l, value) -> l' = <value, a1, a2, ..., an>
-list consList(list l, item value);
+/* Returns the first technician in the list
+   Preconditions:
+     l must not be an empty list
+   Postconditions:
+     l = <a1, a2, ..., an>  /  getFirst(l) -> a1 */
+technician getFirst(list l);
 
-
-//Restituisce il primo item della lista
-//Precondizioni:
-//  l non deve essere una lista vuota
-//Postcondizioni:
-//  l = <a1, a2, ..., an>  /  getfirst(l) -> a1
-item getFirst(list l);
-
-
-//Restituisce il numero di nodi della lista
+/* Returns the number of nodes in the list */
 int sizeList(list l);
 
+/* Returns 1 if the technician (based on idCode) is present in the list, 0 otherwise */
+int searchTechnician(list l, int targetIdCode);
 
-//Restituisce 1 se value è presente nella lista, altrimenti 0
-int searchItem(list l, item value);
+/* If the technician is present in the list, the function returns the position
+   of its first occurrence, otherwise -1 */
+int posTechnician(list l, int targetIdCode);
 
-
-//Se value è presente nella lista, la funzione restituisce la posizione nella lista
-//della prima occorrenza di value, altrimenti -1
-int posItem(list l, item value);
-
-
-//Restituisce una lista di ordine inverso
-//Postcondizioni:
-//  l = <a1, a2, ..., an>  /  reverseList(l) -> l' = <an, ..., a2, a1>
+/* Returns a reversed list
+   Postconditions:
+     l = <a1, a2, ..., an>  /  reverseList(l) -> l' = <an, ..., a2, a1> */
 list reverseList(list l);
 
+/* Removes every occurrence of the technician (based on idCode) in the list
+   Postconditions:
+     l = <a1, a2, tech, ..., an>  /  removeTechnician(l, targetIdCode) -> l' = <a1, a2, ..., an> */
+list removeTechnician(list l, int targetIdCode);
 
-//Rimuove ogni occorrenza di value nella lista
-//Postcondizioni:
-//  l = <a1, a2, value, ..., an>  /  removeItem(l, value) -> l' = <a1, a2, ..., an>
-list removeItem(list l, item value);
-
-
-//Stampa a schermo la lista
+/* Prints the list of technicians to the screen */
 void outputList(list l);
 
-
-//Restituisce una lista composta da n nodi
-//Precondizioni:
-//  n >= 0;
+/* Returns a list composed of n nodes created via input
+   Preconditions:
+     n >= 0; */
 list inputList(int n);
 
+/* Takes a list l as input, returns a list l' identical to l, with the addition of the tech at position p
+   Preconditions:
+     sizeList(l) >= p
+     p >= 0
+   Postconditions:
+     l = <a1, a2, a3, ..., an> p = 2 / l' = <a1, a2, tech, a3, ..., an> */
+list insertList(list l, int p, technician tech);
 
-//Presa una lista l in input, restituisce una lista l' identica a l, con l'aggiunta dell'elemento value alla posizione p
-//Precondizioni:
-//  sizeList(l) >= p
-//  p >= 0
-//Postcondizioni:
-//  l = <a1, a2, a3, ..., an> p = 2 / l' = <a1, a2, value, a3, ..., an>
-list insertList(list l, int p, item value);
-
-//Presa una lista l in input, restituisce una lista l' identica a l, con la rimozione dell'elemento in posizione p
-//Precondizioni:
-//  sizeList(l) >= p
-//  p >= 0
-//Postcondizioni:
-//  p = k  /  l = <a1, a2, a3, ..., ak, ..., an>  /  l' = <a1, a2, a3, ..., an;
-list removeList(list l, int p)
+/* Takes a list l as input, returns a list l' identical to l, with the removal of the element at position p
+   Preconditions:
+     sizeList(l) >= p
+     p >= 0
+   Postconditions:
+     p = k  /  l = <a1, a2, a3, ..., ak, ..., an>  /  l' = <a1, a2, a3, ..., an> */
+list removeList(list l, int p);
