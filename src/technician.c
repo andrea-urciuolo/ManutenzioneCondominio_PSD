@@ -15,7 +15,6 @@ struct c_technician {
     int idCode;                 // Code that identifies the technician
     char name[50];              // Technician's name
     char specialization;        // Character representing the specialization
-    int availability;           // 1 = available, 0 = busy
     int interventionCount;      // Total number of interventions
 }; 
 
@@ -46,7 +45,7 @@ technician createTechnician() {
     /* Clears the buffer to remove the trailing newline (\n) left by the user pressing Enter */
     clearBuffer();
        
-    newTechnician->availability = 1; // Default to available
+    
     newTechnician->interventionCount = 0; 
     
     return newTechnician;
@@ -70,26 +69,11 @@ void printTechnician(const technician tech) {
     printf("Name: %s\n", tech->name);
     printf("Specialization: %c\n", tech->specialization); 
     
-    if (tech->availability == 1) {
-        printf("Status: Available\n");
-    } else {
-        printf("Status: Busy\n");
-    }
     
     printf("Interventions completed: %d\n", tech->interventionCount);
     printf("----------------------\n");
 }
 
-/* Updates the availability status of the technician (1 for available, 0 for busy). */
-void setAvailability(technician tech, int status) {
-    if(tech != NULL){
-        if(status == 0 || status == 1 ){
-            tech->availability = status;
-        } else{
-            printf("Error: invalid status. Use 1 (Available) or 0 (Busy)\n");
-        }
-    }
-}
 
 /* Increments the total number of interventions assigned to the technician by one. */
 void addIntervention(technician tech) {
@@ -104,11 +88,7 @@ int getIdCode(technician tech) {
     return tech->idCode;
 }
 
-/* Returns the current availability status of the technician. */
-int getAvailability(technician tech) {
-    if (tech == NULL) return -1;
-    return tech->availability;
-}
+
 
 /* Returns the total number of interventions currently assigned to or completed by the technician. */
 int getInterventionCount(technician tech) {

@@ -8,8 +8,7 @@ technician createTechnician();
 /* Prints the details of a single technician to the screen */
 void printTechnician(const technician tech);
 
-/* Modifies the availability status of the technician (e.g. after assigning an intervention) */
-void setAvailability(technician tech, int status);
+
 
 /* Increases the number of interventions assigned to the technician by 1 */
 void addIntervention(technician tech);
@@ -21,7 +20,6 @@ void deleteTechnician(technician tech);
 int getIdCode(technician tech);
 const char* getName(technician tech);
 char getSpecialization(technician tech);
-int getAvailability(technician tech);
 int getInterventionCount(technician tech);
 
 
