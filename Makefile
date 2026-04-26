@@ -11,12 +11,16 @@ OBJS = $(SRCS:.c=.o)
 # Nome dell'eseguibile finale
 TARGET = manutenzione
 
+# Rimuove i file oggetto
+RM = del /Q
+
 # Regola di default
 all: $(TARGET)
 
 # Regola per creare l'eseguibile finale collegando tutti i file oggetto
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
+	$(RM) $(subst /,\,$(OBJS))
 
 # Regola generica per compilare i singoli file .c in file .o
 %.o: %.c
@@ -24,4 +28,4 @@ $(TARGET): $(OBJS)
 
 # Regola per pulire la cartella dai file compilati
 clean:
-	rm -f $(OBJS) $(TARGET)
+	$(RM) $(subst /,\,$(OBJS)) $(TARGET).exe

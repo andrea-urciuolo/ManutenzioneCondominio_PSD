@@ -1,3 +1,6 @@
+#ifndef REQUEST_H
+#define REQUEST_H
+
 typedef struct c_request *request;
 
 request newRequest();
@@ -17,3 +20,5 @@ char* getDescription(request r);
 void printRequest(request r);
 
 void deallocateRequest(request r);
+
+#endif

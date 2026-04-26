@@ -7,6 +7,9 @@
 #include "../include/intervention.h"
 
 int main() {
+    // TEST request adt
     request r = newRequest();
+    printRequest(r);
+    deallocateRequest(r);
     return 0;
 }

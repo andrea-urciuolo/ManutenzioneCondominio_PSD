@@ -14,22 +14,32 @@ struct c_request {
 };
 
 request newRequest() {
+    // Allocate memory for the request adt
 	request r = malloc(sizeof(struct c_request));
 	if (r == NULL) return NULL;
 
+    // Declare a flag variable used to check if the user input is correct
 	int error = 0;
+
+    // idCode input
 	int idCode;
 	do {
-		if (!error) printf("Inserire l'id della richiesta: ");
-		else printf("ERRORE! Inserire un id valido (solo cifre): ");
+		if (!error) {
+		    printf("Inserire l'id della richiesta: ");
+		} else {
+		    clearBuffer();
+		    printf("ERRORE! Inserire un id valido (solo cifre): ");
+		}
 		error = 1;
 	} while (scanf("%d", &idCode) != 1);
 
 	r->idCode = idCode;
 
+    // type input
 	error = 0;
 	char type;
 	while (1) {
+	    clearBuffer();
 		if (!error) {
 			printf("Inserire la tipologia della richiesta\n");
 			printf("[a] Intervento all'impianto idraulico\n");
@@ -41,8 +51,9 @@ request newRequest() {
 		}
 		printf(".. : ");
 		type = getchar();
+	    // Check if the input is within the 'a' to 'f' range
 		if (type < 97 || type > 102) {
-			printf("ERRORE! Inserire un type valido\n");
+			printf("ERRORE! Inserire una tipologia valida\n");
 			error = 1;
 			continue;
 		}
@@ -51,9 +62,11 @@ request newRequest() {
 		break;
 	}
 
+    // urgency input
 	error = 0;
 	int urgency;
 	do {
+	    clearBuffer();
 		if (!error) printf("Inserire l'urgenza della richiesta [1 (bassa) - 5 (alta)]: ");
 		else printf("ERRORE! Inserire un livello di urgenza valido: ");
 		error = 1;
@@ -61,26 +74,29 @@ request newRequest() {
 
 	r->urgency = urgency;
 
-
+    // apartment input
 	error = 0;
 	int apartment;
 	if (type == 'e') {
 		apartment = 0;
 	} else {
 		do {
+		    clearBuffer();
 			if (!error) printf("Inserire il numero civico della richiesta: ");
 			else printf("ERRORE! Inserire un numero civico valido: ");
 			error = 1;
 		} while ((scanf("%d", &apartment) != 1) || (apartment < 1));
 	}
 
+    r->apartment = apartment;
 
+
+    // submmissionDate input
 	// TODO: Aggiungere controlli in caso di data inesistente
 	error = 0;
 	char submissionDate[11];
-    clearBuffer();
-
     do {
+        clearBuffer();
        if (!error) printf("Inserire la data di sottomissione (YYYY/MM/DD): ");
        else printf("ERRORE! Formato non valido. Riprova (YYYY/MM/DD): ");
        error = 1;
@@ -89,22 +105,21 @@ request newRequest() {
     strncpy(r->submissionDate, submissionDate, sizeof(r->submissionDate) - 1);
     r->submissionDate[sizeof(r->submissionDate) - 1] = '\0';
 
-
+    // description input
 	error = 0;
 	char buffer[512];
-	clearBuffer();
 
 	do {
+	    clearBuffer();
        if (!error) printf("Inserire una breve descrizione del problema: ");
        else printf("ERRORE! La descrizione non può essere vuota: ");
        error = 1;
-
        if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
-           buffer[strcspn(buffer, "\n")] = '\0';
+           buffer[strcspn(buffer, "\n")] = '\0'; // Remove newline '\n'
        }
-
     } while (strlen(buffer) == 0);
 
+    // Allocate the exact memory needed for description
     r->description = malloc(strlen(buffer) + 1);
     if (r->description == NULL) {
         free(r);
@@ -148,8 +163,8 @@ char* getDescription(request r) {
 
 void printRequest(request r) {
 	if (r == NULL) return;
-	printf("------------\n");
-	printf("---Richiesta id: %d---\n", getIdRequest(r));
+	printf("------------------------------------------------------\n");
+	printf("--- Richiesta id: %d ---\n", getIdRequest(r));
 	switch (getType(r)) {
 		case 'a':
 			printf("- Intervento all'impianto idraulico\n");
@@ -197,7 +212,7 @@ void printRequest(request r) {
 		}
 		i++;
 	}
-	printf("\n------------\n");
+    printf("\n------------------------------------------------------\n");
 }
 
 void deallocateRequest(request r) {
