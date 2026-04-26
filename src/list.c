@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/list.h"
-#include "technician.h" 
+#include "../include/technician.h"
+
+// TODO: Aggiungi l'aliasing con item.c e item.h
 
 struct node {
     technician data;

@@ -1,3 +1,5 @@
+/*
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "report.h"
@@ -7,6 +9,15 @@ struct c_report{
     request* list;
     int size;
 };
+
+struct c_report {
+    request r;
+    intervention* inter;
+    int
+}
+
+/// 1) idRichiesta char type;  int apartment;  char* description;  char dateAppointment[11];  char timeAppointment[6];
+/// 2) Deallocare la richiesta e l'intervento
 
 report newReport(request* requests, int size){
     if(requests == NULL || size <= 0){
@@ -164,3 +175,5 @@ void printRequestsByType(report r){
     printf("O: %d\n", typeO);
     printf("U: %d\n", typeU);
 }
+
+*/

@@ -1,3 +1,5 @@
+/*
+
 #include "request.h"
 
 typedef struct c_report *report;
@@ -14,4 +16,7 @@ int getMostCriticalArea(report r);
 
 int getOpenRequestsCount (report r);
 
-int getClosedRequestsCount (report r);
+int getClosedRequestsCount (report r) ;
+
+
+*/

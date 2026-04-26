@@ -116,7 +116,7 @@ request newRequest() {
     return r;
 }
 
-int getIdCode(request r) {
+int getIdRequest(request r) {
     if (r == NULL) return -1;
     return r->idCode;
 }
@@ -149,7 +149,7 @@ char* getDescription(request r) {
 void printRequest(request r) {
 	if (r == NULL) return;
 	printf("------------\n");
-	printf("---Richiesta id: %d---\n", getIdCode(r));
+	printf("---Richiesta id: %d---\n", getIdRequest(r));
 	switch (getType(r)) {
 		case 'a':
 			printf("- Intervento all'impianto idraulico\n");

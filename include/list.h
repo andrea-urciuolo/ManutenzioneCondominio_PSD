@@ -3,6 +3,8 @@
 typedef struct node* list;
 typedef struct node node;
 
+// TODO: Migliora le specifiche inserendo 'nil' in newList e getFirst
+
 /* Creates a new empty list and returns it */
 list newList();
 

@@ -2,18 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/intervention.h"
-#include "../include/request.h"
-#include "../include/tecnico.h"
 
 struct c_intervention {
     request r;
-    tecnico t;
+    technician t;
     char dateAppointment[11];
     char timeAppointment[6];
     int estimatedTime;                       // Necessary time for the intervention in hours, MIN = 1, MAX = 4;
 };
 
-intervention newIntervention(request r, tecnico t, char dateAppointment[], char timeAppointment[], int estimatedTime) {
+intervention newIntervention(request r, technician t, char dateAppointment[], char timeAppointment[], int estimatedTime) {
     // Allocate memory for the intervention adt
     intervention inter = malloc(sizeof(struct c_intervention));
     if (inter == NULL) return NULL;
@@ -36,7 +34,7 @@ request getRequestIntervention(intervention inter) {
     return inter->r;
 }
 
-tecnico getTecnicoIntervention(intervention inter) {
+technician getTecnicoIntervention(intervention inter) {
     return inter->t;
 }
 

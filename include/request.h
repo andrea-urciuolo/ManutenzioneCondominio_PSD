@@ -2,7 +2,7 @@ typedef struct c_request *request;
 
 request newRequest();
 
-int getIdCode(request r);
+int getIdRequest(request r);
 
 char getType(request r);
 
