@@ -22,6 +22,7 @@ request newRequest() {
 	int error = 0;
 
     // idCode input
+    // TODO: Aggiungi controlli in caso di idCode ripetuti
 	int idCode;
 	do {
 		if (!error) {
