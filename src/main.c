@@ -5,9 +5,10 @@
 #include "../include/request.h"
 #include "../include/report.h"
 #include "../include/intervention.h"
+#include "../include/list.h"
+#include "../include/item.h"
 
 int main() {
-    // TEST request adt
     request r = newRequest();
     printRequest(r);
     deallocateRequest(r);

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/list.h"
+#include "../include/item.h"
 
 // TODO: Aggiungi l'aliasing con item.c e item.h
 
@@ -22,7 +23,7 @@ list tailList(list l) {
     return l->next;
 }
 
-technician getFirst(list l) {
+item getFirst(list l) {
     if (l == NULL) return NULL;
     return l->data;
 }
@@ -123,6 +124,8 @@ list removeTechnician(list l, int targetIdCode) {
 }
 */
 
+/*
+
 void outputList(list l) {
     if (emptyList(l)) {
         printf("Empty list\n");
@@ -136,8 +139,10 @@ void outputList(list l) {
     printf("\n");
 }
 
+*/
+
 list insertList(list l, int p, item val) {
-    if (p == 0) return consList(l, tech);
+    if (p == 0) return consList(l, val);
     
     int i = 0;
     list current = l;

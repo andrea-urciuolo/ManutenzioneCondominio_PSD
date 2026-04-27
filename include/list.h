@@ -1,6 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include "../include/item.h"
+
 typedef struct node* list;
 typedef struct node node;
 
@@ -64,8 +66,12 @@ list removeTechnician(list l, int targetIdCode);
 
 */
 
-/* Prints the list of technicians to the screen */
+/*
+
+Prints the list of technicians to the screen
 void outputList(list l);
+
+*/
 
 /* Takes a list l as input, returns a list l' identical to l, with the addition of the tech at position p
    Preconditions:
