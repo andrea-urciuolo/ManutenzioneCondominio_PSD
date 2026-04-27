@@ -9,6 +9,8 @@
 #include "../include/item.h"
 
 int main() {
+    // TODO: Crea una lista di intervention completate, separate dall'array di queue
+
     request r = newRequest();
     printRequest(r);
     deallocateRequest(r);
