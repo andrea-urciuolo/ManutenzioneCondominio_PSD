@@ -7,11 +7,18 @@
 #include "../include/intervention.h"
 #include "../include/list.h"
 #include "../include/item.h"
+#include "../include/PQueue.h"
 
 int main() {
-    // TODO: Crea una lista di intervention completate, separate dall'array di queue
+    // TODO: Crea una lista di intervention completate e un'altra per le non completate
 
+    PQueue q = newPQ();
     request r = newRequest();
+    insert(q, &r);
+    request* temp = getMax(q);
+    printf("INIZIO TEST...\n");
+    printf("Apartment: %d\n", getApartment(*temp));
+    printf("FINE TEST...\n");
     printRequest(r);
     deallocateRequest(r);
     return 0;

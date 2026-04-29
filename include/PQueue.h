@@ -1,7 +1,9 @@
+#include "../include/request.h"
+
 typedef struct c_PQ *PQueue;
 
 PQueue newPQ(void);
 int emptyPQ(PQueue q);
-int getMax(PQueue q);
+request* getMax(PQueue q);
 int deleteMax(PQueue q);
-int insert(PQueue, int key);
+int insert(PQueue q, request* r);

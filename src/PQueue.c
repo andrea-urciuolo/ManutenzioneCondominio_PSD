@@ -1,16 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Pqueue.h"
+#include "../include/Pqueue.h"
+#include "../include/request.h"
 
 #define MAXPQ 50
 
 struct c_PQ {
-    int vet[MAXPQ];
-    int numel;
+    request* vet[MAXPQ + 1];                // I use pointers to make the swaps from up() and down() more efficient
+    int numel;                              // Number of elements in the PQueue
 };
 
-static void scendi(PQueue q);
-static void sali(PQueue q);
+static void down(PQueue q);
+static void up(PQueue q);
 
 PQueue newPQ() {
     PQueue q = malloc(sizeof(struct c_PQ));
@@ -25,26 +26,26 @@ int emptyPQ(PQueue q) {
     return q->numel == 0;
 }
 
-int getMax(PQueue q) {
+request* getMax(PQueue q) {
     return q->vet[1];
 }
 
-static void scendi(PQueue q) {
-    int temp;
+static void down(PQueue q) {
+    request* temp;
     int n = q->numel;
     int i = 1;
     int pos;
 
     while (1) {
         if (2*i+1 <= n) {
-            pos = (q->vet[i*2] > q->vet[i*2+1]) ? i*2 : i*2+1;
+            pos = (getUrgency(*(q->vet[i * 2])) > getUrgency(*(q->vet[i * 2 + 1]))) ? i * 2 : i * 2 + 1;
         } else if (2*i <= n) {
             pos = 2*i;
         } else {
             break;
         }
 
-        if (q->vet[pos] > q->vet[i]) {
+        if (getUrgency(*(q->vet[pos])) > getUrgency(*(q->vet[i]))) {
             temp = q->vet[i];
             q->vet[i] = q->vet[pos];
             q->vet[pos] = temp;
@@ -55,13 +56,13 @@ static void scendi(PQueue q) {
     }
 }
 
-static void sali(PQueue q) {
-    int temp;
+static void up(PQueue q) {
+    request* temp;
     int pos = q->numel;
     int i =  pos/2;
 
     while (pos > 1) {
-        if (q->vet[pos] > q->vet[i]) {
+        if (getUrgency(*(q->vet[pos])) > getUrgency(*(q->vet[i]))) {
             temp = q->vet[i];
             q->vet[i] = q->vet[pos];
             q->vet[pos] = temp;
@@ -79,18 +80,18 @@ int deleteMax(PQueue q) {
 
     q->vet[1] = q->vet[q->numel];
     (q->numel)--;
-    scendi(q);
+    down(q);
 
     return 1;
 }
 
-int insert(PQueue q, int key) {
+int insert(PQueue q, request* r) {
     if (q == NULL) return 0;
     if (q->numel == MAXPQ) return 0;
 
     (q->numel)++;
-    q->vet[q->numel] = key;
-    sali(q);
+    q->vet[q->numel] = r;
+    up(q);
 
     return 1;
 }
