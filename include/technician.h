@@ -1,3 +1,6 @@
+#ifndef TECHNICIAN_H
+#define TECHNICIAN_H
+
 typedef struct c_technician *technician;
 
 /* Function prototypes (Syntactic Specification) */
@@ -22,4 +25,4 @@ const char* getName(technician tech);
 char getSpecialization(technician tech);
 int getInterventionCount(technician tech);
 
-
+#endif

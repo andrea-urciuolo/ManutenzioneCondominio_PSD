@@ -18,7 +18,6 @@ struct c_technician {
     int interventionCount;      // Total number of interventions
 }; 
 
-
 /* Allocates memory and initializes a new technician asking the user for their details */
 technician createTechnician() { 
     

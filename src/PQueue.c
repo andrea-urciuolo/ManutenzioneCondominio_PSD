@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/Pqueue.h"
+#include "../include/PQueue.h"
 #include "../include/request.h"
 
 #define MAXPQ 50
