@@ -9,7 +9,6 @@ struct c_intervention {
     technician t;
     char dateAppointment[11];
     char timeAppointment[6];
-    int estimatedTime;                       // Necessary time for the intervention in hours, MIN = 1, MAX = 4;
 };
 
 intervention newIntervention(request r, technician t) {
@@ -22,6 +21,9 @@ intervention newIntervention(request r, technician t) {
     inter->r = r;
     inter->t = t;
 
+
+    // TODO: Aggiungere una funzione ad opIntervention che cerchi nella lista di intervention se ne esiste una nella
+    // stessa data per lo stesso tecnico, aggiustare il check all'interno del do-while nel caso in cui esista
     char dateAppointment[11];
     do {
         clearBuffer();
@@ -52,7 +54,7 @@ request getRequestIntervention(intervention inter) {
     return inter->r;
 }
 
-technician getTecnicoIntervention(intervention inter) {
+technician getTechnicianIntervention(intervention inter) {
     return inter->t;
 }
 
@@ -64,6 +66,14 @@ char* getTimeAppointment(intervention inter) {
     return inter->timeAppointment;
 }
 
-int getEstimatedTime(intervention inter) {
-    return inter->estimatedTime;
+void printIntervention(intervention inter) {
+    printf("--- INTERVENTO ---\n");
+    printf("-- RICHIESTA --\n");
+    printRequest(getRequestIntervention(inter));
+    printf("-- TECNICO --\n");
+    printTechnician(getTechnicianIntervention(inter));
+    printf("-- DATA --\n");
+    printf("%s", getDateAppointment(inter));
+    printf("-- ORARIO --\n");
+    printf("%s", getTimeAppointment(inter));
 }

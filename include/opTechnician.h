@@ -1,3 +1,5 @@
+#ifndef OPTECHNICIAN_H
+#define OPTECHNICIAN_H
 
 #include "list.h"
 
@@ -16,5 +18,4 @@ void printTechniciansByWorkload(list l);
 /* Finds and prints the technician with the highest number of interventions */
 void printMostActiveTechnician(list l);
 
-
-
+#endif

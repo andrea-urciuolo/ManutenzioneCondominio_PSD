@@ -10,12 +10,12 @@ intervention newIntervention(request r, technician t);
 
 request getRequestIntervention(intervention inter);
 
-technician getTecnicoIntervention(intervention inter);
+technician getTechnicianIntervention(intervention inter);
 
 char* getDateAppointment(intervention inter);
 
 char* getTimeAppointment(intervention inter);
 
-int getEstimatedTime(intervention inter);
+void printIntervention(intervention inter);
 
 #endif // INTERVENTION_H

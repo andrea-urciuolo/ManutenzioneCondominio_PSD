@@ -1,3 +1,6 @@
+#ifndef UTILS_H
+#define UTILS_H
+
 int StrToInt(char str[]);
 
 /* Clears the input buffer (keyboard) */
@@ -8,3 +11,5 @@ void readString(char* buffer, int size);
 
 /* Forces the user to input a valid integer number */
 int readInteger();
+
+#endif
