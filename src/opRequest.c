@@ -12,11 +12,12 @@ void printAllRequests(PQueue pq) {
 
     // Temporary PQueue for support
     PQueue tempQ = newPQ();
+    if (tempQ == NULL) return;
 
     // Extract everything from pq to insert in TempQ
     while (!emptyPQ(pq)) {
-        request* r = getMax(pq);
-        printRequest(*r);
+        request r = getMax(pq);
+        printRequest(r);
         insert(tempQ, r);
         deleteMax(pq);
     }
@@ -28,7 +29,7 @@ void printAllRequests(PQueue pq) {
     }
 
     // Free tempQ but not the request
-    free(tempQ);
+    deallocatePQ(tempQ);
 }
 
 void printRequestById(PQueue pq, int id) {
@@ -40,7 +41,9 @@ void printRequestById(PQueue pq, int id) {
 
     // Create a temporary queue to hold elements of the original PQueue
     PQueue tempPq = newPQ();
-    request* currentReq = NULL;
+    if (tempPq == NULL) return;
+
+    request currentReq;
     int found = 0;
 
     // Search for the request and move items to the temporary queue
@@ -48,8 +51,8 @@ void printRequestById(PQueue pq, int id) {
         currentReq = getMax(pq);
         deleteMax(pq);
 
-        if (getIdRequest(*currentReq) == id) {
-            printRequest(*currentReq);
+        if (getIdRequest(currentReq) == id) {
+            printRequest(currentReq);
             found = 1;
         }
 
@@ -63,7 +66,7 @@ void printRequestById(PQueue pq, int id) {
     }
 
     // Free the temporary queue memory but not the requests
-    free(tempPq);
+    deallocatePQ(tempPq);
 
     // In case the id is not found gives error
     if (!found) {
@@ -85,7 +88,9 @@ void printRequestsByType(PQueue pq, char type) {
 
     // Create a temporary queue to hold the elements of the original PQueue
     PQueue tempPq = newPQ();
-    request* currentReq = NULL;
+    if (tempPq == NULL) return;
+
+    request currentReq;
     int count = 0;
 
     printf("Searching for requests of type [%c]...\n", type);
@@ -95,8 +100,8 @@ void printRequestsByType(PQueue pq, char type) {
         currentReq = getMax(pq);
         deleteMax(pq);
 
-        if (getType(*currentReq) == type) {
-            printRequest(*currentReq);
+        if (getType(currentReq) == type) {
+            printRequest(currentReq);
             count++;
         }
 
@@ -110,7 +115,7 @@ void printRequestsByType(PQueue pq, char type) {
     }
 
     // Free the temporary queue memory but not the requests
-    free(tempPq);
+    deallocatePQ(tempPq);
 
     if (count == 0) {
         printf("No requests found for type [%c].\n", type);
@@ -132,7 +137,9 @@ void printRequestsByApartment(PQueue pq, int apartment) {
 
     // Create a temporary PQueue to hold the elements of the original PQueue
     PQueue tempPq = newPQ();
-    request* currentReq = NULL;
+    if (tempPq == NULL) return;
+
+    request currentReq;
     int count = 0;
 
     if (apartment == 0) {
@@ -146,8 +153,8 @@ void printRequestsByApartment(PQueue pq, int apartment) {
         currentReq = getMax(pq);
         deleteMax(pq);
 
-        if (getApartment(*currentReq) == apartment) {
-            printRequest(*currentReq);
+        if (getApartment(currentReq) == apartment) {
+            printRequest(currentReq);
             count++;
         }
 
@@ -161,7 +168,7 @@ void printRequestsByApartment(PQueue pq, int apartment) {
     }
 
     // Free the temporary PQueue memory but not the requests
-    free(tempPq);
+    deallocatePQ(tempPq);
 
     if (count == 0) {
         if (apartment == 0) {
