@@ -27,6 +27,7 @@ int emptyPQ(PQueue q) {
 }
 
 request* getMax(PQueue q) {
+    if (q == NULL || q->numel == 0) return NULL;
     return q->vet[1];
 }
 
@@ -94,4 +95,9 @@ int insert(PQueue q, request* r) {
     up(q);
 
     return 1;
+}
+
+void deallocatePQ(PQueue q) {
+    if (q == NULL) return;
+    free(q);
 }
