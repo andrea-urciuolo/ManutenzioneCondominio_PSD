@@ -21,9 +21,6 @@ intervention newIntervention(request r, technician t) {
     inter->r = r;
     inter->t = t;
 
-
-    // TODO: Aggiungere una funzione ad opIntervention che cerchi nella lista di intervention se ne esiste una nella
-    // stessa data per lo stesso tecnico, aggiustare il check all'interno del do-while nel caso in cui esista
     char dateAppointment[11];
     do {
         clearBuffer();
@@ -76,4 +73,9 @@ void printIntervention(intervention inter) {
     printf("%s", getDateAppointment(inter));
     printf("-- ORARIO --\n");
     printf("%s", getTimeAppointment(inter));
+}
+
+void deallocateIntervention(intervention inter) {
+    // Only deallocates the intervention, not the request and the technician
+    free(inter);
 }

@@ -28,6 +28,7 @@ technician createTechnician() {
         return NULL;
     }
 
+    // TODO: Modifica la firma della funzione così da accettare come parametro l'id del tecnico (dal contatore nel main)
     newTechnician->idCode = (rand() % 9999) + 1;        
     
     /* Asks the user for the technician's name directly from the terminal */

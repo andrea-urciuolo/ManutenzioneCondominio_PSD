@@ -18,4 +18,6 @@ char* getTimeAppointment(intervention inter);
 
 void printIntervention(intervention inter);
 
+void deallocateIntervention(intervention inter);
+
 #endif // INTERVENTION_H

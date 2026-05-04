@@ -22,7 +22,7 @@ request newRequest() {
 	int error = 0;
 
     // idCode input
-    // TODO: Aggiungi controlli in caso di idCode ripetuti
+    // TODO: Modifica la firma della funzione così da accettare come parametro l'id della request (dal contatore nel main)
 	int idCode;
 	do {
 		if (!error) {
