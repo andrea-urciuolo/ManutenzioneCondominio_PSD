@@ -22,6 +22,11 @@ void printAllTechnicians(list l) {
 
 /* Searches for a technician by their ID code and prints their details */
 void printTechnicianById(list l, int idCode) {
+    if (idCode <= 0) {
+        printf("The id is not valid.\n");
+        return;
+    }
+
     if (emptyList(l)) {
         printf("The list of technicians is empty.\n");
         return;
@@ -47,6 +52,11 @@ void printTechnicianById(list l, int idCode) {
 
 /* Prints all technicians that match a specific specialization character */
 void printTechniciansBySpecialization(list l, char spec) {
+    if (spec < 'a' || spec > 'f') {
+        printf("This specialization does not exist.\n");
+        return;
+    }
+
     if (emptyList(l)) {
         printf("The list of technicians is empty.\n");
         return;
