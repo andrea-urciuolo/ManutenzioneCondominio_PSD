@@ -12,6 +12,9 @@ struct c_intervention {
 };
 
 intervention newIntervention(request r, technician t) {
+    // Checks the preconditions
+    if (r == NULL || t == NULL) return NULL;
+
     intervention inter = malloc(sizeof(struct c_intervention));
     if (inter == NULL) return NULL;
 
@@ -48,22 +51,27 @@ intervention newIntervention(request r, technician t) {
 }
 
 request getRequestIntervention(intervention inter) {
+    if (inter == NULL) return NULL; // Precondition
     return inter->r;
 }
 
 technician getTechnicianIntervention(intervention inter) {
+    if (inter == NULL) return NULL; // Precondition
     return inter->t;
 }
 
 char* getDateAppointment(intervention inter) {
+    if (inter == NULL) return NULL; // Precondition
     return inter->dateAppointment;
 }
 
 char* getTimeAppointment(intervention inter) {
+    if (inter == NULL) return NULL; // Precondition
     return inter->timeAppointment;
 }
 
 void printIntervention(intervention inter) {
+    if (inter == NULL) return; // Precondition
     printf("--- INTERVENTO ---\n");
     printf("-- RICHIESTA --\n");
     printRequest(getRequestIntervention(inter));
@@ -76,6 +84,7 @@ void printIntervention(intervention inter) {
 }
 
 void deallocateIntervention(intervention inter) {
+    if (inter == NULL) return; // Precondition
     // Only deallocates the intervention, not the request and the technician
     free(inter);
 }
