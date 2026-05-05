@@ -25,4 +25,7 @@ const char* getName(technician tech);
 char getSpecialization(technician tech);
 int getInterventionCount(technician tech);
 
+/*Test Builder*/
+technician buildTechnician (const char* name, char spec);
+
 #endif
