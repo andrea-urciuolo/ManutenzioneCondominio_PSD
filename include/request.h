@@ -21,4 +21,6 @@ void printRequest(request r);
 
 void deallocateRequest(request r);
 
+request createRequest_TESTING(int id, char type, int urgency, int apartment, const char* date, const char* desc);
+
 #endif

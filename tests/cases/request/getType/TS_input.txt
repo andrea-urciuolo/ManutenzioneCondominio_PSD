@@ -1,0 +1,10 @@
+101;a;3;Standard plumbing request
+102;b;2;Standard electrical request
+2026001;c;1;Large ID value test
+-5;d;4;Negative ID value test
+0;f;2;Zero ID value test
+105;e;5;Elevator test (Apartment should be 0)
+106;z;1;Invalid type test (Default return)
+2147483647;a;3;Max integer ID test
+107;!;2;Special character type test
+108; ;1;Space character type test

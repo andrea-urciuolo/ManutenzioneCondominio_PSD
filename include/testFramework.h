@@ -1,3 +1,5 @@
+/*
+
 #ifndef testFramework_h
 #define testFramework_h
 
@@ -14,3 +16,5 @@ testCase getTest(testCase* suite, int index);
 void freeTestSuite(testCase* suite);
 
 #endif
+
+*/

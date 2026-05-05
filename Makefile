@@ -1,31 +1,48 @@
-# Variabili per il compilatore e i flag
+# --- Variabili di compilazione ---
 CC = gcc
-CFLAGS = -Wall -Wextra -g -Iinclude
+CFLAGS = -Wall -g
+# Include sia la cartella include/ che la cartella tests/ per gli header
+INCLUDES = -Iinclude -Itests
 
-# Trova in automatico tutti i file .c nella cartella src
-SRCS = $(wildcard src/*.c)
+# --- Directory ---
+SRC_DIR = src
+TEST_DIR = tests
+OBJ_DIR = obj
+BIN_DIR = .
 
-# Genera i nomi dei file oggetto (.o) corrispondenti
-OBJS = $(SRCS:.c=.o)
+# --- Target finale ---
+TARGET = manutenzione.exe
 
-# Nome dell'eseguibile finale
-TARGET = manutenzione
+# --- Sorgenti e Oggetti ---
+# Prende tutti i .c in src e aggiunge specificamente testing.c
+SRCS = $(wildcard $(SRC_DIR)/*.c) $(TEST_DIR)/testing.c
 
-# Rimuove i file oggetto
-RM = del /Q
+# Trasforma i percorsi dei file .c in percorsi .o dentro la cartella obj
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(wildcard $(SRC_DIR)/*.c)) \
+       $(OBJ_DIR)/testing.o
 
-# Regola di default
-all: $(TARGET)
+# --- Regola di default ---
+all: $(OBJ_DIR) $(TARGET)
 
-# Regola per creare l'eseguibile finale collegando tutti i file oggetto
+# Crea la cartella obj se non esiste (Sintassi Windows)
+$(OBJ_DIR):
+	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
+
+# Linker: Crea l'eseguibile unendo tutti i file .o
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
-	$(RM) $(subst /,\,$(OBJS))
 
-# Regola generica per compilare i singoli file .c in file .o
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# Compilazione dei file .c in src/
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Regola per pulire la cartella dai file compilati
+# Compilazione specifica per testing.c in tests/
+$(OBJ_DIR)/testing.o: $(TEST_DIR)/testing.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# --- Pulizia dei file ---
 clean:
-	$(RM) $(subst /,\,$(OBJS)) $(TARGET).exe
+	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
+	@if exist $(TARGET) del /f /q $(TARGET)
+
+.PHONY: all clean

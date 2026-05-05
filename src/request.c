@@ -221,3 +221,25 @@ void deallocateRequest(request r) {
     free(r->description);
     free(r);
 }
+
+request createRequest_TESTING(int id, char type, int urgency, int apartment, const char* date, const char* desc) {
+    request r = malloc(sizeof(struct c_request));
+    if (r == NULL) return NULL;
+
+    r->idCode = id;
+    r->type = type;
+    r->urgency = urgency;
+    r->apartment = apartment;
+
+    strncpy(r->submissionDate, date, 10);
+    r->submissionDate[10] = '\0';
+
+    r->description = malloc(strlen(desc) + 1);
+    if (r->description == NULL) {
+        free(r);
+        return NULL;
+    }
+    strcpy(r->description, desc);
+
+    return r;
+}
