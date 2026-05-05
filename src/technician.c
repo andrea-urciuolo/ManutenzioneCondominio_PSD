@@ -109,12 +109,12 @@ char getSpecialization(technician tech) {
 }
 
 /*Test builder to create a technician*/
-technician buildTechnician (const char* name, char spec){
+technician buildTechnician (int id,const char* name, char spec){
     technician newTechnician = (technician)malloc(sizeof(struct c_technician));
 
     if (newTechnician == NULL) return NULL;
 
-    newTechnician->idCode = (rand() % 9999) + 1;
+    newTechnician->idCode = id;
 
     strncpy(newTechnician->name, name, sizeof(newTechnician->name) - 1);
     newTechnician->name[sizeof(newTechnician->name) - 1] = '\0';

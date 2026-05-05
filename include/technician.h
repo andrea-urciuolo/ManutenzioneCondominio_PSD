@@ -26,6 +26,6 @@ char getSpecialization(technician tech);
 int getInterventionCount(technician tech);
 
 /*Test Builder*/
-technician buildTechnician (const char* name, char spec);
+technician buildTechnician(int id,const char* name, char spec);
 
 #endif
