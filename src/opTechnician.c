@@ -5,7 +5,7 @@
 
 /* Prints all the technicians currently in the list */
 void printAllTechnicians(list l) {
-    if (emptyList(l)) {
+    if (emptyList(l)) { /*check if the technician list is empty*/
         printf("The list of technicians is empty.\n");
         return;
     }
@@ -20,40 +20,37 @@ void printAllTechnicians(list l) {
     }
 }
 
+
 /* Searches for a technician by their ID code and prints their details */
 void printTechnicianById(list l, int idCode) {
     if (idCode <= 0) {
-        printf("The id is not valid.\n");
+        printf("Error: The ID is not valid.\n");
         return;
     }
 
-    if (emptyList(l)) {
+    if (emptyList(l)) { /*check if the technician list is empty*/
         printf("The list of technicians is empty.\n");
         return;
     }
 
     list current = l;
-    int found = 0;
     
-    while (!emptyList(current) && !found) {
+    while (!emptyList(current)) {
         technician tech = (technician)getFirst(current);
         if (getIdCode(tech) == idCode) {
             printf("\n=== Technician Found ===\n");
             printTechnician(tech);
-            found = 1;
+            return; 
         }
         current = tailList(current);
     }
 
-    if (!found) {
-        printf("Error: Technician with ID %d not found.\n", idCode);
-    }
+    printf("Error: Technician with ID %d not found.\n", idCode);
 }
-
 /* Prints all technicians that match a specific specialization character */
 void printTechniciansBySpecialization(list l, char spec) {
     if (spec < 'a' || spec > 'f') {
-        printf("This specialization does not exist.\n");
+        printf("Error: This specialization does not exist.\n");
         return;
     }
 
@@ -63,19 +60,19 @@ void printTechniciansBySpecialization(list l, char spec) {
     }
 
     printf("\n=== Technicians with Specialization '%c' ===\n", spec);
-    list current = l;
-    int found = 0;
+    list currentNode = l;
+    int matchCount = 0; 
     
-    while (!emptyList(current)) {
-        technician tech = (technician)getFirst(current);
+    while (!emptyList(currentNode)) {
+        technician tech = (technician)getFirst(currentNode);
         if (getSpecialization(tech) == spec) {
             printTechnician(tech);
-            found = 1;
+            matchCount++;
         }
-        current = tailList(current);
+        currentNode = tailList(currentNode);
     }
 
-    if (!found) {
+    if (matchCount == 0) {
         printf("No technicians found with specialization '%c'.\n", spec);
     }
 }
