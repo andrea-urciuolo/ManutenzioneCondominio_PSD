@@ -1,0 +1,5 @@
+101;a;3;0;2026/01/01;Richiesta standard
+0;b;1;5;2023/10/02;Richiesta con ID zero
+-5;c;5;22;2024/02/29;Richiesta con ID negativo
+999999;d;2;5;2025/12/31;Richiesta con ID molto grande
+42;e;4;0;01-05-2026;Descrizione molto lunga per testare la free su un'area di memoria piu estesa del normale

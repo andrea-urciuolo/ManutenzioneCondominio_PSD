@@ -449,3 +449,52 @@ int run_test_suite_printRequest(const char* input_path, const char* oracle_path)
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
+
+int run_test_suite_deallocateRequest(const char* input_path, const char* oracle_path) {
+    FILE *f_in;
+    char buffer[512];
+    int failures = 0;
+    int test_count = 0;
+
+    int id, urgency, apartment;
+    char type;
+    char description[256];
+    char date[20];
+
+    f_in = fopen(input_path, "r");
+
+    if (!f_in) {
+        printf("Error: Could not open test file for deallocateRequest.\n");
+        return -1;
+    }
+
+    printf("Starting Test Suite: deallocateRequest\n");
+    printf("-------------------------------------------\n");
+
+    test_count++;
+    deallocateRequest(NULL);
+    printf("[PASS] Test %d: NULL pointer handled correctly.\n", test_count);
+
+    while (fgets(buffer, sizeof(buffer), f_in)) {
+        test_count++;
+
+        if (sscanf(buffer, "%d;%c;%d;%d;%[^;];%[^;\n]", &id, &type, &urgency, &apartment, date, description) >= 6) {
+            
+            request r = createRequest_TESTING(id, type, urgency, apartment, date, description);
+
+            if (r != NULL) {
+                deallocateRequest(r);
+                printf("[PASS] Test %d: Request with ID %d deallocated without crash.\n", test_count, id);
+            } else {
+                printf("[ERROR] Failed to allocate memory in test %d\n", test_count);
+                failures++;
+            }
+        }
+    }
+
+    fclose(f_in);
+
+    printf("-------------------------------------------\n");
+    printf("Total Tests: %d | Failures: %d\n", test_count, failures);
+    return failures;
+}
