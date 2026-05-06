@@ -1,0 +1,12 @@
+101;a;3;10;2023/10/01;Caso standard
+0;b;0;0;2023/10/02;Urgency zero
+-5;c;-1;22;2023/10/03;Urgency negativa
+999999;d;2147483647;5;2023/10/04;Max int
+42;e;-2147483648;0;2023/10/05;Min int
+7;f;1;3;2023/10/06;Valore minimo positivo
+8;g;100;7;2023/10/07;Valore medio
+9;h;99999;2;2023/10/08;Valore grande
+10;i;-99999;4;2023/10/09;Valore negativo grande
+11;j;42;6;2023/10/10;Numero significativo
+12;k;5;8;2023/10/11;Valore piccolo
+13;l;-5;9;2023/10/12;Negativo piccolo

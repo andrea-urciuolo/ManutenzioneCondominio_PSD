@@ -132,3 +132,59 @@ int run_test_suite_getType(const char* input_path, const char* oracle_path) {
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
+
+int run_test_suite_getUrgency(const char* input_path, const char* oracle_path) {
+    FILE *f_in, *f_orc;
+    char buffer[256];
+    int failures = 0;
+    int test_count = 0;
+
+    int id, urgency;
+    int oracle_val, actual_val;
+    char description[100];
+    char type;
+
+    f_in = fopen(input_path, "r");
+    f_orc = fopen(oracle_path, "r");
+
+    if (!f_in || !f_orc) {
+        printf("Error: Could not open test files for getUrgency.\n");
+        return -1;
+    }
+
+    printf("Starting Test Suite: getUrgency\n");
+    printf("-------------------------------------------\n");
+
+    while (fgets(buffer, sizeof(buffer), f_in) && fscanf(f_orc, "%d", &oracle_val) != EOF) {
+        test_count++;
+
+        if (sscanf(buffer, "%d;%c;%d;%[^;\n]", &id, &type, &urgency, description) >= 3) {
+
+            request r = createRequest_TESTING(id, type, urgency, 0, "2026/01/01", description);
+
+            if (r != NULL) {
+                actual_val = getUrgency(r);
+
+                if (actual_val == oracle_val) {
+                    printf("[PASS] Test %d: Urgency %d processed correctly.\n", test_count, urgency);
+                } else {
+                    printf("[FAIL] Test %d: Urgency %d. Expected %d, Got %d\n",
+                           test_count, urgency, oracle_val, actual_val);
+                    failures++;
+                }
+
+                 deallocateRequest(r);
+            } else {
+                printf("[ERROR] Failed to allocate memory in test %d\n", test_count);
+                failures++;
+            }
+        }
+    }
+
+    fclose(f_in);
+    fclose(f_orc);
+
+    printf("-------------------------------------------\n");
+    printf("Total Tests: %d | Failures: %d\n", test_count, failures);
+    return failures;
+}
