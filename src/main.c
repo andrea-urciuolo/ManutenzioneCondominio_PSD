@@ -40,7 +40,7 @@ int main() {
         clearBuffer();
         switch (check) {
             case 'a':
-                request req = newRequest(); // TODO: Aggiungi il parametro per leggere il counter per l'id
+                request req = newRequest(countRequest); //added id parameter for request
                 clearBuffer();
                 if (req == NULL) {
                     printf("Errore nella creazione della richiesta\n");
@@ -54,7 +54,7 @@ int main() {
                 countRequest++;
                 break;
             case 'b':
-                technician tech = createTechnician(); // TODO: Aggiungi il parametro per leggere il counter per l'id
+                technician tech = createTechnician(countTechnician); //added id parameter for technician
                 clearBuffer();
                 if (tech == NULL) {
                     printf("Errore nella creazione del tecnico\n");
