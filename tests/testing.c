@@ -304,3 +304,63 @@ int run_test_suite_getSubmissionDate(const char* input_path, const char* oracle_
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
+
+int run_test_suite_getDescription(const char* input_path, const char* oracle_path) {
+    FILE *f_in, *f_orc;
+    char buffer[512];
+    char oracle_val[256];
+    int failures = 0;
+    int test_count = 0;
+
+    int id, urgency;
+    char type;
+    char description[256];
+    char date[20];
+    char* actual_val;
+
+    f_in = fopen(input_path, "r");
+    f_orc = fopen(oracle_path, "r");
+
+    if (!f_in || !f_orc) {
+        printf("Error: Could not open test files for getDescription.\n");
+        return -1;
+    }
+
+    printf("Starting Test Suite: getDescription\n");
+    printf("-------------------------------------------\n");
+
+    while (fgets(buffer, sizeof(buffer), f_in) && fgets(oracle_val, sizeof(oracle_val), f_orc)) {
+        test_count++;
+        
+        oracle_val[strcspn(oracle_val, "\r\n")] = 0;
+
+        if (sscanf(buffer, "%d;%c;%d;%[^;];%[^;\n]", &id, &type, &urgency, date, description) >= 5) {
+
+            request r = createRequest_TESTING(id, type, urgency, 0, date, description);
+
+            if (r != NULL) {
+                actual_val = getDescription(r);
+
+                if (actual_val != NULL && strcmp(actual_val, oracle_val) == 0) {
+                    printf("[PASS] Test %d: Description processed correctly.\n", test_count);
+                } else {
+                    printf("[FAIL] Test %d: Expected '%s', Got '%s'\n",
+                            test_count, oracle_val, actual_val ? actual_val : "NULL");
+                    failures++;
+                }
+
+                deallocateRequest(r);
+            } else {
+                printf("[ERROR] Failed to allocate memory in test %d\n", test_count);
+                failures++;
+            }
+        }
+    }
+
+    fclose(f_in);
+    fclose(f_orc);
+
+    printf("-------------------------------------------\n");
+    printf("Total Tests: %d | Failures: %d\n", test_count, failures);
+    return failures;
+}
