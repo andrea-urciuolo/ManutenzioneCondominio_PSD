@@ -1,0 +1,12 @@
+101;a;3;10;Appartamento standard
+0;b;1;0;Appartamento zero
+-5;c;5;-1;Appartamento negativo
+999999;d;2;2147483647;Appartamento max int
+42;e;4;-2147483648;Appartamento min int
+7;f;1;1;Minimo positivo
+8;g;3;100;Valore medio
+9;h;2;99999;Valore grande
+10;i;4;-99999;Negativo grande
+11;j;5;42;Numero significativo
+12;k;6;5;Valore piccolo
+13;l;7;-5;Negativo piccolo

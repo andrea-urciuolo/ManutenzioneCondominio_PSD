@@ -14,10 +14,12 @@ int main() {
     // TODO: Crea un contatore di request e technician così da gestire l'id (Non più random o inserito dall'utente)
 
     // TODO: DA CANCELLARE DOPO, UN TEST PER IL TESTING
-
+    
+    // REQUEST
     run_test_suite_getIdRequest("tests/cases/request/getIdRequest/TS_input.txt", "tests/cases/request/getIdRequest/oracle.txt");
     run_test_suite_getType("tests/cases/request/getType/TS_input.txt", "tests/cases/request/getType/oracle.txt");
     run_test_suite_getUrgency("tests/cases/request/getUrgency/TS_input.txt", "tests/cases/request/getUrgency/oracle.txt");
+    run_test_suite_getApartment("tests/cases/request/getApartment/TS_input.txt", "tests/cases/request/getApartment/oracle.txt")
 
     // TODO
 

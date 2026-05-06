@@ -188,3 +188,59 @@ int run_test_suite_getUrgency(const char* input_path, const char* oracle_path) {
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
+
+int run_test_suite_getApartment(const char* input_path, const char* oracle_path) {
+    FILE *f_in, *f_orc;
+    char buffer[256];
+    int failures = 0;
+    int test_count = 0;
+
+    int id, urgency, apartment;
+    int oracle_val, actual_val;
+    char description[100];
+    char type;
+
+    f_in = fopen(input_path, "r");
+    f_orc = fopen(oracle_path, "r");
+
+    if (!f_in || !f_orc) {
+        printf("Error: Could not open test files for getApartment.\n");
+        return -1;
+    }
+
+    printf("Starting Test Suite: getApartment\n");
+    printf("-------------------------------------------\n");
+
+    while (fgets(buffer, sizeof(buffer), f_in) && fscanf(f_orc, "%d", &oracle_val) != EOF) {
+        test_count++;
+
+        if (sscanf(buffer, "%d;%c;%d;%d;%[^;\n]", &id, &type, &urgency, &apartment, description) >= 4) {
+
+            request r = createRequest_TESTING(id, type, urgency, apartment, "2026/01/01", description);
+
+            if (r != NULL) {
+                actual_val = getApartment(r);
+
+                if (actual_val == oracle_val) {
+                    printf("[PASS] Test %d: Apartment %d processed correctly.\n", test_count, apartment);
+                } else {
+                    printf("[FAIL] Test %d: Apartment %d. Expected %d, Got %d\n",
+                           test_count, apartment, oracle_val, actual_val);
+                    failures++;
+                }
+
+                deallocateRequest(r);
+            } else {
+                printf("[ERROR] Failed to allocate memory in test %d\n", test_count);
+                failures++;
+            }
+        }
+    }
+
+    fclose(f_in);
+    fclose(f_orc);
+
+    printf("-------------------------------------------\n");
+    printf("Total Tests: %d | Failures: %d\n", test_count, failures);
+    return failures;
+}
