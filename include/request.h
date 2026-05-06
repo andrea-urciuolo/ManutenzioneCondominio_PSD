@@ -3,7 +3,7 @@
 
 typedef struct c_request *request;
 
-request newRequest();
+request newRequest(int Id);
 
 int getIdRequest(request r);
 

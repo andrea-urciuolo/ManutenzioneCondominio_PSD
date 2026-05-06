@@ -6,7 +6,7 @@ typedef struct c_technician *technician;
 /* Function prototypes (Syntactic Specification) */
 
 /* Dynamically allocates a new technician in memory and asks the user for their details */
-technician createTechnician();
+technician createTechnician(int Id);
 
 /* Prints the details of a single technician to the screen */
 void printTechnician(const technician tech);

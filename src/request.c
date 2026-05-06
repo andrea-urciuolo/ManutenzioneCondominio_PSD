@@ -13,7 +13,7 @@ struct c_request {
     char* description;           // Description of the problem
 };
 
-request newRequest() {
+request newRequest(int Id) {
     // Allocate memory for the request adt
 	request r = malloc(sizeof(struct c_request));
 	if (r == NULL) return NULL;
@@ -21,21 +21,8 @@ request newRequest() {
     // Declare a flag variable used to check if the user input is correct
 	int error = 0;
 
-    // idCode input
-    // TODO: Modifica la firma della funzione così da accettare come parametro l'id della request (dal contatore nel main)
-	int idCode;
-	do {
-		if (!error) {
-		    printf("Inserire l'id della richiesta: ");
-		} else {
-		    clearBuffer();
-		    printf("ERRORE! Inserire un id valido (solo cifre): ");
-		}
-		error = 1;
-	} while (scanf("%d", &idCode) != 1);
-
-	r->idCode = idCode;
-
+	r->idCode = Id;
+	
     // type input
 	error = 0;
 	char type;
@@ -93,15 +80,15 @@ request newRequest() {
 
 
     // submmissionDate input
-	// TODO: Aggiungere controlli in caso di data inesistente
+	
 	error = 0;
 	char submissionDate[11];
     do {
         clearBuffer();
        if (!error) printf("Inserire la data di sottomissione (YYYY/MM/DD): ");
-       else printf("ERRORE! Formato non valido. Riprova (YYYY/MM/DD): ");
+       else printf("ERRORE! Formato non valido o data inesistente. Riprova (YYYY/MM/DD): ");
        error = 1;
-    } while (scanf("%10s", submissionDate) != 1);
+    } while (scanf("%10s", submissionDate) != 1 || !checkDateValidity(submissionDate));	//check if the date is validity
 
     strncpy(r->submissionDate, submissionDate, sizeof(r->submissionDate) - 1);
     r->submissionDate[sizeof(r->submissionDate) - 1] = '\0';

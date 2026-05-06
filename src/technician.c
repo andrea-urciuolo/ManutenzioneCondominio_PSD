@@ -19,7 +19,7 @@ struct c_technician {
 }; 
 
 /* Allocates memory and initializes a new technician asking the user for their details */
-technician createTechnician() { 
+technician createTechnician(int Id) { 
     
     technician newTechnician = (technician)malloc(sizeof(struct c_technician)); 
 
@@ -28,8 +28,7 @@ technician createTechnician() {
         return NULL;
     }
 
-    // TODO: Modifica la firma della funzione così da accettare come parametro l'id del tecnico (dal contatore nel main)
-    newTechnician->idCode = (rand() % 9999) + 1;        
+    newTechnician->idCode = Id;     
     
     /* Asks the user for the technician's name directly from the terminal */
     printf("Enter the technician's name: ");

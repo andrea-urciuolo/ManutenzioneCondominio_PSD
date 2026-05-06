@@ -19,8 +19,8 @@ int main() {
     PQueue pqueueRequest = newPQ();
 
     // Counter for the size of the needed data structures
-    int countRequest = 0;
-    int countTechnician = 0;
+    int countRequest = 1;
+    int countTechnician = 1;
 
     // Flag variable used to determine program flow
     char check = 'g';
@@ -176,7 +176,7 @@ int main() {
                 printf("[c] Stampa tutti gli interventi di una data specifica\n");
                 printf("[d] Stampa tutti gli interventi di un tecnico specifico\n");
                 printf("[e] Stampa l'intervento in base alla tipologia\n");
-                checkE = getchar();
+                checkF = getchar();
                 clearBuffer();
                 switch(checkF){
                     case 'a':
