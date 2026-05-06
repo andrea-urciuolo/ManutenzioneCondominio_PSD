@@ -115,11 +115,141 @@ int main() {
                         printf("ERRORE: Tipologia di visualizzazione errata\n");
                         break;
                 }
-            case 'e':
-                //TODO: FIX PLS
                 break;
+            case 'e':
+                char checkE = 'm';
+                printf("Seleziona come visualizzare i tecnici: \n");
+                printf("[a] Stampa tutti i tecnici\n");
+                printf("[b] Stampa il tecnico con id specifico\n");
+                printf("[c] Stampa tutti i tecnici di una specifica tipologia\n");
+                printf("[d] Stampa tutti i tecnici in base al carico di lavoro\n");
+                printf("[e] Stampa il tecnico con il carico di lavoro piu alto\n");
+                checkE = getchar();
+                clearBuffer();
+                switch (checkE) {
+                    case 'a':
+                        printAllTechnicians(listTechnician);
+                        break;
+                    case 'b':
+                        int tmpId;
+                        printf("Inserisci l'Id del tecnico da visualizzare: ");
+                        printTechnicianById(listTechnician, tmpId);
+                        break;
+                    case 'c':
+                        char checkE_C = 'l';
+                        printf("Inserire la tipologia per filtrare i tecnici: \n");
+                        printf("[a] Idraulico\n");
+                        printf("[b] Elettricista\n");
+                        printf("[c] Impresa Edile\n");
+                        printf("[d] Termoidraulico\n");
+                        printf("[e] Teconico dell'ascensore\n");
+                        printf("[f] Fabbro\n");
+                        checkE_C = getchar();
+                        clearBuffer();
+                        printTechniciansBySpecialization(listTechnician, checkE_C);
+                        break;
+                    case 'd':
+                        printTechniciansByWorkload(listTechnician);
+                        break;
+                    case 'e':
+                        printMostActiveTechnician(listTechnician);
+                        break;
+                    default:
+                        printf("ERRORE: Tipologia di visualizzazione errata\n");
+                        break;
 
-        }
+                }
+                break;
+            case 'f':
+                char checkCompleted = 'c';
+                printf("Visualizzare gli interventi completati [a], oppure visualizzare gli interventi non completati [b]");
+                checkCompleted = getchar();
+                clearBuffer();
+                if (checkCompleted != 'a' || checkCompleted != 'b') {
+                    printf("ERRORE : Carattere inserito non valido\n");
+                    break;
+                }
+                char checkF = 'm';
+                printf("Seleziona come visualizzare gli interventi: \n");
+                printf("[a] Stampa tutti gli interventi\n");
+                printf("[b] Stampa l'intervento in base all'Id della richiesta specifica\n");
+                printf("[c] Stampa tutti gli interventi di una data specifica\n");
+                printf("[d] Stampa tutti gli interventi di un tecnico specifico\n");
+                printf("[e] Stampa l'intervento in base alla tipologia\n");
+                checkE = getchar();
+                clearBuffer();
+                switch(checkF){
+                    case 'a':
+                        if (checkCompleted == 'a') {
+                            printAllInterventions(completedIntervention);
+                        } else if (checkCompleted == 'b') {
+                            printAllInterventions(uncompletedIntervention);
+                        }
+                        break;
+                    case 'b':
+                        int tmpId;
+                        printf("Inserisci l'Id della richiesta specifica: ");
+                        scanf("%d",&tmpId);
+                        if (checkCompleted == 'a') {
+                            printInterventionById(completedIntervention, tmpId);
+                        } else if (checkCompleted == 'b') {
+                            printInterventionById(uncompletedIntervention, tmpId);
+                        }
+                        break;
+                    case 'c':
+                        //TODO: Scrivi una funzione in utils che controlli la validità di una data
+                        int checkValidity = 1;
+                        char checkDate[11];
+                        printf("Inserisci la data per la quale si vuole filtrare gli interventi (Formato : YYYY/MM/DD): ");
+                        scanf("%s", checkDate);
+                        clearBuffer();
+                        // checkDateValidity (chiamata a funzione per la validità)
+                        if (checkValidity == 0) {
+                            printf("ERRORE: Data inserita non valida\n");
+                            break;
+                        }
+                        if (checkCompleted == 'a') {
+                            printInterventionsByDate(completedIntervention, checkDate);
+                        } else if (checkCompleted == 'b') {
+                            printInterventionsByDate(uncompletedIntervention, checkDate);
+                        }
+                        break;
+                    case 'd':
+                        int tmpId;
+                        printf("Inserisci l'Id di un tecnico specifico");
+                        scanf("%d", &tmpId);
+                        clearBuffer();
+                        if (checkCompleted == 'a') {
+                            printInterventionsByTechnician(completedIntervention, tmpId);
+                        } else if (checkCompleted == 'b') {
+                            printInterventionsByTechnician(uncompletedIntervention, tmpId);
+                        }
+                        break;
+                    case 'e':
+                        char checkF_E = 'l';
+                        printf("Inserire la tipologia per filtrare gli interventi \n");
+                        printf("[a] Interventi all'impianto idraulico\n");
+                        printf("[b] Interventi all'impianto elettrico\n");
+                        printf("[c] Interventi edili\n");
+                        printf("[d] Interventi all'impianto termoidraulico\n");
+                        printf("[e] Interventi sull'ascensore\n");
+                        printf("[f] Interventi su serrature e metalli\n");
+                        checkF_E = getchar();
+                        clearBuffer();
+                        if (checkCompleted == 'a') {
+                            printInterventionsByType(completedIntervention, checkF_E);
+                        } else if (checkCompleted == 'b') {
+                            printInterventionsByType(uncompletedIntervention, checkF_E);
+                        }
+                        break;
+                }
+                break;
+            case 'z':
+                break;
+            default:
+                printf("ERRORE: Carattere inserito non valido.\n");
+        } 
+        printf("GRAZIEEEE\n");
     }
 
 
