@@ -1,0 +1,5 @@
+101;A;3;2026/01/01;Test standard capodanno
+0;B;1;2023/10/02;ID zero con data autunnale
+-5;C;5;2024/02/29;ID negativo con anno bisestile
+999999;D;2;2025/12/31;ID grande fine anno
+42;E;4;01-05-2026;ID risposta formato trattini
