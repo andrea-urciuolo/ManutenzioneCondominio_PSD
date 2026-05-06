@@ -12,4 +12,6 @@ void readString(char* buffer, int size);
 /* Forces the user to input a valid integer number */
 int readInteger();
 
+/* Check if a string is a valid date (YYYY/MM/DD format) and >= 2026 */
+int checkDateValidity(const char* date);
 #endif
