@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "../tests/testing.h"
-#include "../include/request.h"
+#include "../testing_include/testingRequest.h"
+#include "../../include/request.h"
 
 int run_test_suite_getIdRequest(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;

@@ -1,12 +1,11 @@
 # --- Variabili di compilazione ---
 CC = gcc
 CFLAGS = -Wall -g
-# Include sia la cartella include/ che la cartella tests/ per gli header
 INCLUDES = -Iinclude -Itests
 
 # --- Directory ---
 SRC_DIR = src
-TEST_DIR = tests
+TEST_DIR = tests/testing_src
 OBJ_DIR = obj
 BIN_DIR = .
 
@@ -14,30 +13,33 @@ BIN_DIR = .
 TARGET = manutenzione.exe
 
 # --- Sorgenti e Oggetti ---
-# Prende tutti i .c in src e aggiunge specificamente testing.c
-SRCS = $(wildcard $(SRC_DIR)/*.c) $(TEST_DIR)/testing.c
+# 1. Recupera la lista di tutti i file .c nelle due cartelle
+SRCS_SRC = $(wildcard $(SRC_DIR)/*.c)
+SRCS_TEST = $(wildcard $(TEST_DIR)/*.c)
 
-# Trasforma i percorsi dei file .c in percorsi .o dentro la cartella obj
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(wildcard $(SRC_DIR)/*.c)) \
-       $(OBJ_DIR)/testing.o
+# 2. Genera i nomi dei file .o corrispondenti, mettendoli tutti in OBJ_DIR
+# Usiamo notdir per gestire file provenienti da cartelle diverse
+OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(SRCS_SRC) $(SRCS_TEST)))
 
 # --- Regola di default ---
 all: $(OBJ_DIR) $(TARGET)
 
-# Crea la cartella obj se non esiste (Sintassi Windows)
+# Crea la cartella obj se non esiste
 $(OBJ_DIR):
 	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 
-# Linker: Crea l'eseguibile unendo tutti i file .o
+# Linker
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Compilazione dei file .c in src/
+# --- Regole di Compilazione ---
+
+# Regola per i file che si trovano in SRC_DIR
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Compilazione specifica per testing.c in tests/
-$(OBJ_DIR)/testing.o: $(TEST_DIR)/testing.c
+# Regola per i file che si trovano in TEST_DIR (ora prende tutto, non solo testing.c)
+$(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # --- Pulizia dei file ---

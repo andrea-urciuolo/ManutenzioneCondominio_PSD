@@ -7,14 +7,14 @@
 #include "../include/list.h"
 #include "../include/item.h"
 #include "../include/PQueue.h"
-#include "../tests/testing.h"
+#include "../tests/testing_include/testingRequest.h"
 
 int main() {
     // TODO: Crea una lista di intervention completate e un'altra per le non completate
     // TODO: Crea un contatore di request e technician così da gestire l'id (Non più random o inserito dall'utente)
 
     // TODO: DA CANCELLARE DOPO, UN TEST PER IL TESTING
-    
+
     // REQUEST
     run_test_suite_getIdRequest("tests/cases/request/getIdRequest/TS_input.txt", "tests/cases/request/getIdRequest/oracle.txt");
     run_test_suite_getType("tests/cases/request/getType/TS_input.txt", "tests/cases/request/getType/oracle.txt");
