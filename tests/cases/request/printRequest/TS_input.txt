@@ -1,3 +1,4 @@
-101;a;3;0;2026/01/01;Perdita d'acqua dal soffitto del bagno principale
-0;b;1;5;2023/10/02;Sostituzione lampadina scala
-42;f;4;0;2026/05/01;Riparazione cancello automatico bloccato
+101;a;3;10;2026/01/01;Perdita d'acqua significativa in bagno
+105;e;5;0;2026/01/05;Ascensore bloccato con persone a bordo
+106;f;2;12;2026/01/06;Serratura difettosa
+999;z;1;5;2026/01/10;Tipo errato per testare errore

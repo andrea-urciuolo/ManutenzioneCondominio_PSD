@@ -1,5 +1,5 @@
-101;A;3;2026/01/01;Riparazione schermo notebook
-0;B;1;2023/10/02;Sostituzione tastiera
--5;C;5;2024/02/29;Aggiornamento software critico
-999999;D;2;2025/12/31;Manutenzione server annuale
-42;E;4;01-05-2026;Configurazione nuova postazione
+Riparazione schermo notebook
+Sostituzione tastiera
+Aggiornamento software critico
+Manutenzione server annuale
+Configurazione nuova postazione
