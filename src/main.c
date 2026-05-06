@@ -197,21 +197,25 @@ int main() {
                         }
                         break;
                     case 'c':
-                        //TODO: Scrivi una funzione in utils che controlli la validità di una data
-                        int checkValidity = 1;
-                        char checkDate[11];
-                        printf("Inserisci la data per la quale si vuole filtrare gli interventi (Formato : YYYY/MM/DD): ");
-                        scanf("%s", checkDate);
-                        clearBuffer();
-                        // checkDateValidity (chiamata a funzione per la validità)
-                        if (checkValidity == 0) {
-                            printf("ERRORE: Data inserita non valida\n");
-                            break;
-                        }
+                        char Date[11];
+                        int checkValidity;
+                        
+                        do {
+                            printf("Inserisci la data per la quale si vuole filtrare gli interventi (Formato : YYYY/MM/DD): ");
+                            scanf("%10s", Date); 
+                            clearBuffer();
+                            
+                            checkValidity = checkDateValidity(Date);
+                            
+                            if (checkValidity == 0) {
+                                printf("ERRORE: Data inserita non valida. Riprova.\n");
+                            }
+                        } while (checkValidity == 0);
+
                         if (checkCompleted == 'a') {
-                            printInterventionsByDate(completedIntervention, checkDate);
+                            printInterventionsByDate(completedIntervention, Date);
                         } else if (checkCompleted == 'b') {
-                            printInterventionsByDate(uncompletedIntervention, checkDate);
+                            printInterventionsByDate(uncompletedIntervention, Date);
                         }
                         break;
                     case 'd':
