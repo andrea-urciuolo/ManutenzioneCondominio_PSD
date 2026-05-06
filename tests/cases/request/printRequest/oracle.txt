@@ -1,0 +1,29 @@
+------------------------------------------------------
+--- Richiesta id: 101 ---
+- Intervento all'impianto idraulico
+- Livello di urgenza: 3
+- Intervento all'intero edificio
+- Data invio della richiesta: 2026/01/01
+- Descrizione:
+Perdita d'acqua dal soffitto 
+del bagno principale
+------------------------------------------------------
+------------------------------------------------------
+--- Richiesta id: 0 ---
+- Intervento all'impianto elettrico
+- Livello di urgenza: 1
+- Intervento all'appartamento n.5
+- Data invio della richiesta: 2023/10/02
+- Descrizione:
+Sostituzione lampadina scala
+------------------------------------------------------
+------------------------------------------------------
+--- Richiesta id: 42 ---
+- Intervento su serrature e metalli
+- Livello di urgenza: 4
+- Intervento all'intero edificio
+- Data invio della richiesta: 2026/05/01
+- Descrizione:
+Riparazione cancello automatico 
+bloccato
+------------------------------------------------------

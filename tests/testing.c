@@ -364,3 +364,88 @@ int run_test_suite_getDescription(const char* input_path, const char* oracle_pat
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
+
+int run_test_suite_printRequest(const char* input_path, const char* oracle_path) {
+    FILE *f_in, *f_orc;
+    char buffer[512];
+    int failures = 0;
+    int test_count = 0;
+
+    int id, urgency, apartment;
+    char type;
+    char description[256];
+    char date[20];
+
+    f_in = fopen(input_path, "r");
+    f_orc = fopen(oracle_path, "r");
+
+    if (!f_in || !f_orc) {
+        printf("Error: Could not open test files for printRequest.\n");
+        return -1;
+    }
+
+    printf("Starting Test Suite: printRequest\n");
+    printf("-------------------------------------------\n");
+
+    while (fgets(buffer, sizeof(buffer), f_in)) {
+        test_count++;
+
+        if (sscanf(buffer, "%d;%c;%d;%d;%[^;];%[^;\n]", &id, &type, &urgency, &apartment, date, description) >= 6) {
+            
+            request r = createRequest_TESTING(id, type, urgency, apartment, date, description);
+
+            if (r != NULL) {
+                fflush(stdout); 
+                FILE *temp_stdout = freopen("temp_output.txt", "w", stdout);
+                
+                if (temp_stdout == NULL) {
+                    fprintf(stderr, "Error redirecting stdout\n");
+                    return -1;
+                }
+
+                printRequest(r);
+
+                #ifdef _WIN32
+                    freopen("CON", "w", stdout);
+                #else
+ 
+                #endif
+
+                FILE *f_res = fopen("temp_output.txt", "r");
+                int match = 1;
+                char res_line[256], orc_line[256];
+
+                while (fgets(orc_line, sizeof(orc_line), f_orc)) {
+                    if (orc_line[0] == '-' && orc_line[1] == '-' && orc_line[2] == '-' && test_count > 1 && strstr(orc_line, "Richiesta id")) {
+                        fseek(f_orc, -strlen(orc_line), SEEK_CUR);
+                        break;
+                    }
+                    if (!fgets(res_line, sizeof(res_line), f_res) || strcmp(res_line, orc_line) != 0) {
+                        match = 0;
+                    }
+                }
+                fclose(f_res);
+
+                if (match) {
+                    printf("[PASS] Test %d: Output matches oracle.\n", test_count);
+                } else {
+                    printf("[FAIL] Test %d: Output mismatch.\n", test_count);
+                    failures++;
+                }
+
+                deallocateRequest(r);
+            } else {
+                printf("[ERROR] Failed to allocate memory in test %d\n", test_count);
+                failures++;
+            }
+        }
+    }
+
+    fclose(f_in);
+    fclose(f_orc);
+    remove("temp_output.txt");
+
+    printf("-------------------------------------------\n");
+    printf("Total Tests: %d | Failures: %d\n", test_count, failures);
+    return failures;
+}

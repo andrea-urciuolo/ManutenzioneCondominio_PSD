@@ -7,6 +7,7 @@ int run_test_suite_getUrgency(const char* input_path, const char* oracle_path);
 int run_test_suite_getApartment(const char* input_path, const char* oracle_path);
 int run_test_suite_getSubmissionDate(const char* input_path, const char* oracle_path);
 int run_test_suite_getDescription(const char* input_path, const char* oracle_path);
+int run_test_suite_printRequest(const char* input_path, const char* oracle_path);
 
 
 #endif

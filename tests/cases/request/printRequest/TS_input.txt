@@ -1,0 +1,3 @@
+101;a;3;0;2026/01/01;Perdita d'acqua dal soffitto del bagno principale
+0;b;1;5;2023/10/02;Sostituzione lampadina scala
+42;f;4;0;2026/05/01;Riparazione cancello automatico bloccato
