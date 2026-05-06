@@ -46,3 +46,37 @@ int readInteger() {
     clearBuffer(); /* Discards the newline character left in the buffer after the number */
     return value;
 }
+/* Returns 1 if the date is valid, 0 otherwise */
+int checkDateValidity(const char* date) {
+    // 1. Check for the exact length
+    if (strlen(date) != 10) return 0;
+
+    // 2. Format check ('/' characters at positions 4 and 7)
+    if (date[4] != '/' || date[7] != '/') return 0;
+
+    // 3. Extract numbers from the string using atoi()
+    // atoi automatically stops when it encounters a slash
+    int year = atoi(&date[0]);
+    int month = atoi(&date[5]);
+    int day = atoi(&date[8]);
+
+    // 4. Basic logical checks (year from 2026 onwards)
+    if (year < 2026) return 0;
+    if (month < 1 || month > 12) return 0;
+    if (day < 1 || day > 31) return 0;
+
+    // 5. Check for months with 30 days
+    if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+        return 0;
+    }
+
+    // 6. Check for February (including leap year calculation)
+    if (month == 2) {
+        int isLeap = ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+        if (isLeap && day > 29) return 0;
+        if (!isLeap && day > 28) return 0;
+    }
+
+    // If it passes all checks, the date is perfectly valid!
+    return 1; 
+}
