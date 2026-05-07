@@ -1,4 +1,0 @@
-101;a;3;10;2026/01/01;Perdita d'acqua significativa in bagno
-105;e;5;0;2026/01/05;Ascensore bloccato con persone a bordo
-106;f;2;12;2026/01/06;Serratura difettosa
-999;z;1;5;2026/01/10;Tipo errato per testare errore

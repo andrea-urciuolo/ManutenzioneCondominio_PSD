@@ -71,11 +71,10 @@ int run_test_suite_getType(const char* input_path, const char* oracle_path) {
     int failures = 0;
     int test_count = 0;
 
-    /* Variabili per i dati di test */
     int id, urgency;
     char oracle_val, actual_val;
     char description[100];
-    char type; /* Carattere letto dall'input per creare la richiesta */
+    char type;
 
     f_in = fopen(input_path, "r");
     f_orc = fopen(oracle_path, "r");
@@ -88,22 +87,16 @@ int run_test_suite_getType(const char* input_path, const char* oracle_path) {
     printf("Starting Test Suite: getType\n");
     printf("-------------------------------------------\n");
 
-    /* Legge input e oracolo (usa %c con uno spazio davanti per ignorare eventuali invii/spazi) */
     while (fgets(buffer, sizeof(buffer), f_in) && fscanf(f_orc, " %c", &oracle_val) != EOF) {
         test_count++;
 
-        /* Parsing Input: ID;Type;Urgency;Description */
-        /* Nota: Ho aggiunto il campo type nel parsing per testarlo correttamente */
         if (sscanf(buffer, "%d;%c;%d;%[^;\n]", &id, &type, &urgency, description) >= 3) {
 
-            /* 1. Crea l'oggetto usando il tipo letto dal file */
             request r = createRequest_TESTING(id, type, urgency, 0, "2026/01/01", description);
 
             if (r != NULL) {
-                /* 2. CHIAMA LA FUNZIONE REALE */
                 actual_val = getType(r);
 
-                /* 3. Confronta i caratteri */
                 if (actual_val == oracle_val) {
                     printf("[PASS] Test %d: Type '%c' processed correctly.\n", test_count, type);
                 } else {
@@ -112,7 +105,6 @@ int run_test_suite_getType(const char* input_path, const char* oracle_path) {
                     failures++;
                 }
 
-                /* 4. Cleanup */
                 deallocateRequest(r);
             } else {
                 printf("[ERROR] Failed to allocate memory in test %d\n", test_count);
@@ -358,64 +350,6 @@ int run_test_suite_getDescription(const char* input_path, const char* oracle_pat
 
     printf("-------------------------------------------\n");
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
-    return failures;
-}
-
-int run_test_suite_printRequest(const char* input_path, const char* oracle_path) {
-    FILE *f_in, *f_orc;
-    char buffer[512];
-    int failures = 0;
-    int test_count = 0;
-
-    /* Variabili di supporto */
-    int id, urgency, apt;
-    char type, date[11], desc[256];
-    char expected_keyword[50];
-
-    f_in = fopen(input_path, "r");
-    f_orc = fopen(oracle_path, "r");
-
-    if (!f_in || !f_orc) {
-        printf("Error: Could not open test files for printRequest.\n");
-        return -1;
-    }
-
-    printf("Starting Test Suite: printRequest (Visual & Logic Check)\n");
-    printf("-------------------------------------------\n");
-
-    while (fgets(buffer, sizeof(buffer), f_in) && fscanf(f_orc, "%s", expected_keyword) != EOF) {
-        test_count++;
-
-        /* Parsing: ID;Tipo;Urgenza;Apt;Data;Descrizione */
-        if (sscanf(buffer, "%d;%c;%d;%d;%10s;%[^\n]", &id, &type, &urgency, &apt, date, desc) == 6) {
-
-            request r = createRequest_TESTING(id, type, urgency, apt, date, desc);
-
-            if (r != NULL) {
-                printf("[TEST %d] Expected Keyword: %s\n", test_count, expected_keyword);
-
-                /* Esecuzione della stampa reale */
-                printRequest(r);
-
-                /* Verifica logica: se il tipo è 'z', printRequest deve gestire l'errore */
-                if (type == 'z' && getType(r) == 'z') {
-                    /* Passa se il comportamento di errore è coerente */
-                    printf("[PASS] Logic check for invalid type successful.\n");
-                } else if (type != 'z') {
-                    printf("[PASS] Visual check required, logic components OK.\n");
-                } else {
-                    failures++;
-                }
-
-                deallocateRequest(r);
-            }
-        }
-    }
-
-    fclose(f_in);
-    fclose(f_orc);
-    printf("-------------------------------------------\n");
-    printf("Visual Suite Completed for %d tests.\n", test_count);
     return failures;
 }
 

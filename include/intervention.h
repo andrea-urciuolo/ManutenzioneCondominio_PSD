@@ -20,4 +20,6 @@ void printIntervention(intervention inter);
 
 void deallocateIntervention(intervention inter);
 
-#endif // INTERVENTION_H
+intervention buildIntervention(request r, technician t, const char* date, const char* time);
+
+#endif

@@ -88,3 +88,21 @@ void deallocateIntervention(intervention inter) {
     // Only deallocates the intervention, not the request and the technician
     free(inter);
 }
+
+intervention buildIntervention(request r, technician t, const char* date, const char* time) {
+    if (r == NULL || t == NULL) return NULL;
+
+    intervention inter = malloc(sizeof(struct c_intervention));
+    if (inter == NULL) return NULL;
+
+    inter->r = r;
+    inter->t = t;
+
+    strncpy(inter->dateAppointment, date, sizeof(inter->dateAppointment) - 1);
+    inter->dateAppointment[sizeof(inter->dateAppointment) - 1] = '\0';
+
+    strncpy(inter->timeAppointment, time, sizeof(inter->timeAppointment) - 1);
+    inter->timeAppointment[sizeof(inter->timeAppointment) - 1] = '\0';
+
+    return inter;
+}

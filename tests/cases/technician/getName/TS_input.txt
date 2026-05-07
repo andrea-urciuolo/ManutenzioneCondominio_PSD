@@ -1,0 +1,5 @@
+1;Mario Rossi;a
+2;Gian Carlo Primo;b
+3;NomeEsattamenteDiQuarantanoveCaratteriABCDEFGHIJKL;c
+4;NomeCheSuperaIQuarantanoveCaratterieDeveEssereTagliatoDallaStrncpy;d
+5;A;e

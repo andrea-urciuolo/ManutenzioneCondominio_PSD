@@ -11,8 +11,6 @@ technician createTechnician(int Id);
 /* Prints the details of a single technician to the screen */
 void printTechnician(const technician tech);
 
-
-
 /* Increases the number of interventions assigned to the technician by 1 */
 void addIntervention(technician tech);
 

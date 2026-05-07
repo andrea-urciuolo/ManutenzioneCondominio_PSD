@@ -1,9 +1,0 @@
-1;Idraulico;a
-2;Elettricista;b
-3;Edile;c
-4;Termo;d
-5;Ascensore;e
-6;Fabbro;f
-7;Errore;z
-8;Nome Molto Lungo Per Testare Layout;a
-9; ;

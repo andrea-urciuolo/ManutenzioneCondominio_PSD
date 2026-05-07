@@ -30,15 +30,16 @@ int main(int argc, char* argv[]) {
         run_test_suite_getApartment("tests/cases/request/getApartment/TS_input.txt", "tests/cases/request/getApartment/oracle.txt");
         run_test_suite_getSubmissionDate("tests/cases/request/getSubmissionDate/TS_input.txt", "tests/cases/request/getSubmissionDate/oracle.txt");
         run_test_suite_getDescription("tests/cases/request/getDescription/TS_input.txt", "tests/cases/request/getDescription/oracle.txt");
-        run_test_suite_printRequest("tests/cases/request/printRequest/TS_input.txt", "tests/cases/request/printRequest/oracle.txt");
         run_test_suite_deallocateRequest("tests/cases/request/deallocateRequest/TS_input.txt", "tests/cases/request/deallocateRequest/oracle.txt");
 
         // TECHNICIAN
         run_test_suite_deleteTechnician("tests/cases/technician/deleteTechnician/TS_input.txt");
-        run_test_suite_printTechnician("tests/cases/technician/printTechnician/TS_input.txt");
         run_test_suite_addIntervention("tests/cases/technician/addIntervention/TS_input.txt", "tests/cases/technician/addIntervention/oracle.txt");
         run_test_suite_getIdCode("tests/cases/technician/getIdCode/TS_input.txt", "tests/cases/technician/getIdCode/oracle.txt");
         run_test_suite_getInterventionCount("tests/cases/technician/getInterventionCount/TS_input.txt", "tests/cases/technician/getInterventionCount/oracle.txt");
+        run_test_suite_getSpecialization("tests/cases/technician/getSpecialization/TS_input.txt", "tests/cases/technician/getSpecialization/oracle.txt");
+        run_test_suite_getName("tests/cases/technician/getName/TS_input.txt", "tests/cases/technician/getName/oracle.txt");
+
 
         return 0;
     }

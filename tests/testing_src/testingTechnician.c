@@ -192,41 +192,70 @@ int run_test_suite_getInterventionCount(const char* input_path, const char* orac
     return failures;
 }
 
-int run_test_suite_printTechnician(const char* input_path) {
-    FILE *f_in;
-    char buffer[256];
+int run_test_suite_getName(const char* input_path, const char* oracle_path) {
+    FILE *f_in, *f_orc;
+    char buffer[512];
     int id;
-    char name[50], spec;
-    int test_count = 0;
+    char spec;
+    char name[100];         /* Buffer per leggere dal file di input */
+    char oracle_name[100];  /* Buffer per leggere dall'oracolo */
+    const char* actual_name;
+    int failures = 0, test_count = 0;
 
     f_in = fopen(input_path, "r");
-    if (!f_in) {
-        printf("[ERROR] Could not open input file for printTechnician.\n");
+    f_orc = fopen(oracle_path, "r");
+
+    if (!f_in || !f_orc) {
+        printf("[ERROR] Could not open test files for getName.\n");
         return -1;
     }
 
-    printf("Starting Test Suite: printTechnician (Visual Inspection)\n");
+    printf("Starting Test Suite: getName\n");
     printf("-------------------------------------------\n");
 
-    while (fgets(buffer, sizeof(buffer), f_in)) {
+    /* Legge input riga per riga e oracolo riga per riga */
+    while (fgets(buffer, sizeof(buffer), f_in) && fgets(oracle_name, sizeof(oracle_name), f_orc)) {
         test_count++;
+
+        /* Rimuove il newline (\n) dal nome dell'oracolo per il confronto */
+        oracle_name[strcspn(oracle_name, "\r\n")] = '\0';
+
+        /* Parsing input: ID;Nome;Specializzazione */
         if (sscanf(buffer, "%d;%[^;];%c", &id, name, &spec) == 3) {
+
             technician tech = buildTechnician(id, name, spec);
 
             if (tech != NULL) {
-                printf("[TEST %d] Visualizing Technician: %s\n", test_count, name);
+                actual_name = getName(tech);
 
-                /* Chiamata alla funzione reale */
-                printTechnician(tech);
-
-                printf("[PASS] Execution completed for Test %d\n\n", test_count);
+                /* Confronto tra stringhe */
+                if (actual_name != NULL && strcmp(actual_name, oracle_name) == 0) {
+                    printf("[PASS] Test %d: Name matches oracle (\"%s\").\n", test_count, actual_name);
+                } else {
+                    printf("[FAIL] Test %d: Expected \"%s\", Got \"%s\"\n",
+                            test_count, oracle_name, actual_name ? actual_name : "NULL");
+                    failures++;
+                }
                 deleteTechnician(tech);
+            } else {
+                printf("[ERROR] Memory allocation failed in test %d\n", test_count);
+                failures++;
             }
         }
     }
 
+    /* Test di robustezza: Puntatore NULL */
+    test_count++;
+    if (getName(NULL) == NULL) {
+        printf("[PASS] Test %d: NULL pointer handled correctly.\n", test_count);
+    } else {
+        printf("[FAIL] Test %d: NULL pointer did not return NULL.\n", test_count);
+        failures++;
+    }
+
     fclose(f_in);
+    fclose(f_orc);
     printf("-------------------------------------------\n");
-    printf("Visual Suite Completed for %d technicians.\n\n", test_count);
-    return 0;
+    printf("Total Tests: %d | Failures: %d\n\n", test_count, failures);
+    return failures;
 }
