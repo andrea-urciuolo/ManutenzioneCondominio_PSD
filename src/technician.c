@@ -106,7 +106,7 @@ char getSpecialization(technician tech) {
 }
 
 /*Test builder to create a technician*/
-technician buildTechnician (int id,const char* name, char spec){
+technician buildTechnician(int id,const char* name, char spec) {
     technician newTechnician = (technician)malloc(sizeof(struct c_technician));
 
     if (newTechnician == NULL) return NULL;

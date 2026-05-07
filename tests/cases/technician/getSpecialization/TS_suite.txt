@@ -1,0 +1,10 @@
+10;Idraulico;a
+11;Elettricista;b
+12;Edile;c
+13;Termo;d
+14;Ascensore;e
+15;Fabbro;f
+16;Carattere Invalido;z
+17;Carattere Speciale;@
+18;Numero come Tipo;1
+19;Spazio Vuoto;

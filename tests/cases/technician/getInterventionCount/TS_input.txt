@@ -1,5 +1,3 @@
-101;Mario Rossi;a;10
-202;Luigi Bianchi;b;0
-303;Gianni Verdi;c;500
-404;Anonimo;d;1
-505;Super Tecnico;e;9999
+101;Mario Rossi;a
+202;Luigi Bianchi;b
+303;Anna Verdi;c
