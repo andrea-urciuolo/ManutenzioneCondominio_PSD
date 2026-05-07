@@ -1,0 +1,5 @@
+101;Mario Rossi;a;10
+0;Luigi Bianchi;b;0
+-5;Tecnico Errore;c;5
+999999;Super User;d;123
+42;Guida Galattica;e;7
