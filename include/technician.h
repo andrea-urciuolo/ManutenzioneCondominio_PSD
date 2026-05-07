@@ -3,8 +3,6 @@
 
 typedef struct c_technician *technician;
 
-/* Function prototypes (Syntactic Specification) */
-
 /* Dynamically allocates a new technician in memory and asks the user for their details */
 technician createTechnician(int Id);
 
