@@ -12,6 +12,7 @@
 #include "../include/opIntervention.h"
 #include "../tests/testing_include/testingRequest.h"
 #include "../tests/testing_include/testingTechnician.h"
+#include "../tests/testing_include/testingIntervention.h"
 #include "../include/utils.h"
 
 int main(int argc, char* argv[]) {
@@ -47,6 +48,12 @@ int main(int argc, char* argv[]) {
         run_test_suite_getSpecialization("tests/cases/technician/getSpecialization/TS_input.txt", "tests/cases/technician/getSpecialization/oracle.txt");
         run_test_suite_getName("tests/cases/technician/getName/TS_input.txt", "tests/cases/technician/getName/oracle.txt");
 
+        // INTERVENTION MODULE TESTS
+        run_test_suite_getRequestIntervention("tests/cases/intervention/getRequestIntervention/TS_input.txt", "tests/cases/intervention/getRequestIntervention/oracle.txt");
+        run_test_suite_getTechnicianIntervention("tests/cases/intervention/getTechnicianIntervention/TS_input.txt", "tests/cases/intervention/getTechnicianIntervention/oracle.txt");
+        run_test_suite_getDateAppointment("tests/cases/intervention/getDateTime/TS_input.txt", "tests/cases/intervention/getDateTime/oracle_date.txt");
+        run_test_suite_getTimeAppointment("tests/cases/intervention/getDateTime/TS_input.txt", "tests/cases/intervention/getDateTime/oracle_time.txt");
+        run_test_suite_deallocateIntervention();
         return 0;
     }
 

@@ -19,27 +19,37 @@ int run_test_suite_getDateAppointment(const char* input_path, const char* oracle
     printf("Starting Test Suite: getDateAppointment\n");
     printf("-------------------------------------------\n");
 
+    // Legge la riga dall'input e la stringa dall'oracolo
     while (fgets(buffer, sizeof(buffer), f_in) && fscanf(f_orc, "%10s", orc_date) != EOF) {
         test_count++;
 
-        if (sscanf(buffer, "%s %s", in_date, in_time) == 2) {
+        // Utilizzo del separatore ';' per coerenza con gli altri test
+        // Se i tuoi file usano lo spazio, sostituisci ";" con " "
+        if (sscanf(buffer, "%*d;%*d;%[^;];%s", in_date, in_time) == 2) {
             request dummy_r = (request)malloc(1);
             technician dummy_t = (technician)malloc(1);
 
             intervention inter = buildIntervention(dummy_r, dummy_t, in_date, in_time);
             char* actual_date = getDateAppointment(inter);
 
+            // Verifica e stampa esplicita dell'esito
             if (actual_date != NULL && strcmp(actual_date, orc_date) == 0) {
                 printf("[PASS] Test %d: Expected Date %s, Got %s\n", test_count, orc_date, actual_date);
             } else {
-                printf("[FAIL] Test %d: Expected Date %s, Got %s\n", test_count, orc_date, actual_date ? actual_date : "NULL");
+                printf("[FAIL] Test %d: Expected Date %s, Got %s\n",
+                        test_count, orc_date, actual_date ? actual_date : "NULL");
                 failures++;
             }
 
             free(inter); free(dummy_r); free(dummy_t);
+        } else {
+            // Debug in caso di fallimento della sscanf
+            printf("[ERROR] Test %d: Formato riga input non valido.\n", test_count);
         }
     }
+
     fclose(f_in); fclose(f_orc);
+    printf("-------------------------------------------\n");
     printf("Total Tests: %d | Failures: %d\n\n", test_count, failures);
     return failures;
 }
