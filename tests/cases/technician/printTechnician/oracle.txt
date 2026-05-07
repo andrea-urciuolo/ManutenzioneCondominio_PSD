@@ -1,0 +1,10 @@
+ID: 1
+Specializzazione: a
+ID: 0
+Specializzazione: b
+ID: -1
+Specializzazione: c
+ID: 999999
+Specializzazione: d
+ID: 42
+Specializzazione: e
