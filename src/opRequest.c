@@ -180,3 +180,35 @@ void printRequestsByApartment(PQueue pq, int apartment) {
         printf("Found %d request(s) for apartment/building area.\n", count);
     }
 }
+request getRequestById(PQueue pq, int id) {
+
+    if (pq == NULL || emptyPQ(pq)) {
+        return NULL;
+    }
+    PQueue tempPq = newPQ();
+    if (tempPq == NULL) return NULL;
+
+    request currentReq;
+    request foundReq = NULL;
+
+    while (!emptyPQ(pq)) {
+        currentReq = getMax(pq);
+        deleteMax(pq);
+
+        if (getIdRequest(currentReq) == id) {
+            foundReq = currentReq;
+        }
+
+        insert(tempPq, currentReq);
+    }
+
+    while (!emptyPQ(tempPq)) {
+        insert(pq, getMax(tempPq));
+        deleteMax(tempPq);
+    }
+
+    deallocatePQ(tempPq);
+
+
+    return foundReq;
+}

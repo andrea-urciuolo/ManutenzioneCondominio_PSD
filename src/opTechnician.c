@@ -143,3 +143,23 @@ void printTechniciansByWorkload(list l) {
     /* Free the temporary array */
     free(techArray);
 }
+/* Returns the technician corresponding to the specified ID. Returns NULL if not found. */
+technician getTechnicianById(list l, int idCode) {
+    if (idCode <= 0 || emptyList(l)) {
+        return NULL;
+    }
+
+    list current = l;
+    
+   
+    while (!emptyList(current)) {
+        technician tech = (technician)getFirst(current);
+        
+        if (getIdCode(tech) == idCode) {
+            return tech;
+        }
+        
+        current = tailList(current);
+    }
+    return NULL;
+}

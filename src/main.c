@@ -37,6 +37,7 @@ int main() {
         printf("[d] Visualizza le richieste attive\n");
         printf("[e] Visualizza i tecnici inseriti\n");
         printf("[f] Visualizza gli interventi\n");
+        printf("[g] Contrassegna un intervento come completato\n");
         printf("[z] Terminare il programma\n");
         check = getchar();
         clearBuffer();
@@ -114,10 +115,31 @@ int main() {
                         printf("Errore: Nessun tecnico disponibile per questa tipologia di richiesta (%c)\n", typeReq);
                     }
                 } else if (checkInter == 'b') {
-                    intervention newInter = NULL;
-                    // TODO: FIX PLS
-                }
+                    int idReqInter;
+                    int idTechInter;
+                    printf("Inserisci l'id della richiesta per la quale si vuole creare l'intervento: ");
+                    scanf("%d", &idReqInter);
+                    clearBuffer();
+                    request tempReqInter = getRequestById(pqueueRequest,idReqInter);
+                    if (tempReqInter == NULL) {
+                        printf("ERRORE: Id Request non valido per la richiesta\n");
+                        break;
+                    }
+                    printf("Inserisci l'id del tecnico da assegnare all'intervento: ");
+                    scanf("%d", &idTechInter);
+                    clearBuffer();
+                    technician tempTechInter = getTechnicianById(listTechnician,idTechInter);
+                    if (tempTechInter == NULL) {
+                        printf(" ERRORE: Id Tecnico non valido per la richiesta\n");
+                        break;
+                    }
 
+                    intervention newInter = newIntervention(tempReqInter, tempTechInter);
+                    if (newInter == NULL) {
+                        printf("Errore nella creazione dell'intervento\n");
+                        break;
+                    }
+                }
                 break;
             case 'd':
                 char checkD = 'e';
@@ -296,6 +318,52 @@ int main() {
                             printInterventionsByType(uncompletedIntervention, checkF_E);
                         }
                         break;
+                }
+                break;
+            case 'g': 
+                if (emptyList(uncompletedIntervention)) {
+                    printf("No pending interventions to complete.\n");
+                    break;
+                }
+
+                int targetId;
+                printf("Enter the ID of the request associated with the completed intervention: ");
+                scanf("%d", &targetId);
+                clearBuffer();
+
+                list current = uncompletedIntervention;
+                intervention foundInter = NULL;
+                int pos = 0;
+                int targetPos = -1;
+
+                // Search for the intervention and its position
+                while (!emptyList(current)) {
+                    intervention inter = (intervention)getFirst(current);
+                    request r = getRequestIntervention(inter);
+                    
+                    if (getIdRequest(r) == targetId) {
+                        foundInter = inter;
+                        targetPos = pos;
+                        break; // Found!
+                    }
+                    current = tailList(current);
+                    pos++;
+                }
+
+                if (foundInter != NULL) {
+                    // Update the technician's workload
+                    technician t = getTechnicianIntervention(foundInter);
+                    addIntervention(t);
+
+                    // Move the intervention to the completed list
+                    completedIntervention = consList(completedIntervention, foundInter);
+
+                    // Remove the intervention from the uncompleted list
+                    uncompletedIntervention = removeList(uncompletedIntervention, targetPos);
+
+                    printf("Intervention successfully completed! The technician's workload has been updated.\n");
+                } else {
+                    printf("ERROR: No pending intervention found for request ID %d.\n", targetId);
                 }
                 break;
             case 'z':

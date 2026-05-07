@@ -18,4 +18,7 @@ void printTechniciansByWorkload(list l);
 /* Finds and prints the technician with the highest number of interventions */
 void printMostActiveTechnician(list l);
 
+/* Returns the technician corresponding to the specified ID. Returns NULL if not found. */
+technician getTechnicianById(list l, int idCode);
+
 #endif
