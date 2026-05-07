@@ -14,4 +14,7 @@ int readInteger();
 
 /* Check if a string is a valid date (YYYY/MM/DD format) and >= 2026 */
 int checkDateValidity(const char* date);
+
+/* Check if a string is a valid time (HH:MM format) */
+int checkTimeValidity(const char* time);
 #endif

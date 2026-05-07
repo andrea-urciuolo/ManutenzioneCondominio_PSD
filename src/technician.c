@@ -87,8 +87,6 @@ int getIdCode(technician tech) {
     return tech->idCode;
 }
 
-
-
 /* Returns the total number of interventions currently assigned to or completed by the technician. */
 int getInterventionCount(technician tech) {
     if (tech == NULL) return -1;

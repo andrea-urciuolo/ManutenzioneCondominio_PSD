@@ -81,3 +81,33 @@ int checkDateValidity(const char* date) {
     // If it passes all checks, the date is perfectly valid!
     return 1; 
 }
+
+int checkTimeValidity(const char* time) {
+    // Check for exact length (HH:MM -> 5 characters)
+    if (strlen(time) != 5) return 0;
+
+    // Format check (':' character must be at index 2)
+    if (time[2] != ':') return 0;
+
+    // Check if all characters (except the colon) are digits
+    // This prevents atoi from parsing non-numeric strings as 0
+    for (int i = 0; i < 5; i++) {
+        if (i == 2) continue; // Skip the colon
+        if (time[i] < '0' || time[i] > '9') return 0;
+    }
+
+    // Extract numerical values using atoi()
+    // atoi stops parsing at the first non-digit character (the colon)
+    int hours = atoi(&time[0]);
+    int minutes = atoi(&time[3]);
+
+    // Logical range checks
+    // Hours must be between 00 and 23
+    if (hours < 0 || hours > 23) return 0;
+
+    // Minutes must be between 00 and 59
+    if (minutes < 0 || minutes > 59) return 0;
+
+    // If all checks pass, the time format is valid
+    return 1;
+}

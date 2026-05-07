@@ -72,7 +72,6 @@ int main() {
                 countTechnician++;
                 break;
             case 'c':
-                // TODO: FIX PLS
                 char checkInter = 'c';
                 printf("Seleziona in che modo creare un nuovo intervento: \n");
                 printf("[a] Crea un intervento in base alla richiesta con più urgenza\n");
@@ -233,7 +232,7 @@ int main() {
                 }
                 break;
             case 'f':
-                char checkCompleted = 'c';
+                char checkCompleted;
                 printf("Visualizzare gli interventi completati [a], oppure visualizzare gli interventi non completati [b]");
                 checkCompleted = getchar();
                 clearBuffer();
@@ -271,7 +270,6 @@ int main() {
                     case 'c':
                         char Date[11];
                         int checkValidity;
-                        
                         do {
                             printf("Inserisci la data per la quale si vuole filtrare gli interventi (Formato : YYYY/MM/DD): ");
                             scanf("%10s", Date); 
@@ -318,6 +316,8 @@ int main() {
                             printInterventionsByType(uncompletedIntervention, checkF_E);
                         }
                         break;
+                    default:
+                        printf("ERRORE: Metodo di visualizzazione non vallido.\n");
                 }
                 break;
             case 'g': 
@@ -370,17 +370,12 @@ int main() {
                 break;
             default:
                 printf("ERRORE: Carattere inserito non valido.\n");
-        } 
-
+        }
     }
 
     printf("GRAZIEEEE\n");
 
-
-    // TODO: Crea un contatore di request e technician così da gestire l'id (Non più random o inserito dall'utente)
-
-    // TODO: DA CANCELLARE DOPO, UN TEST PER IL TESTING
-
+    // TODO: Aggiungere da linea di comando l'argv --test e --exe
     // REQUEST
     run_test_suite_getIdRequest("tests/cases/request/getIdRequest/TS_input.txt", "tests/cases/request/getIdRequest/oracle.txt");
     run_test_suite_getType("tests/cases/request/getType/TS_input.txt", "tests/cases/request/getType/oracle.txt");
@@ -390,8 +385,6 @@ int main() {
     run_test_suite_getDescription("tests/cases/request/getDescription/TS_input.txt", "tests/cases/request/getDescription/oracle.txt");
     run_test_suite_printRequest("tests/cases/request/printRequest/TS_input.txt", "tests/cases/request/printRequest/oracle.txt");
     run_test_suite_deallocateRequest("tests/cases/request/deallocateRequest/TS_input.txt", "tests/cases/request/deallocateRequest/oracle.txt");
-
-    // TODO
 
     return 0;
 }

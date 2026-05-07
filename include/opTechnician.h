@@ -2,6 +2,7 @@
 #define OPTECHNICIAN_H
 
 #include "list.h"
+#include "technician.h"
 
 /* Prints all the technicians currently in the list */
 void printAllTechnicians(list l);

@@ -30,7 +30,7 @@ intervention newIntervention(request r, technician t) {
         if (!error) printf("Inserire la data per l'intervento (YYYY/MM/DD): ");
         else printf("ERRORE! Formato non valido. Riprova (YYYY/MM/DD): ");
         error = 1;
-    } while (scanf("%10s", dateAppointment) != 1);
+    } while (scanf("%10s", dateAppointment) != 1 || !checkDateValidity(dateAppointment));
 
     strncpy(inter->dateAppointment, dateAppointment, sizeof(inter->dateAppointment) - 1);
     inter->dateAppointment[sizeof(inter->dateAppointment) - 1] = '\0';
