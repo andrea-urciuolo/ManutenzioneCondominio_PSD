@@ -99,7 +99,6 @@ int main(int argc, char* argv[]) {
             case 'a':
                 printf("\n--- CREAZIONE NUOVA RICHIESTA ---\n");
                 request req = newRequest(countRequest); // Passing the ID parameter
-                clearBuffer();
                 if (req == NULL) {
                     printf("ERRORE: Creazione della richiesta fallita.\n");
                     break;
@@ -117,7 +116,6 @@ int main(int argc, char* argv[]) {
             case 'b':
                 printf("\n--- CREAZIONE NUOVO TECNICO ---\n");
                 technician tech = createTechnician(countTechnician); // Passing the ID parameter
-                clearBuffer();
                 if (tech == NULL) {
                     printf("ERRORE: Creazione del tecnico fallita.\n");
                     break;
@@ -212,6 +210,7 @@ int main(int argc, char* argv[]) {
                         printf("ERRORE: Creazione dell'intervento fallita.\n");
                         break;
                     }
+                    uncompletedIntervention = consList(uncompletedIntervention, newInter);
                     printf("Intervento schedulato con successo!\n");
                 }
                 break;
@@ -358,6 +357,7 @@ int main(int argc, char* argv[]) {
                         int tmpId;
                         printf("\nInserisci l'ID della richiesta associata: ");
                         scanf("%d", &tmpId);
+                        clearBuffer();
                         if (checkCompleted == 'a') {
                             printInterventionById(completedIntervention, tmpId);
                         } else if (checkCompleted == 'b') {
