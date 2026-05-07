@@ -478,6 +478,38 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    // 1. Clear the Priority Queue and its remaining requests
+    while (!emptyPQ(pqueueRequest)) {
+        request r = getMax(pqueueRequest);
+        deleteMax(pqueueRequest);
+        deallocateRequest(r); // Free each request object
+    }
+    deallocatePQ(pqueueRequest); // Free the queue structure itself
+
+    // 2. Clear the Technician list and each technician struct
+    while (!emptyList(listTechnician)) {
+        technician t = (technician)getFirst(listTechnician);
+        listTechnician = removeList(listTechnician, 0); // Remove the node from list
+        deleteTechnician(t); // Free the technician object
+    }
+
+    // 3. Clear Completed Interventions
+    while (!emptyList(completedIntervention)) {
+        intervention inter = (intervention)getFirst(completedIntervention);
+        // We must free the request inside the intervention as it was removed from the PQueue
+        deallocateRequest(getRequestIntervention(inter));
+        completedIntervention = removeList(completedIntervention, 0);
+        deallocateIntervention(inter); // Free the intervention wrapper
+    }
+
+    // 4. Clear Uncompleted Interventions
+    while (!emptyList(uncompletedIntervention)) {
+        intervention inter = (intervention)getFirst(uncompletedIntervention);
+        // We must free the request inside the intervention
+        deallocateRequest(getRequestIntervention(inter));
+        uncompletedIntervention = removeList(uncompletedIntervention, 0);
+        deallocateIntervention(inter);
+    }
     printf("\n==================================================\n");
     printf("                  GRAZIE!                       \n");
     printf("==================================================\n\n");
