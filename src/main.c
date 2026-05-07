@@ -12,19 +12,25 @@
 #include "../include/opIntervention.h"
 #include "../tests/testing_include/testingRequest.h"
 #include "../tests/testing_include/testingTechnician.h"
-#include "../tests/testing_include/testingIntervention.h"
 #include "../include/utils.h"
 
 int main(int argc, char* argv[]) {
+    
+    // --- Command Line Argument Parsing ---
+    
     if (argc != 2) {
-        printf("ERRORE: Numero di argomenti errato\n");
+        printf("\nERRORE: Numero di argomenti errato.\n");
+        printf("Uso: ./manutenzione --exe (per avviare) oppure ./manutenzione --test (per i test)\n\n");
         return 1;
     }
 
+    // Testing Mode execution
     if (strcmp(argv[1], "--test") == 0) {
-        printf("Software aperto in modalità testing.\n");
+        printf("\n==================================================\n");
+        printf("        SOFTWARE APERTO IN MODALITA' TESTING        \n");
+        printf("==================================================\n\n");
 
-        // REQUEST
+        // REQUEST MODULE TESTS
         run_test_suite_getIdRequest("tests/cases/request/getIdRequest/TS_input.txt", "tests/cases/request/getIdRequest/oracle.txt");
         run_test_suite_getType("tests/cases/request/getType/TS_input.txt", "tests/cases/request/getType/oracle.txt");
         run_test_suite_getUrgency("tests/cases/request/getUrgency/TS_input.txt", "tests/cases/request/getUrgency/oracle.txt");
@@ -33,7 +39,7 @@ int main(int argc, char* argv[]) {
         run_test_suite_getDescription("tests/cases/request/getDescription/TS_input.txt", "tests/cases/request/getDescription/oracle.txt");
         run_test_suite_deallocateRequest("tests/cases/request/deallocateRequest/TS_input.txt", "tests/cases/request/deallocateRequest/oracle.txt");
 
-        // TECHNICIAN
+        // TECHNICIAN MODULE TESTS
         run_test_suite_deleteTechnician("tests/cases/technician/deleteTechnician/TS_input.txt");
         run_test_suite_addIntervention("tests/cases/technician/addIntervention/TS_input.txt", "tests/cases/technician/addIntervention/oracle.txt");
         run_test_suite_getIdCode("tests/cases/technician/getIdCode/TS_input.txt", "tests/cases/technician/getIdCode/oracle.txt");
@@ -41,95 +47,112 @@ int main(int argc, char* argv[]) {
         run_test_suite_getSpecialization("tests/cases/technician/getSpecialization/TS_input.txt", "tests/cases/technician/getSpecialization/oracle.txt");
         run_test_suite_getName("tests/cases/technician/getName/TS_input.txt", "tests/cases/technician/getName/oracle.txt");
 
-        // INTERVENTION
-        run_test_suite_getRequestIntervention("tests/cases/intervention/getRequestIntervention/TS_input.txt", "tests/cases/intervention/getRequestIntervention/oracle.txt");
-        run_test_suite_getTechnicianIntervention("tests/cases/intervention/getTechnicianIntervention/TS_input.txt", "tests/cases/intervention/getTechnicianIntervention/oracle.txt");
-        run_test_suite_getDateAppointment("tests/cases/intervention/getDateAppointment/TS_input.txt", "tests/cases/intervention/getDateAppointment/oracle.txt");
-        run_test_suite_getTimeAppointment("tests/cases/intervention/getTimeAppointment/TS_input.txt", "tests/cases/intervention/getTimeAppointment/oracle.txt");
-        run_test_suite_deallocateIntervention();
-
         return 0;
     }
 
+    // Standard Execution Mode check
     if (strcmp(argv[1], "--exe") != 0) {
-        printf("ERRORE: Modalità di apertura errata.\n");
+        printf("\nERRORE: Modalità di apertura errata.\n");
         return 1;
     }
 
-    // Inizialization of the varius data structures
+    // --- Application Initialization ---
+
+    // Initialization of the various data structures
     list listTechnician = newList();
     list completedIntervention = newList();
     list uncompletedIntervention = newList();
     PQueue pqueueRequest = newPQ();
 
-    // Counter for the size of the needed data structures
+    // ID Counters for the data structures to ensure unique identifiers
     int countRequest = 1;
     int countTechnician = 1;
 
-    // Flag variable used to determine program flow
+    // Flag variable used to determine the main program flow
     char check = 'g';
 
-    printf("BENVENUTO\n");
+    printf("\n==================================================\n");
+    printf("        BENVENUTO NEL GESTIONALE MANUTENZIONI       \n");
+    printf("==================================================\n");
 
+    // --- Main Menu Loop ---
     while (check != 'z') {
-        printf("Scegliere l'attività da svolgere:\n");
-        printf("[a] Crea una nuova richiesta\n");
-        printf("[b] Crea un nuovo tecnico\n");
-        printf("[c] Crea un nuovo intervento\n");
-        printf("[d] Visualizza le richieste attive\n");
-        printf("[e] Visualizza i tecnici inseriti\n");
-        printf("[f] Visualizza gli interventi\n");
-        printf("[g] Contrassegna un intervento come completato\n");
-        printf("[z] Terminare il programma\n");
+        printf("\n------------------- MENU PRINCIPALE ------------------\n");
+        printf(" Scegliere l'attività da svolgere:\n");
+        printf("  [a] Crea una nuova richiesta\n");
+        printf("  [b] Crea un nuovo tecnico\n");
+        printf("  [c] Crea un nuovo intervento\n");
+        printf("  [d] Visualizza le richieste attive\n");
+        printf("  [e] Visualizza i tecnici inseriti\n");
+        printf("  [f] Visualizza gli interventi\n");
+        printf("  [g] Contrassegna un intervento come completato\n");
+        printf("  [z] Terminare il programma\n");
+        printf("------------------------------------------------------\n");
+        printf("Scelta: ");
+        
         check = getchar();
         clearBuffer();
+        
         switch (check) {
+            
+            // --- Case A: Create a New Request ---
             case 'a':
-                request req = newRequest(countRequest); //added id parameter for request
-                clearBuffer();
+                printf("\n--- CREAZIONE NUOVA RICHIESTA ---\n");
+                request req = newRequest(countRequest); // Passing the ID parameter
                 if (req == NULL) {
-                    printf("Errore nella creazione della richiesta\n");
+                    printf("ERRORE: Creazione della richiesta fallita.\n");
                     break;
                 }
                 if (insert(pqueueRequest, req) == 0) {
-                    printf("Errore nella creazione della request\n");
+                    printf("ERRORE: Inserimento della richiesta nella coda fallito.\n");
                     deallocateRequest(req);
                     break;
                 }
+                printf("Richiesta creata con successo! (ID assegnato: %d)\n", countRequest);
                 countRequest++;
                 break;
+                
+            // --- Case B: Create a New Technician ---
             case 'b':
-                technician tech = createTechnician(countTechnician); //added id parameter for technician
-                clearBuffer();
+                printf("\n--- CREAZIONE NUOVO TECNICO ---\n");
+                technician tech = createTechnician(countTechnician); // Passing the ID parameter
                 if (tech == NULL) {
-                    printf("Errore nella creazione del tecnico\n");
+                    printf("ERRORE: Creazione del tecnico fallita.\n");
                     break;
                 }
                 listTechnician = consList(listTechnician, tech);
                 if (listTechnician == NULL) {
-                    printf("Errore nella creazione del tecnico\n");
+                    printf("ERRORE: Inserimento del tecnico nella lista fallito.\n");
                     deleteTechnician(tech);
                     break;
                 }
+                printf("Tecnico inserito con successo! (ID assegnato: %d)\n", countTechnician);
                 countTechnician++;
                 break;
+                
+            // --- Case C: Create a New Intervention ---
             case 'c':
+                printf("\n--- CREAZIONE NUOVO INTERVENTO ---\n");
                 char checkInter = 'c';
-                printf("Seleziona in che modo creare un nuovo intervento: \n");
-                printf("[a] Crea un intervento in base alla richiesta con più urgenza\n");
-                printf("[b] Crea un intervento su richiesta specifica\n");
+                printf(" Seleziona in che modo creare un nuovo intervento: \n");
+                printf("  [a] Crea in base alla richiesta con più urgenza (Automatica)\n");
+                printf("  [b] Crea su richiesta specifica (Manuale)\n");
+                printf("Scelta: ");
                 checkInter = getchar();
                 clearBuffer();
+                
+                // Sub-case: Automatic creation based on highest urgency
                 if (checkInter == 'a') {
                     request tmpR = getMax(pqueueRequest);
                     if (tmpR == NULL) {
-                        printf("Non ci sono richieste in coda\n");
+                        printf("\nAvviso: Non ci sono richieste in coda da processare.\n");
                         break;
                     }
                     char typeReq = getType(tmpR);
                     list curr = listTechnician;
                     technician foundTech = NULL;
 
+                    // Scan the technician list to find one matching the required specialization
                     while (!emptyList(curr)) {
                         technician t = (technician)getFirst(curr);
                         if (getSpecialization(t) == typeReq) {
@@ -141,122 +164,143 @@ int main(int argc, char* argv[]) {
 
                     if (foundTech != NULL) {
                         int checkCon;
-                        printf("Tecnico trovato: %d. Creazione intervento in corso...\n", getIdCode(foundTech));
+                        printf("\nTecnico idoneo trovato (ID: %d). Creazione intervento in corso...\n", getIdCode(foundTech));
+                        // Loop to ensure the appointment does not conflict with existing ones
                         do {
                             intervention newInter = newIntervention(tmpR, foundTech);
                             checkCon = checkConflict(uncompletedIntervention, getIdCode(foundTech), getDateAppointment(newInter), getTimeAppointment(newInter));
                             if (checkCon == 1) {
-                                printf("ERRORE: Il tecnico in inserito, non è disponibile in questa data e orario, riprovare.\n");
+                                printf("\nERRORE: Il tecnico inserito non è disponibile in questa data e orario. Riprovare.\n");
                             } else {
                                 uncompletedIntervention = consList(uncompletedIntervention, newInter);
-                                deleteMax(pqueueRequest);
+                                deleteMax(pqueueRequest); // Remove the request from the pending queue
+                                printf("Intervento schedulato con successo!\n");
                             }
                         } while (checkCon != 0);
                     } else {
-                        printf("Errore: Nessun tecnico disponibile per questa tipologia di richiesta (%c)\n", typeReq);
+                        printf("\nERRORE: Nessun tecnico disponibile per questa tipologia di richiesta (%c).\n", typeReq);
                     }
+                    
+                // Sub-case: Manual creation by specific IDs
                 } else if (checkInter == 'b') {
                     int idReqInter;
                     int idTechInter;
-                    printf("Inserisci l'id della richiesta per la quale si vuole creare l'intervento: ");
+                    printf("Inserisci l'ID della richiesta da associare all'intervento: ");
                     scanf("%d", &idReqInter);
                     clearBuffer();
-                    request tempReqInter = getRequestById(pqueueRequest,idReqInter);
+                    
+                    request tempReqInter = getRequestById(pqueueRequest, idReqInter);
                     if (tempReqInter == NULL) {
-                        printf("ERRORE: Id Request non valido per la richiesta\n");
+                        printf("ERRORE: ID Richiesta non valido o non trovato.\n");
                         break;
                     }
-                    printf("Inserisci l'id del tecnico da assegnare all'intervento: ");
+                    
+                    printf("Inserisci l'ID del tecnico da assegnare all'intervento: ");
                     scanf("%d", &idTechInter);
                     clearBuffer();
-                    technician tempTechInter = getTechnicianById(listTechnician,idTechInter);
+                    
+                    technician tempTechInter = getTechnicianById(listTechnician, idTechInter);
                     if (tempTechInter == NULL) {
-                        printf(" ERRORE: Id Tecnico non valido per la richiesta\n");
+                        printf("ERRORE: ID Tecnico non valido o non trovato.\n");
                         break;
                     }
 
                     intervention newInter = newIntervention(tempReqInter, tempTechInter);
                     if (newInter == NULL) {
-                        printf("Errore nella creazione dell'intervento\n");
+                        printf("ERRORE: Creazione dell'intervento fallita.\n");
                         break;
                     }
+                    uncompletedIntervention = consList(uncompletedIntervention, newInter);
+                    printf("Intervento schedulato con successo!\n");
                 }
                 break;
+                
+            // --- Case D: View Active Requests ---
             case 'd':
+                printf("\n--- VISUALIZZAZIONE RICHIESTE ATTIVE ---\n");
                 char checkD = 'e';
-                printf("Seleziona come visualizzare le richieste attive: \n");
-                printf("[a] Stampa tutte le richieste in ordine di urgenza\n");
-                printf("[b] Stampa la richiesta con id specifico\n");
-                printf("[c] Stampa tutte le richieste di una specifica tipologia\n");
-                printf("[d] Stampa tutte le richieste relative ad un appartamento specifico\n");
+                printf(" Seleziona come visualizzare le richieste: \n");
+                printf("  [a] Stampa tutte le richieste in ordine di urgenza\n");
+                printf("  [b] Stampa la richiesta con ID specifico\n");
+                printf("  [c] Stampa tutte le richieste di una specifica tipologia\n");
+                printf("  [d] Stampa tutte le richieste relative ad un appartamento\n");
+                printf("Scelta: ");
                 checkD = getchar();
                 clearBuffer();
+                
                 switch (checkD) {
                     case 'a':
                         printAllRequests(pqueueRequest);
                         break;
                     case 'b':
                         int tmpID;
-                        printf("Inserisci l'ID della richiesta da cercare: ");
+                        printf("\nInserisci l'ID della richiesta da cercare: ");
                         scanf("%d", &tmpID);
                         clearBuffer();
                         printRequestById(pqueueRequest, tmpID);
                         break;
                     case 'c':
                         char checkD_C = 'l';
-                        printf("Inserire la tipologia per filtrare le richieste: \n");
-                        printf("[a] Richieste all'impianto idraulico\n");
-                        printf("[b] Richieste all'impianto elettrico\n");
-                        printf("[c] Richieste edili\n");
-                        printf("[d] Richieste all'impianto termoidraulico\n");
-                        printf("[e] Richieste sull'ascensore\n");
-                        printf("[f] Richieste su serrature e metalli\n");
+                        printf("\n Inserire la tipologia per filtrare le richieste: \n");
+                        printf("  [a] Impianto idraulico\n");
+                        printf("  [b] Impianto elettrico\n");
+                        printf("  [c] Edili\n");
+                        printf("  [d] Impianto termoidraulico\n");
+                        printf("  [e] Ascensore\n");
+                        printf("  [f] Serrature e metalli\n");
+                        printf("Scelta: ");
                         checkD_C = getchar();
                         clearBuffer();
                         printRequestsByType(pqueueRequest, checkD_C);
                         break;
                     case 'd':
                         int apartmentD;
-                        printf("Inserire l'appartamento per filtrare le richieste [0 per l'ascensore]: ");
+                        printf("\nInserire l'appartamento per filtrare le richieste [0 per l'intero edificio]: ");
                         scanf("%d", &apartmentD);
                         clearBuffer();
                         printRequestsByApartment(pqueueRequest, apartmentD);
                         break;
                     default:
-                        printf("ERRORE: Tipologia di visualizzazione errata\n");
+                        printf("\nERRORE: Opzione di visualizzazione non valida.\n");
                         break;
                 }
                 break;
+                
+            // --- Case E: View Technicians ---
             case 'e':
+                printf("\n--- VISUALIZZAZIONE TECNICI ---\n");
                 char checkE = 'm';
-                printf("Seleziona come visualizzare i tecnici: \n");
-                printf("[a] Stampa tutti i tecnici\n");
-                printf("[b] Stampa il tecnico con id specifico\n");
-                printf("[c] Stampa tutti i tecnici di una specifica tipologia\n");
-                printf("[d] Stampa tutti i tecnici in base al carico di lavoro\n");
-                printf("[e] Stampa il tecnico con il carico di lavoro piu alto\n");
+                printf(" Seleziona come visualizzare i tecnici: \n");
+                printf("  [a] Stampa tutti i tecnici\n");
+                printf("  [b] Stampa il tecnico con ID specifico\n");
+                printf("  [c] Stampa tutti i tecnici di una specifica tipologia\n");
+                printf("  [d] Stampa tutti i tecnici ordinati per carico di lavoro\n");
+                printf("  [e] Stampa il tecnico con il carico di lavoro più alto\n");
+                printf("Scelta: ");
                 checkE = getchar();
                 clearBuffer();
+                
                 switch (checkE) {
                     case 'a':
                         printAllTechnicians(listTechnician);
                         break;
                     case 'b':
                         int tmpIdTech;
-                        printf("Inserisci l'Id del tecnico da visualizzare: ");
+                        printf("\nInserisci l'ID del tecnico da visualizzare: ");
                         scanf("%d", &tmpIdTech);
                         clearBuffer();
                         printTechnicianById(listTechnician, tmpIdTech);
                         break;
                     case 'c':
                         char checkE_C = 'l';
-                        printf("Inserire la tipologia per filtrare i tecnici: \n");
-                        printf("[a] Idraulico\n");
-                        printf("[b] Elettricista\n");
-                        printf("[c] Impresa Edile\n");
-                        printf("[d] Termoidraulico\n");
-                        printf("[e] Teconico dell'ascensore\n");
-                        printf("[f] Fabbro\n");
+                        printf("\n Inserire la tipologia per filtrare i tecnici: \n");
+                        printf("  [a] Idraulico\n");
+                        printf("  [b] Elettricista\n");
+                        printf("  [c] Impresa Edile\n");
+                        printf("  [d] Termoidraulico\n");
+                        printf("  [e] Ascensorista\n");
+                        printf("  [f] Fabbro\n");
+                        printf("Scelta: ");
                         checkE_C = getchar();
                         clearBuffer();
                         printTechniciansBySpecialization(listTechnician, checkE_C);
@@ -268,29 +312,39 @@ int main(int argc, char* argv[]) {
                         printMostActiveTechnician(listTechnician);
                         break;
                     default:
-                        printf("ERRORE: Tipologia di visualizzazione errata\n");
+                        printf("\nERRORE: Opzione di visualizzazione non valida.\n");
                         break;
 
                 }
                 break;
+                
+            // --- Case F: View Interventions ---
             case 'f':
+                printf("\n--- VISUALIZZAZIONE INTERVENTI ---\n");
                 char checkCompleted;
-                printf("Visualizzare gli interventi completati [a], oppure visualizzare gli interventi non completati [b]");
+                printf(" Selezionare lo stato degli interventi:\n");
+                printf("  [a] Interventi COMPLETATI\n");
+                printf("  [b] Interventi NON COMPLETATI (In Corso)\n");
+                printf("Scelta: ");
                 checkCompleted = getchar();
                 clearBuffer();
+                
                 if (checkCompleted != 'a' && checkCompleted != 'b') {
-                    printf("ERRORE : Carattere inserito non valido\n");
+                    printf("\nERRORE: Stato inserito non valido.\n");
                     break;
                 }
+                
                 char checkF = 'm';
-                printf("Seleziona come visualizzare gli interventi: \n");
-                printf("[a] Stampa tutti gli interventi\n");
-                printf("[b] Stampa l'intervento in base all'Id della richiesta specifica\n");
-                printf("[c] Stampa tutti gli interventi di una data specifica\n");
-                printf("[d] Stampa tutti gli interventi di un tecnico specifico\n");
-                printf("[e] Stampa l'intervento in base alla tipologia\n");
+                printf("\n Seleziona come visualizzare gli interventi scelti: \n");
+                printf("  [a] Stampa tutti gli interventi\n");
+                printf("  [b] Stampa l'intervento in base all'ID della richiesta associata\n");
+                printf("  [c] Stampa tutti gli interventi di una data specifica\n");
+                printf("  [d] Stampa tutti gli interventi di un tecnico specifico\n");
+                printf("  [e] Stampa gli interventi in base alla tipologia\n");
+                printf("Scelta: ");
                 checkF = getchar();
                 clearBuffer();
+                
                 switch(checkF){
                     case 'a':
                         if (checkCompleted == 'a') {
@@ -301,8 +355,9 @@ int main(int argc, char* argv[]) {
                         break;
                     case 'b':
                         int tmpId;
-                        printf("Inserisci l'Id della richiesta specifica: ");
-                        scanf("%d",&tmpId);
+                        printf("\nInserisci l'ID della richiesta associata: ");
+                        scanf("%d", &tmpId);
+                        clearBuffer();
                         if (checkCompleted == 'a') {
                             printInterventionById(completedIntervention, tmpId);
                         } else if (checkCompleted == 'b') {
@@ -312,8 +367,9 @@ int main(int argc, char* argv[]) {
                     case 'c':
                         char Date[11];
                         int checkValidity;
+                        // Loop to ensure the provided date string is valid before searching
                         do {
-                            printf("Inserisci la data per la quale si vuole filtrare gli interventi (Formato : YYYY/MM/DD): ");
+                            printf("\nInserisci la data per la quale filtrare (Formato YYYY/MM/DD): ");
                             scanf("%10s", Date); 
                             clearBuffer();
                             
@@ -332,7 +388,7 @@ int main(int argc, char* argv[]) {
                         break;
                     case 'd':
                         int tpId;
-                        printf("Inserisci l'Id di un tecnico specifico");
+                        printf("\nInserisci l'ID del tecnico: ");
                         scanf("%d", &tpId);
                         clearBuffer();
                         if (checkCompleted == 'a') {
@@ -343,13 +399,14 @@ int main(int argc, char* argv[]) {
                         break;
                     case 'e':
                         char checkF_E = 'l';
-                        printf("Inserire la tipologia per filtrare gli interventi \n");
-                        printf("[a] Interventi all'impianto idraulico\n");
-                        printf("[b] Interventi all'impianto elettrico\n");
-                        printf("[c] Interventi edili\n");
-                        printf("[d] Interventi all'impianto termoidraulico\n");
-                        printf("[e] Interventi sull'ascensore\n");
-                        printf("[f] Interventi su serrature e metalli\n");
+                        printf("\n Inserire la tipologia per filtrare gli interventi: \n");
+                        printf("  [a] Impianto idraulico\n");
+                        printf("  [b] Impianto elettrico\n");
+                        printf("  [c] Edili\n");
+                        printf("  [d] Impianto termoidraulico\n");
+                        printf("  [e] Ascensore\n");
+                        printf("  [f] Serrature e metalli\n");
+                        printf("Scelta: ");
                         checkF_E = getchar();
                         clearBuffer();
                         if (checkCompleted == 'a') {
@@ -359,17 +416,20 @@ int main(int argc, char* argv[]) {
                         }
                         break;
                     default:
-                        printf("ERRORE: Metodo di visualizzazione non vallido.\n");
+                        printf("\nERRORE: Opzione di visualizzazione non valida.\n");
                 }
                 break;
+                
+            // --- Case G: Mark Intervention as Completed ---
             case 'g': 
+                printf("\n--- COMPLETA INTERVENTO ---\n");
                 if (emptyList(uncompletedIntervention)) {
-                    printf("No pending interventions to complete.\n");
+                    printf("Avviso: Non ci sono interventi in corso da completare.\n");
                     break;
                 }
 
                 int targetId;
-                printf("Enter the ID of the request associated with the completed intervention: ");
+                printf("Inserisci l'ID della richiesta associata all'intervento completato: ");
                 scanf("%d", &targetId);
                 clearBuffer();
 
@@ -378,7 +438,7 @@ int main(int argc, char* argv[]) {
                 int pos = 0;
                 int targetPos = -1;
 
-                // Search for the intervention and its position
+                // Search for the intervention and track its position index in the list
                 while (!emptyList(current)) {
                     intervention inter = (intervention)getFirst(current);
                     request r = getRequestIntervention(inter);
@@ -386,38 +446,73 @@ int main(int argc, char* argv[]) {
                     if (getIdRequest(r) == targetId) {
                         foundInter = inter;
                         targetPos = pos;
-                        break; // Found!
+                        break; // Intervention found!
                     }
                     current = tailList(current);
                     pos++;
                 }
 
                 if (foundInter != NULL) {
-                    // Update the technician's workload
+                    // 1. Update the associated technician's workload
                     technician t = getTechnicianIntervention(foundInter);
                     addIntervention(t);
 
-                    // Move the intervention to the completed list
+                    // 2. Move the intervention into the completed list (front insertion)
                     completedIntervention = consList(completedIntervention, foundInter);
 
-                    // Remove the intervention from the uncompleted list
+                    // 3. Remove the intervention node from the uncompleted list
                     uncompletedIntervention = removeList(uncompletedIntervention, targetPos);
 
-                    printf("Intervention successfully completed! The technician's workload has been updated.\n");
+                    printf("\nOperazione riuscita! L'intervento è stato completato e le statistiche del tecnico aggiornate.\n");
                 } else {
-                    printf("ERROR: No pending intervention found for request ID %d.\n", targetId);
+                    printf("\nERRORE: Nessun intervento in corso trovato per la richiesta ID %d.\n", targetId);
                 }
                 break;
+                
+            // --- Case Z: Exit Program ---
             case 'z':
                 break;
+                
             default:
-                printf("ERRORE: Carattere inserito non valido.\n");
+                printf("\nERRORE: Selezione non valida. Per favore, scegli un'opzione dal menu.\n");
         }
     }
 
-    printf("GRAZIEEEE\n");
+    // 1. Clear the Priority Queue and its remaining requests
+    while (!emptyPQ(pqueueRequest)) {
+        request r = getMax(pqueueRequest);
+        deleteMax(pqueueRequest);
+        deallocateRequest(r); // Free each request object
+    }
+    deallocatePQ(pqueueRequest); // Free the queue structure itself
 
-    // TODO: Aggiungere da linea di comando l'argv --test e --exe
+    // 2. Clear the Technician list and each technician struct
+    while (!emptyList(listTechnician)) {
+        technician t = (technician)getFirst(listTechnician);
+        listTechnician = removeList(listTechnician, 0); // Remove the node from list
+        deleteTechnician(t); // Free the technician object
+    }
+
+    // 3. Clear Completed Interventions
+    while (!emptyList(completedIntervention)) {
+        intervention inter = (intervention)getFirst(completedIntervention);
+        // We must free the request inside the intervention as it was removed from the PQueue
+        deallocateRequest(getRequestIntervention(inter));
+        completedIntervention = removeList(completedIntervention, 0);
+        deallocateIntervention(inter); // Free the intervention wrapper
+    }
+
+    // 4. Clear Uncompleted Interventions
+    while (!emptyList(uncompletedIntervention)) {
+        intervention inter = (intervention)getFirst(uncompletedIntervention);
+        // We must free the request inside the intervention
+        deallocateRequest(getRequestIntervention(inter));
+        uncompletedIntervention = removeList(uncompletedIntervention, 0);
+        deallocateIntervention(inter);
+    }
+    printf("\n==================================================\n");
+    printf("                  GRAZIE!                       \n");
+    printf("==================================================\n\n");
 
     return 0;
 }

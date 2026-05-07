@@ -4,22 +4,23 @@
 #include "list.h"
 #include "technician.h"
 
-/* Prints all the technicians currently in the list */
+
+/* Iterates through the linked list and prints the details of all registered technicians */
 void printAllTechnicians(list l);
 
-/* Searches for a technician by their ID code and prints their details */
+/* Searches the list for a technician matching the provided unique ID and prints their information */
 void printTechnicianById(list l, int idCode);
 
-/* Prints all technicians that match a specific specialization character */
+/* Filters and prints all technicians that have the specified specialization character (e.g., 'a' for plumber) */
 void printTechniciansBySpecialization(list l, char spec);
 
-/* Prints all technicians sorted descending by their number of interventions (workload) */
+/* Sorts the technicians in descending order based on their completed interventions and prints the ordered list */
 void printTechniciansByWorkload(list l);
 
-/* Finds and prints the technician with the highest number of interventions */
+/* Scans the list to find and print the single technician who has completed the highest number of interventions */
 void printMostActiveTechnician(list l);
 
-/* Returns the technician corresponding to the specified ID. Returns NULL if not found. */
+/* Retrieves a specific technician object by their unique ID without printing. Returns NULL if the ID is not present in the list */
 technician getTechnicianById(list l, int idCode);
 
 #endif
