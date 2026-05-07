@@ -13,6 +13,7 @@
 #include "../tests/testing_include/testingRequest.h"
 #include "../tests/testing_include/testingTechnician.h"
 #include "../tests/testing_include/testingIntervention.h"
+#include "../tests/testing_include/testingUtils.h"
 #include "../include/utils.h"
 
 int main(int argc, char* argv[]) {
@@ -54,6 +55,13 @@ int main(int argc, char* argv[]) {
         run_test_suite_getDateAppointment("tests/cases/intervention/getDateTime/TS_input.txt", "tests/cases/intervention/getDateTime/oracle_date.txt");
         run_test_suite_getTimeAppointment("tests/cases/intervention/getDateTime/TS_input.txt", "tests/cases/intervention/getDateTime/oracle_time.txt");
         run_test_suite_deallocateIntervention();
+
+        // UTILS MODULE TESTS
+        run_test_suite_checkDateValidity("tests/cases/utils/checkDateValidity/TS_input.txt", "tests/cases/utils/checkDateValidity/oracle.txt");
+        run_test_suite_checkTimeValidity("tests/cases/utils/checkTimeValidity/TS_input.txt", "tests/cases/utils/checkTimeValidity/oracle.txt");
+        run_test_suite_StrToInt("tests/cases/utils/StrToInt/TS_input.txt", "tests/cases/utils/StrToInt/oracle.txt");
+
+
         return 0;
     }
 
