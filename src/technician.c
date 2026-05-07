@@ -11,6 +11,7 @@
 #define ELEVETOR 'e'
 #define BLACKSMITH 'f'
 
+// Definition of the concrete data structure for the technician ADT
 struct c_technician {
     int idCode;                 // Code that identifies the technician
     char name[50];              // Technician's name
@@ -21,22 +22,24 @@ struct c_technician {
 /* Allocates memory and initializes a new technician asking the user for their details */
 technician createTechnician(int Id) { 
     
+    // Allocate memory for the new technician struct
     technician newTechnician = (technician)malloc(sizeof(struct c_technician)); 
 
+    // Check if the memory allocation was successful
     if(newTechnician == NULL){                      
-        printf("Error allocating memory to create the technician\n");       
+        printf("Errore nell'allocazione della memoria per la creazione del tecnico\n");       
         return NULL;
     }
 
+    // Assign the unique ID passed as a parameter
     newTechnician->idCode = Id;     
     
     /* Asks the user for the technician's name directly from the terminal */
-    printf("Enter the technician's name: ");
+    printf("Inserisci il nome del tecnico: ");
     readString(newTechnician->name, sizeof(newTechnician->name));
     
     /* Asks for the specialization */
-    printf("Enter the specialization (a=PLUMBER, b=ELECTRICIAN, c=CONSTRUCTOR, d=TERMOHYDRAULIC, e=ELEVETOR, f=BLACKSMITH): ");
-    
+    printf("Inserisci la specializzazione (a=IDRAULICO, b=ELETTRICISTA, c=MURATORE, d=TERMOIDRAULICO, e=ASCENSORISTA, f=FABBRO): ");
     
     /* Reads a single character directly from the standard input */
     newTechnician->specialization = getchar();
@@ -44,7 +47,7 @@ technician createTechnician(int Id) {
     /* Clears the buffer to remove the trailing newline (\n) left by the user pressing Enter */
     clearBuffer();
        
-    
+    // Initialize the workload counter to zero for a newly created technician
     newTechnician->interventionCount = 0; 
     
     return newTechnician;
@@ -52,24 +55,25 @@ technician createTechnician(int Id) {
 
 /* Frees the memory previously allocated for the given technician. */
 void deleteTechnician(technician tech) {        
+    // Ensure the pointer is valid to prevent segmentation faults during deallocation
     if(tech != NULL)
         free(tech);            
 }
 
 /* Prints all the details and current status of the technician to the standard output. */
 void printTechnician(const technician tech) {
+    // Safety check for uninitialized or null pointers
     if(tech == NULL){
-        printf("No technician to print\n");
+        printf("Nessun tecnico da stampare\n");
         return;
     }
 
-    printf("--- Technician Details ---\n");
-    printf("ID Code: %d\n", tech->idCode);
-    printf("Name: %s\n", tech->name);
-    printf("Specialization: %c\n", tech->specialization); 
+    printf("--- Dettagli Tecnico ---\n");
+    printf("Codice ID: %d\n", tech->idCode);
+    printf("Nome: %s\n", tech->name);
+    printf("Specializzazione: %c\n", tech->specialization); 
     
-    
-    printf("Interventions completed: %d\n", tech->interventionCount);
+    printf("Interventi completati: %d\n", tech->interventionCount);
     printf("----------------------\n");
 }
 
@@ -101,18 +105,21 @@ const char* getName(technician tech) {
 
 /* Returns the character representing the technician's specific area of expertise. */
 char getSpecialization(technician tech) {
+    // Return 'z' as an error code if the technician does not exist
     if (tech == NULL) return 'z';
     return tech->specialization;
 }
 
 /*Test builder to create a technician*/
 technician buildTechnician(int id,const char* name, char spec) {
+    // Memory allocation for test environments (bypasses standard user input)
     technician newTechnician = (technician)malloc(sizeof(struct c_technician));
 
     if (newTechnician == NULL) return NULL;
 
     newTechnician->idCode = id;
 
+    // Safely copy the string preventing buffer overflow issues
     strncpy(newTechnician->name, name, sizeof(newTechnician->name) - 1);
     newTechnician->name[sizeof(newTechnician->name) - 1] = '\0';
 
