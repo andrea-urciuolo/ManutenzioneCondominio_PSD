@@ -15,4 +15,7 @@ void printRequestsByType(PQueue pq, char type);
 // Prints requests by apartment
 void printRequestsByApartment(PQueue pq, int apartment);
 
+// Returns the request with specific id
+request getRequestById(PQueue pq, int id);
+
 #endif

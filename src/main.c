@@ -8,6 +8,8 @@
 #include "../include/item.h"
 #include "../include/PQueue.h"
 #include "../include/opRequest.h"
+#include "../include/opTechnician.h"
+#include "../include/opIntervention.h"
 #include "../tests/testing_include/testingRequest.h"
 #include "../include/utils.h"
 
@@ -70,6 +72,52 @@ int main() {
                 break;
             case 'c':
                 // TODO: FIX PLS
+                char checkInter = 'c';
+                printf("Seleziona in che modo creare un nuovo intervento: \n");
+                printf("[a] Crea un intervento in base alla richiesta con più urgenza\n");
+                printf("[b] Crea un intervento su richiesta specifica\n");
+                checkInter = getchar();
+                clearBuffer();
+                if (checkInter == 'a') {
+                    request tmpR = getMax(pqueueRequest);
+                    if (tmpR == NULL) {
+                        printf("Non ci sono richieste in coda\n");
+                        break;
+                    }
+                    char typeReq = getType(tmpR);
+                    list curr = listTechnician;
+                    technician foundTech = NULL;
+
+                    while (!emptyList(curr)) {
+                        technician t = (technician)getFirst(curr);
+                        if (getSpecialization(t) == typeReq) {
+                            foundTech = t;
+                            break;
+                        }
+                        curr = tailList(curr);
+                    }
+
+                    if (foundTech != NULL) {
+                        int checkCon;
+                        printf("Tecnico trovato: %d. Creazione intervento in corso...\n", getIdCode(foundTech));
+                        do {
+                            intervention newInter = newIntervention(tmpR, foundTech);
+                            checkCon = checkConflict(uncompletedIntervention, getIdCode(foundTech), getDateAppointment(newInter), getTimeAppointment(newInter));
+                            if (checkCon == 1) {
+                                printf("ERRORE: Il tecnico in inserito, non è disponibile in questa data e orario, riprovare.\n");
+                            } else {
+                                uncompletedIntervention = consList(uncompletedIntervention, newInter);
+                                deleteMax(pqueueRequest);
+                            }
+                        } while (checkCon != 0);
+                    } else {
+                        printf("Errore: Nessun tecnico disponibile per questa tipologia di richiesta (%c)\n", typeReq);
+                    }
+                } else if (checkInter == 'b') {
+                    intervention newInter = NULL;
+                    // TODO: FIX PLS
+                }
+
                 break;
             case 'd':
                 char checkD = 'e';
@@ -131,9 +179,11 @@ int main() {
                         printAllTechnicians(listTechnician);
                         break;
                     case 'b':
-                        int tmpId;
+                        int tmpIdTech;
                         printf("Inserisci l'Id del tecnico da visualizzare: ");
-                        printTechnicianById(listTechnician, tmpId);
+                        scanf("%d", &tmpIdTech);
+                        clearBuffer();
+                        printTechnicianById(listTechnician, tmpIdTech);
                         break;
                     case 'c':
                         char checkE_C = 'l';
@@ -165,7 +215,7 @@ int main() {
                 printf("Visualizzare gli interventi completati [a], oppure visualizzare gli interventi non completati [b]");
                 checkCompleted = getchar();
                 clearBuffer();
-                if (checkCompleted != 'a' || checkCompleted != 'b') {
+                if (checkCompleted != 'a' && checkCompleted != 'b') {
                     printf("ERRORE : Carattere inserito non valido\n");
                     break;
                 }
@@ -219,14 +269,14 @@ int main() {
                         }
                         break;
                     case 'd':
-                        int tmpId;
+                        int tpId;
                         printf("Inserisci l'Id di un tecnico specifico");
-                        scanf("%d", &tmpId);
+                        scanf("%d", &tpId);
                         clearBuffer();
                         if (checkCompleted == 'a') {
-                            printInterventionsByTechnician(completedIntervention, tmpId);
+                            printInterventionsByTechnician(completedIntervention, tpId);
                         } else if (checkCompleted == 'b') {
-                            printInterventionsByTechnician(uncompletedIntervention, tmpId);
+                            printInterventionsByTechnician(uncompletedIntervention, tpId);
                         }
                         break;
                     case 'e':
@@ -253,10 +303,10 @@ int main() {
             default:
                 printf("ERRORE: Carattere inserito non valido.\n");
         } 
-        printf("GRAZIEEEE\n");
+
     }
 
-
+    printf("GRAZIEEEE\n");
 
 
     // TODO: Crea un contatore di request e technician così da gestire l'id (Non più random o inserito dall'utente)
