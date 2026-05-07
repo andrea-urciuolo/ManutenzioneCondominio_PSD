@@ -389,6 +389,7 @@ int main() {
     run_test_suite_printTechnician("tests/cases/technician/printTechnician/TS_input.txt", "tests/cases/technician/printTechnician/oracle.txt");
     run_test_suite_addIntervention("tests/cases/technician/addIntervention/TS_input.txt", "tests/cases/technician/addIntervention/oracle.txt");
     run_test_suite_getIdCode("tests/cases/technician/getIdCode/TS_input.txt", "tests/cases/technician/getIdCode/oracle.txt");
+    run_test_suite_getInterventionCount("tests/cases/technician/getInterventionCount/TS_input.txt", "tests/cases/technician/getInterventionCount/oracle.txt");
 
     return 0;
 }
