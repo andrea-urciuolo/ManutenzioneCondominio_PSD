@@ -385,6 +385,7 @@ int main() {
     run_test_suite_getDescription("tests/cases/request/getDescription/TS_input.txt", "tests/cases/request/getDescription/oracle.txt");
     run_test_suite_printRequest("tests/cases/request/printRequest/TS_input.txt", "tests/cases/request/printRequest/oracle.txt");
     run_test_suite_deallocateRequest("tests/cases/request/deallocateRequest/TS_input.txt", "tests/cases/request/deallocateRequest/oracle.txt");
+    run_test_suite_deleteTechnician("tests/cases/technician/deleteTechnician/TS_input.txt", "tests/cases/technician/deleteTechnician/oracle.txt");
 
     return 0;
 }
