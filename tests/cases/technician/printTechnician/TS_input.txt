@@ -1,5 +1,5 @@
-1;a
-0;b
--1;c
-999999;d
-42;e
+1;Mario Rossi;a;10
+202;Luigi Bianchi;b;0
+0;Anonimo;c;99
+-5;Tecnico Errore;d;5
+999999;Super User;e;1234

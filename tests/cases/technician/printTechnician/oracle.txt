@@ -1,10 +1,30 @@
-ID: 1
-Specializzazione: a
-ID: 0
-Specializzazione: b
-ID: -1
-Specializzazione: c
-ID: 999999
-Specializzazione: d
-ID: 42
-Specializzazione: e
+--- Technician Details ---
+ID Code: 1
+Name: Mario Rossi
+Specialization: a
+Interventions completed: 10
+----------------------
+--- Technician Details ---
+ID Code: 202
+Name: Luigi Bianchi
+Specialization: b
+Interventions completed: 0
+----------------------
+--- Technician Details ---
+ID Code: 0
+Name: Anonimo
+Specialization: c
+Interventions completed: 99
+----------------------
+--- Technician Details ---
+ID Code: -5
+Name: Tecnico Errore
+Specialization: d
+Interventions completed: 5
+----------------------
+--- Technician Details ---
+ID Code: 999999
+Name: Super User
+Specialization: e
+Interventions completed: 1234
+----------------------

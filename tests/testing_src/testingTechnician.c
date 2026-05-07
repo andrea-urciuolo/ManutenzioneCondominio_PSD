@@ -54,11 +54,12 @@ int run_test_suite_deleteTechnician(const char* input_path, const char* oracle_p
 
 int run_test_suite_printTechnician(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
-    char buffer[256];
+    char buffer[512];
     int failures = 0;
     int test_count = 0;
 
-    int id;
+    int idCode, interventions;
+    char name[100];
     char specialization;
 
     f_in = fopen(input_path, "r");
@@ -75,9 +76,9 @@ int run_test_suite_printTechnician(const char* input_path, const char* oracle_pa
     while (fgets(buffer, sizeof(buffer), f_in)) {
         test_count++;
 
-        if (sscanf(buffer, "%d;%c", &id, &specialization) >= 2) {
+        if (sscanf(buffer, "%d;%[^;];%c;%d", &idCode, name, &specialization, &interventions) >= 4) {
             
-            technician tech = createTechnician_TESTING(id, specialization);
+            technician tech = createTechnician_TESTING(idCode, name, specialization, interventions);
 
             if (tech != NULL) {
                 fflush(stdout);
@@ -96,7 +97,7 @@ int run_test_suite_printTechnician(const char* input_path, const char* oracle_pa
                 char res_line[256], orc_line[256];
 
                 while (fgets(orc_line, sizeof(orc_line), f_orc)) {
-                    if (test_count > 1 && strstr(orc_line, "ID:")) {
+                    if (test_count > 1 && strstr(orc_line, "--- Technician Details ---")) {
                         fseek(f_orc, -strlen(orc_line), SEEK_CUR);
                         break;
                     }
@@ -124,6 +125,61 @@ int run_test_suite_printTechnician(const char* input_path, const char* oracle_pa
     fclose(f_in);
     fclose(f_orc);
     remove("temp_output.txt");
+
+    printf("-------------------------------------------\n");
+    printf("Total Tests: %d | Failures: %d\n", test_count, failures);
+    return failures;
+}
+
+int run_test_suite_addIntervention(const char* input_path, const char* oracle_path) {
+    FILE *f_in, *f_orc;
+    char buffer[256];
+    int failures = 0;
+    int test_count = 0;
+
+    int idCode, interventions, oracle_val, actual_val;
+    char name[100];
+    char specialization;
+
+    f_in = fopen(input_path, "r");
+    f_orc = fopen(oracle_path, "r");
+
+    if (!f_in || !f_orc) {
+        printf("Error: Could not open test files for addIntervention.\n");
+        return -1;
+    }
+
+    printf("Starting Test Suite: addIntervention\n");
+    printf("-------------------------------------------\n");
+
+    while (fgets(buffer, sizeof(buffer), f_in) && fscanf(f_orc, "%d", &oracle_val) != EOF) {
+        test_count++;
+
+        if (sscanf(buffer, "%d;%[^;];%c;%d", &idCode, name, &specialization, &interventions) >= 4) {
+
+            technician tech = createTechnician_TESTING(idCode, name, specialization, interventions);
+
+            if (tech != NULL) {
+                addIntervention(tech);
+                actual_val = getInterventionCount(tech);
+
+                if (actual_val == oracle_val) {
+                    printf("[PASS] Test %d: Intervention count incremented to %d.\n", test_count, actual_val);
+                } else {
+                    printf("[FAIL] Test %d: Expected %d, Got %d\n", test_count, oracle_val, actual_val);
+                    failures++;
+                }
+
+                deleteTechnician(tech);
+            } else {
+                printf("[ERROR] Failed to allocate memory in test %d\n", test_count);
+                failures++;
+            }
+        }
+    }
+
+    fclose(f_in);
+    fclose(f_orc);
 
     printf("-------------------------------------------\n");
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);

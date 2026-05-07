@@ -1,0 +1,5 @@
+1;Mario Rossi;a;10
+202;Luigi Bianchi;b;0
+33;Anonimo;c;99
+10;Tecnico Junior;d;1
+500;Esperto;e;1000
