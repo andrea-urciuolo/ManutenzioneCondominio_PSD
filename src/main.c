@@ -14,6 +14,7 @@
 #include "../tests/testing_include/testingTechnician.h"
 #include "../tests/testing_include/testingIntervention.h"
 #include "../tests/testing_include/testingUtils.h"
+#include "../tests/testing_include/testingList.h"
 #include "../include/utils.h"
 
 int main(int argc, char* argv[]) {
@@ -61,6 +62,12 @@ int main(int argc, char* argv[]) {
         run_test_suite_checkTimeValidity("tests/cases/utils/checkTimeValidity/TS_input.txt", "tests/cases/utils/checkTimeValidity/oracle.txt");
         run_test_suite_StrToInt("tests/cases/utils/StrToInt/TS_input.txt", "tests/cases/utils/StrToInt/oracle.txt");
 
+        // LIST MODULE TESTS
+        run_test_suite_emptyList("tests/cases/list/emptyList/TS_input.txt", "tests/cases/list/emptyList/oracle.txt");
+        run_test_suite_tailList("tests/cases/list/tailList/TS_input.txt", "tests/cases/list/tailList/oracle.txt");
+        run_test_suite_getFirst("tests/cases/list/getFirst/TS_input.txt", "tests/cases/list/getFirst/oracle.txt");
+        run_test_suite_consList("tests/cases/list/consList/TS_input.txt", "tests/cases/list/consList/oracle.txt");
+        run_test_suite_sizeList("tests/cases/list/sizeList/TS_input.txt", "tests/cases/list/sizeList/oracle.txt");
 
         return 0;
     }

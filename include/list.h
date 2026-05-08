@@ -6,9 +6,6 @@
 typedef struct node* list;
 typedef struct node node;
 
-// TODO: Migliora le specifiche inserendo 'nil' in newList e getFirst
-// TODO: AGGIUSTA LA SPECIFICA ASTRAENDO CON item.h
-
 /* Creates a new empty list and returns it */
 list newList();
 
@@ -37,41 +34,10 @@ item getFirst(list l);
 /* Returns the number of nodes in the list */
 int sizeList(list l);
 
-/* TODO: Eventually add this function to a module separated form list.h (es. techListOperations)
-
-Returns 1 if the technician (based on idCode) is present in the list, 0 otherwise
-int searchTechnician(list l, int targetIdCode);
-
-*/
-
-/* TODO: Eventually add this function to a module separated form list.h (es. techListOperations)
-
-If the technician is present in the list, the function returns the position
-   of its first occurrence, otherwise -1
-int posTechnician(list l, int targetIdCode);
-
-*/
-
 /* Returns a reversed list
    Postconditions:
      l = <a1, a2, ..., an>  /  reverseList(l) -> l' = <an, ..., a2, a1> */
 list reverseList(list l);
-
-/* TODO: Eventually add this function to a module separated form list.h (es. techListOperations)
-
-Removes every occurrence of the technician (based on idCode) in the list
-   Postconditions:
-     l = <a1, a2, tech, ..., an>  /  removeTechnician(l, targetIdCode) -> l' = <a1, a2, ..., an>
-list removeTechnician(list l, int targetIdCode);
-
-*/
-
-/*
-
-Prints the list of technicians to the screen
-void outputList(list l);
-
-*/
 
 /* Takes a list l as input, returns a list l' identical to l, with the addition of the tech at position p
    Preconditions:
