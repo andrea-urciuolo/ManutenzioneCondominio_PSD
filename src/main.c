@@ -5,6 +5,7 @@
 #include "../include/request.h"
 #include "../include/intervention.h"
 #include "../include/list.h"
+#include "../include/Btree.h"
 #include "../include/item.h"
 #include "../include/PQueue.h"
 #include "../include/opRequest.h"
@@ -26,6 +27,39 @@ int main(int argc, char* argv[]) {
         printf("Uso: ./manutenzione --exe (per avviare) oppure ./manutenzione --test (per i test)\n\n");
         return 1;
     }
+
+    if (strcmp(argv[1], "--development") == 0) {
+        printf("Software aperto in modalità developer\n");
+        Btree myTree = newBtree();
+        char specializations[] = {'a', 'b', 'c', 'd', 'e', 'f'};
+        char tempName[30];
+
+        printf("--- Avvio generazione automatica 100 tecnici ---\n");
+
+        for (int i = 1; i <= 100; i++) {
+            // Creates names like:  "Tecnico_1", "Tecnico_2", ecc...
+            sprintf(tempName, "Tecnico_%d", i);
+
+            char spec = specializations[i % 6];
+
+            technician t = buildTechnician(i, tempName, spec);
+
+            if (t != NULL) {
+                myTree = insertTechnician(myTree, t);
+            }
+        }
+
+        printf("\nAlbero generato. Visualizzazione delle specializzazioni:\n");
+        printf("(La radice e' all'estrema sinistra, i rami crescono a destra)\n");
+
+        showTree(myTree);
+
+        printf("\n--- Fine Visualizzazione ---\n");
+
+        return 0;
+    }
+
+
 
     // Testing Mode execution
     if (strcmp(argv[1], "--test") == 0) {
