@@ -274,3 +274,67 @@ int run_test_suite_insert(const char* input_path, const char* oracle_path) {
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
+
+int run_test_suite_deallocatePQ(const char* input_path, const char* oracle_path) {
+    FILE *f_in, *f_orc;
+    int scenario, oracle_val, actual_val;
+    int failures = 0;
+    int test_count = 0;
+
+    f_in = fopen(input_path, "r");
+    f_orc = fopen(oracle_path, "r");
+
+    if (!f_in || !f_orc) {
+        printf("[ERROR] Impossibile aprire i file di test per deallocatePQ.\n");
+        return -1;
+    }
+
+    printf("Starting Test Suite: deallocatePQ\n");
+    printf("-------------------------------------------\n");
+    printf("NOTA: Esegui questo test con Valgrind per verificare i Memory Leak!\n\n");
+
+    while (fscanf(f_in, "%d", &scenario) != EOF && fscanf(f_orc, "%d", &oracle_val) != EOF) {
+        test_count++;
+        actual_val = 0; // Default a 0, diventerà 1 se superiamo deallocatePQ senza crash
+        PQueue q = NULL;
+
+        if (scenario == -1) {
+            // Test di sicurezza su puntatore NULL
+            deallocatePQ(NULL);
+            actual_val = 1; 
+        } else {
+            // Creazione e popolamento della coda in base allo scenario
+            q = newPQ();
+            
+            if (scenario > 0) {
+                char dummy_mem[256];
+                memset(dummy_mem, 0, sizeof(dummy_mem));
+                request dummy = (request)dummy_mem;
+
+                for(int i = 0; i < scenario; i++) {
+                    insert(q, dummy);
+                }
+            }
+
+            // Test reale della funzione
+            deallocatePQ(q);
+            actual_val = 1; // Se il programma arriva qui senza SegFault, il test base è superato
+        }
+
+        if (actual_val == oracle_val) {
+            printf("[PASS] Test %d: Scenario %d | deallocatePQ eseguita senza crash\n", test_count, scenario);
+        } else {
+            // Questo ramo teoricamente si raggiunge solo se c'è un disallineamento dell'oracolo,
+            // perché se deallocatePQ fallisce malamente, l'intero processo va in crash.
+            printf("[FAIL] Test %d: Scenario %d | Errore inaspettato\n", test_count, scenario);
+            failures++;
+        }
+    }
+
+    fclose(f_in);
+    fclose(f_orc);
+
+    printf("-------------------------------------------\n");
+    printf("Total Tests: %d | Failures: %d\n", test_count, failures);
+    return failures;
+}
