@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/PQueue.h"
-#include "../include/opRequest.h"
+#include "../../include/PQueue.h"
+#include "../../include/opRequest.h"
 
 int run_test_suite_printAllRequests(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
