@@ -67,6 +67,12 @@ Btree insertTechnician(Btree T, technician newTech) {
     }
 }
 
+int sizeBtree(Btree T) {
+    if (emptyBtree(T)) return 0;
+
+    return 1 + sizeBtree(figlioSX(T)) + sizeBtree(figlioDX(T));
+}
+
 // --- Functions to visualize the tree structure ---
 
 

@@ -16,6 +16,7 @@
 #include "../tests/testing_include/testingIntervention.h"
 #include "../tests/testing_include/testingUtils.h"
 #include "../tests/testing_include/testingList.h"
+#include "../tests/testing_include/pqueueTesting.h"
 #include "../include/utils.h"
 
 int main(int argc, char* argv[]) {
