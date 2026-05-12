@@ -105,3 +105,20 @@ void printMostActiveTechnician(Btree T) {
         printf("========================================\n");
     }
 }
+
+technician findTechnicianByType(Btree T, char spec) {
+    if (emptyBtree(T)) return NULL;
+
+    technician rootTech = getItem(getRoot(T));
+    char rootSpec = getSpecialization(rootTech);
+
+    if (rootSpec == spec) {
+        return rootTech;
+    }
+
+    if (spec < rootSpec) {
+        return findTechnicianByType(figlioSX(T), spec);
+    } else {
+        return findTechnicianByType(figlioDX(T), spec);
+    }
+}

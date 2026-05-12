@@ -15,4 +15,7 @@ void printTechniciansByWorkload(Btree T);
 /* Scans the Btree to find and print the single technician who has completed the highest number of interventions */
 void printMostActiveTechnician(Btree T);
 
+/* Returns the first technician in the Btree with a specific specialization */
+technician findTechnicianByType(Btree T, char spec);
+
 #endif
