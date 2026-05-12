@@ -73,6 +73,19 @@ int sizeBtree(Btree T) {
     return 1 + sizeBtree(figlioSX(T)) + sizeBtree(figlioDX(T));
 }
 
+
+void clearTreeNodes(Btree T) {
+    if (emptyBtree(T)) return;
+
+    clearTreeNodes(figlioSX(T));
+
+    clearTreeNodes(figlioDX(T));
+
+    node* curr = getRoot(T);
+
+    free(curr);
+}
+
 // --- Functions to visualize the tree structure ---
 
 

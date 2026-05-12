@@ -17,6 +17,7 @@ technician getItem(node* N);
 void setItem(node* N, technician tech);
 Btree insertTechnician(Btree T, technician newTech);
 int sizeBtree(Btree T);
+void clearTreeNodes(Btree T);
 void printTreeStructure(Btree T, char* prefix, int isLeft);
 void showTree(Btree T);
 
