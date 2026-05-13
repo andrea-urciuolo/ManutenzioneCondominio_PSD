@@ -1,183 +1,124 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/opTechnician.h"
 #include "../include/technician.h"
+#include "../include/Btree.h"
 
-/* Prints all the technicians currently in the list */
-void printAllTechnicians(list l) {
-    // Check if the technician list is empty to avoid unnecessary operations
-    if (emptyList(l)) { 
-        printf("La lista dei tecnici è vuota.\n");
-        return;
-    }
+void printAllTechnicians(Btree T) {
+    if (emptyBtree(T)) return;
 
-    printf("\n=== Lista Completa dei Tecnici ===\n");
-    list current = l;
-    
-    // Iterate through the linked list until the end is reached
-    while (!emptyList(current)) {
-        /* Cast the generic void* item back to a specific technician type */
-        technician tech = (technician)getFirst(current);
-        printTechnician(tech);
-        current = tailList(current); // Move to the next node
+    printAllTechnicians(figlioSX(T));
+
+    technician t = getItem(getRoot(T));
+    printTechnician(t);
+
+    printAllTechnicians(figlioDX(T));
+}
+
+void printTechniciansBySpecialization(Btree T, char spec) {
+    if (emptyBtree(T)) return;
+    if (spec < 'a' || spec > 'f') return;
+
+    technician rootTech = getItem(getRoot(T));
+    char rootSpec = getSpecialization(rootTech);
+
+    if (spec < rootSpec) {
+        printTechniciansBySpecialization(figlioSX(T), spec);
+    } else if (spec > rootSpec) {
+        printTechniciansBySpecialization(figlioDX(T), spec);
+    } else {
+        printTechniciansBySpecialization(figlioSX(T), spec);
+        printTechnician(rootTech);
     }
 }
 
-/* Searches for a technician by their ID code and prints their details */
-void printTechnicianById(list l, int idCode) {
-    // Input validation for the ID
-    if (idCode <= 0) {
-        printf("Errore: L'ID non è valido.\n");
-        return;
-    }
+// Helper function for printTechniciansByWorkload
+void fillArray(Btree T, technician* array, int* index) {
+    if (emptyBtree(T)) return;
 
-    if (emptyList(l)) { 
-        printf("La lista dei tecnici è vuota.\n");
-        return;
-    }
-
-    list current = l;
-    
-    // Linearly scan the list to find the matching ID
-    while (!emptyList(current)) {
-        technician tech = (technician)getFirst(current);
-        if (getIdCode(tech) == idCode) {
-            printf("\n=== Tecnico Trovato ===\n");
-            printTechnician(tech);
-            return; // Early exit since IDs are unique
-        }
-        current = tailList(current);
-    }
-
-    // If the loop finishes without returning, the ID does not exist
-    printf("Errore: Tecnico con ID %d non trovato.\n", idCode);
+    fillArray(figlioSX(T), array, index);
+    array[(*index)++] = getItem(getRoot(T));
+    fillArray(figlioDX(T), array, index);
 }
 
-/* Prints all technicians that match a specific specialization character */
-void printTechniciansBySpecialization(list l, char spec) {
-    // Input validation for the specialization character range
-    if (spec < 'a' || spec > 'f') {
-        printf("Errore: Questa specializzazione non esiste.\n");
+
+void printTechniciansByWorkload(Btree T) {
+    int total = sizeBtree(T);
+    if (total == 0) {
+        printf("Nessun tecnico trovato.\n");
         return;
     }
 
-    if (emptyList(l)) {
-        printf("La lista dei tecnici è vuota.\n");
-        return;
-    }
+    technician* array = (technician*)malloc(total * sizeof(technician));
+    if (array == NULL) return;
 
-    printf("\n=== Tecnici con Specializzazione '%c' ===\n", spec);
-    list currentNode = l;
-    int matchCount = 0; // Counter to check if at least one technician was found
-    
-    // Iterate through the list and print only those matching the specialization
-    while (!emptyList(currentNode)) {
-        technician tech = (technician)getFirst(currentNode);
-        if (getSpecialization(tech) == spec) {
-            printTechnician(tech);
-            matchCount++;
-        }
-        currentNode = tailList(currentNode);
-    }
+    int index = 0;
+    fillArray(T, array, &index);
 
-    if (matchCount == 0) {
-        printf("Nessun tecnico trovato con la specializzazione '%c'.\n", spec);
-    }
-}
-
-/* Finds and prints the technician with the highest number of interventions */
-void printMostActiveTechnician(list l) {
-    if (emptyList(l)) {
-        printf("Nessun tecnico disponibile per la valutazione.\n");
-        return;
-    }
-
-    list current = l;
-    
-    // Assume the first technician is the most active initially
-    technician mostActive = (technician)getFirst(current);
-    int maxInterventions = getInterventionCount(mostActive);
-
-    current = tailList(current);
-    
-    // Traverse the rest of the list to find the actual maximum
-    while (!emptyList(current)) {
-        technician tech = (technician)getFirst(current);
-        if (getInterventionCount(tech) > maxInterventions) {
-            mostActive = tech;
-            maxInterventions = getInterventionCount(tech);
-        }
-        current = tailList(current);
-    }
-
-    printf("\n=== Tecnico Più Attivo ===\n");
-    printTechnician(mostActive);
-}
-
-/* Prints all technicians sorted descending by their number of interventions (workload) */
-void printTechniciansByWorkload(list l) {
-    int size = sizeList(l);
-    if (size == 0) {
-        printf("La lista dei tecnici è vuota.\n");
-        return;
-    }
-
-    /* Dynamically allocate an array of pointers to sort the technicians without altering the original list structure */
-    technician* techArray = (technician*)malloc(size * sizeof(technician));
-    if (techArray == NULL) {
-        printf("Errore: Allocazione di memoria fallita durante l'ordinamento.\n");
-        return;
-    }
-
-    /* Copy pointers from the linked list into the array for easier index-based sorting */
-    list current = l;
-    for (int i = 0; i < size; i++) {
-        techArray[i] = (technician)getFirst(current);
-        current = tailList(current);
-    }
-
-    /* Bubble sort algorithm implementation (Descending order based on intervention count) */
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (getInterventionCount(techArray[j]) < getInterventionCount(techArray[j + 1])) {
-                // Swap the pointers
-                technician temp = techArray[j];
-                techArray[j] = techArray[j + 1];
-                techArray[j + 1] = temp;
+    // Bubblesort for ordering the array
+    technician temp;
+    for (int i = 0; i < total - 1; i++) {
+        for (int j = 0; j < total - i - 1; j++) {
+            if (getInterventionCount(array[j]) < getInterventionCount(array[j+1])) {
+                temp = array[j];
+                array[j] = array[j+1];
+                array[j+1] = temp;
             }
         }
     }
 
-    printf("\n=== Tecnici Ordinati per Carico di Lavoro ===\n");
-    for (int i = 0; i < size; i++) {
-        printTechnician(techArray[i]);
+    printf("\n--- Classifica Tecnici per Carico di Lavoro (Interventi) ---\n");
+    for (int i = 0; i < total; i++) {
+        printf("%d. ", i + 1);
+        printTechnician(array[i]);
     }
 
-    /* Free the temporary array to prevent memory leaks */
-    free(techArray);
+    free(array);
 }
 
-/* Returns the technician corresponding to the specified ID. Returns NULL if not found. */
-technician getTechnicianById(list l, int idCode) {
-    // Validate parameters before starting the search
-    if (idCode <= 0 || emptyList(l)) {
-        return NULL;
+// Helper function for printMostActiveTechnician
+void findMaxInterventions(Btree T, technician* maxTech) {
+    if (emptyBtree(T)) return;
+
+    technician currentTech = getItem(getRoot(T));
+
+    if (*maxTech == NULL || getInterventionCount(currentTech) > getInterventionCount(*maxTech)) {
+        *maxTech = currentTech;
     }
 
-    list current = l;
-    
-    // Linearly search the list
-    while (!emptyList(current)) {
-        technician tech = (technician)getFirst(current);
-        
-        // If the ID matches, return the pointer to the technician immediately
-        if (getIdCode(tech) == idCode) {
-            return tech;
-        }
-        
-        current = tailList(current);
+    findMaxInterventions(figlioSX(T), maxTech);
+    findMaxInterventions(figlioDX(T), maxTech);
+}
+
+void printMostActiveTechnician(Btree T) {
+    if (emptyBtree(T)) {
+        printf("\nNessun tecnico presente nel sistema.\n");
+        return;
     }
-    
-    // Return NULL if the list gets exhausted without finding the target ID
-    return NULL;
+
+    technician mostActive = NULL;
+
+    findMaxInterventions(T, &mostActive);
+
+    if (mostActive != NULL) {
+        printf("\n=== TECNICO PIU' ATTIVO DEL SISTEMA ===\n");
+        printTechnician(mostActive);
+        printf("========================================\n");
+    }
+}
+
+technician findTechnicianByType(Btree T, char spec) {
+    if (emptyBtree(T)) return NULL;
+
+    technician rootTech = getItem(getRoot(T));
+    char rootSpec = getSpecialization(rootTech);
+
+    if (rootSpec == spec) {
+        return rootTech;
+    }
+
+    if (spec < rootSpec) {
+        return findTechnicianByType(figlioSX(T), spec);
+    } else {
+        return findTechnicianByType(figlioDX(T), spec);
+    }
 }

@@ -1,26 +1,21 @@
-#ifndef OPTECHNICIAN_H
-#define OPTECHNICIAN_H
+#ifndef OPBTREETECHNICIAN_H
+#define OPBTREETECHNICIAN_H
 
-#include "list.h"
-#include "technician.h"
+#include "Btree.h"
 
-
-/* Iterates through the linked list and prints the details of all registered technicians */
-void printAllTechnicians(list l);
-
-/* Searches the list for a technician matching the provided unique ID and prints their information */
-void printTechnicianById(list l, int idCode);
+/* Iterates through the Btree and prints the details of all registered technicians */
+void printAllTechnicians(Btree T);
 
 /* Filters and prints all technicians that have the specified specialization character (e.g., 'a' for plumber) */
-void printTechniciansBySpecialization(list l, char spec);
+void printTechniciansBySpecialization(Btree T, char spec);
 
 /* Sorts the technicians in descending order based on their completed interventions and prints the ordered list */
-void printTechniciansByWorkload(list l);
+void printTechniciansByWorkload(Btree T);
 
-/* Scans the list to find and print the single technician who has completed the highest number of interventions */
-void printMostActiveTechnician(list l);
+/* Scans the Btree to find and print the single technician who has completed the highest number of interventions */
+void printMostActiveTechnician(Btree T);
 
-/* Retrieves a specific technician object by their unique ID without printing. Returns NULL if the ID is not present in the list */
-technician getTechnicianById(list l, int idCode);
+/* Returns the first technician in the Btree with a specific specialization */
+technician findTechnicianByType(Btree T, char spec);
 
 #endif

@@ -9,7 +9,6 @@
 #include "../include/item.h"
 #include "../include/PQueue.h"
 #include "../include/opRequest.h"
-#include "../include/opBtreeTechnician.h"
 #include "../include/opTechnician.h"
 #include "../include/opIntervention.h"
 #include "../tests/testing_include/testingRequest.h"
@@ -133,7 +132,7 @@ int main(int argc, char* argv[]) {
     char check = 'g';
 
     printf("\n==================================================\n");
-    printf("               GESTIONALE MANUTENZIONI V2          \n");
+    printf("               GESTIONALE MANUTENZIONI             \n");
     printf("==================================================\n");
 
     // Standard Execution Mode check
@@ -272,7 +271,7 @@ int main(int argc, char* argv[]) {
                     uncompletedIntervention = consList(uncompletedIntervention, newInter);
                     printf("Intervento schedulato con successo!\n");
                 } else {
-                    printf("Selezione non valida\n"); // TODO: FIX Con una frase copiata da qualche altra parte
+                    printf("ERRORE: Selezione non valida. Per favore, scegli un'opzione dal menu.\n");
                 }
                 break;
 
