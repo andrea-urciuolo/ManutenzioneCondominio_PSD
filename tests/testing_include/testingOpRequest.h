@@ -7,4 +7,8 @@ int run_test_suite_printAllRequests(const char* input_path, const char* oracle_p
 int run_test_suite_printRequestById(const char* input_path, const char* oracle_path);
 
 int run_test_suite_printRequestsByType(const char* input_path, const char* oracle_path);
+
+int run_test_suite_printRequestsByApartment(const char* input_path, const char* oracle_path);
+
+int run_test_suite_getRequestById(const char* input_path, const char* oracle_path);
 #endif /*MANUTENZIONECONDOMINIO_PSD_OPREQUEST_H */
