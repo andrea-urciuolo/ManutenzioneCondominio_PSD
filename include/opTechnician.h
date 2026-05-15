@@ -1,5 +1,5 @@
-#ifndef OPBTREETECHNICIAN_H
-#define OPBTREETECHNICIAN_H
+#ifndef OPTECHNICIAN_H
+#define OPTECHNICIAN_H
 
 #include "Btree.h"
 

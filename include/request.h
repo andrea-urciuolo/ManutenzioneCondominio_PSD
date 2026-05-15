@@ -1,41 +1,195 @@
 #ifndef REQUEST_H
 #define REQUEST_H
 
-/* Pointer to the concrete request structure, hiding the implementation details (Opaque pointer) */
+// Pointer to the request structure
 typedef struct c_request *request;
 
-/* Dynamically allocates a new request in memory and prompts the user for its details */
+/*
+ * Function: newRequest
+ * ----------------------
+ * Creates a new request initialized by the user via input
+ *
+ * Parameters:
+ *   id: The ID of the request we want to create
+ *
+ * Pre-conditions:
+ *   None
+ *
+ * Post-conditions:
+ *   Returns a pointer to a request initialized by the user.
+ *   If memory allocation fails, returns NULL
+ *
+ * Returns:
+ *   The created request or NULL if allocation fails
+ */
 request newRequest(int Id);
 
-/* Getters */
+// GETTERS
 
-/* Returns the unique identification code of the request */
+/*
+ * Function: getIdRequest
+ * ----------------------
+ * Returns the ID of the request
+ *
+ * Parametes:
+ *   r: The request of which we need the ID
+ *
+ * Pre-conditions:
+ *   r != NULL
+ *
+ * Post-conditions:
+ *    Returns an integer n >= 0, which rapresents the ID of the request
+ *
+ * Returns:
+ *   The ID of the request
+ */
 int getIdRequest(request r);
 
-/* Returns the character representing the category/type of the request */
+/*
+ * Function: getType
+ * ----------------------
+ * Returns the character identifying the type of the request
+ *
+ * Parameters:
+ *   r: The request of which we need the type
+ *
+ * Pre-conditions:
+ *   None
+ *
+ * Post-conditions:
+ *   Returns a char c € {'a', 'b', 'c', 'd', 'e', 'f'} if r != NULL, otherwise returns 'z'
+ *
+ * Returns:
+ *   The character representing the request type (or 'z' on error)
+ */
 char getType(request r);
 
-/* Returns the urgency level of the request (1 to 5) */
+/*
+ * Function: getUrgency
+ * ----------------------
+ * Returns the urgency level of the request
+ *
+ * Parameters:
+ *   r: The request of which we need the urgency
+ *
+ * Pre-conditions:
+ *   None
+ *
+ * Post-conditions:
+ *   If r != NULL, returns an integer n where 1 <= n <= 5.
+ *   Otherwise, returns -1
+ *
+ * Returns:
+ *   The urgency level of the request or -1 in case of error
+ */
 int getUrgency(request r);
 
-/* Returns the apartment number associated with the request (0 for the whole building) */
+/*
+ * Function: getApartment
+ * ----------------------
+ * Returns the apartment number associated with the request
+ *
+ * Parameters:
+ *   r: The request of which we need the apartment number
+ *
+ * Pre-conditions:
+ *   None
+ *
+ * Post-conditions:
+ *   If r != NULL, returns the apartment number (n >= 0).
+ *   Otherwise, returns -1
+ *
+ * Returns:
+ *   The apartment number or -1 in case of error
+ */
 int getApartment(request r);
 
-/* Returns a pointer to the string containing the submission date (Format: YYYY/MM/DD) */
+/*
+ * Function: getSubmissionDate
+ * ----------------------
+ * Returns the pointer to the string conteining the submission date of the request
+ *
+ * Parameters:
+ *   r: The request of which we need the submission date
+ *
+ * Pre-conditions:
+ *   None
+ *
+ * Post-conditions:
+ *   If r != NULL, returns the date as a string in the format "YYYY/MM/DD".
+ *   Otherwise, returns NULL
+ *
+ * Returns:
+ *   The string representing the submission date or NULL in case of error
+ */
 char* getSubmissionDate(request r);
 
-/* Returns a pointer to the string containing the description of the problem */
+/*
+ * Function: getDescription
+ * ----------------------
+ * Returns the pointer to the string containing the request description
+ *
+ * Parameters:
+ *   r: The request of which we need the description
+ *
+ * Pre-conditions:
+ *   r != NULL
+ *
+ * Post-conditions:
+ *   Returns the pointer to the string containing the description of r
+ *
+ * Returns:
+ *   The pointer to the string containing the description of the request
+ */
 char* getDescription(request r);
 
-/* Prints all the details of the request to the standard output */
+/*
+ * Function: printRequest
+ * ----------------------
+ * Prints a formatted summary of all the request data
+ *
+ * Parameters:
+ *   r: The request to be printed
+ *
+ * Pre-conditions:
+ *   r != NULL
+ *
+ * Post-conditions:
+ *   None (void)
+ *
+ * Side-effect:
+ *   Prints the formatted summary of all data in r
+ *
+ * Returns:
+ *   void
+ */
 void printRequest(request r);
 
-/* Frees the dynamically allocated memory for the request and its internal description string */
+/*
+ * Function: deallocateRequest
+ * ----------------------
+ * Deallocates the memory previously allocated for a request
+ *
+ * Parameters:
+ *   r: The request to be deallocated
+ *
+ * Pre-conditions:
+ *   r != NULL
+ *
+ * Post-conditions:
+ *   None (void)
+ *
+ * Side-effect:
+ *   Frees the memory occupied by the request r
+ *
+ * Returns:
+ *   void
+ */
 void deallocateRequest(request r);
 
-/* Test Builder */
+// BUILDER (for testing and --dev mode)
 
-/* Creates a request directly from parameters for testing purposes (bypasses user input) */
+// Creates a request directly from parameters (bypasses user input)
 request createRequest_TESTING(int id, char type, int urgency, int apartment, const char* date, const char* desc);
 
 #endif
