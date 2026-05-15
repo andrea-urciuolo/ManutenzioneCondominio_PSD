@@ -227,7 +227,7 @@ void deallocateRequest(request r) {
     free(r);
 }
 
-// Builder function exclusively used for testing environments (bypasses user input)
+// Builder function exclusively used for testing and --dev mode (bypasses user input)
 request createRequest_TESTING(int id, char type, int urgency, int apartment, const char* date, const char* desc) {
     request r = malloc(sizeof(struct c_request));
     if (r == NULL) return NULL;
