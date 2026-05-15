@@ -1,26 +1,10 @@
-/*
- * File: opRequestTesting.c
- * Autore: Alessandro Verosimile
- * Descrizione: Modulo di testing per le operazioni sulle richieste (opRequest).
- * Verifica il corretto funzionamento delle procedure di stampa e ricerca 
- * all'interno della coda di priorità, gestendo l'assenza di memory leak.
- */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "../../include/PQueue.h"
 #include "../../include/opRequest.h"
 
-/*
- * Esegue la suite di test per la funzione printAllRequests.
- * Verifica che la stampa dell'intera coda di priorità avvenga in modo sicuro,
- * garantendo che la coda non venga accidentalmente svuotata o corrotta.
- * Parametri:
- * input_path: percorso del file contenente gli scenari di input
- * oracle_path: percorso del file contenente i risultati attesi (oracolo)
- * Ritorna:
- * Il numero di test falliti (0 se perfetti), o -1 in caso di errore I/O.
- */
+
 int run_test_suite_printAllRequests(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, oracle_val, actual_val;
@@ -29,7 +13,7 @@ int run_test_suite_printAllRequests(const char* input_path, const char* oracle_p
     f_in = fopen(input_path, "r");
     f_orc = fopen(oracle_path, "r");
     
-    // Interrompe l'esecuzione se i file di test mancano, prevenendo crash
+    
     if (!f_in || !f_orc) {
         printf("[ERROR] Impossibile aprire i file di test per printAllRequests.\n");
         return -1;
@@ -80,16 +64,6 @@ int run_test_suite_printAllRequests(const char* input_path, const char* oracle_p
     return failures;
 }
 
-/*
- * Esegue la suite di test per la funzione printRequestById.
- * Valida la corretta ricerca lineare all'interno della coda di priorità
- * per individuare e stampare una singola richiesta specifica.
- * Parametri:
- * input_path: percorso del file con gli scenari e gli ID target
- * oracle_path: percorso del file con i risultati attesi
- * Ritorna:
- * Il numero di test falliti (0 se la suite passa integralmente), o -1 per errori I/O.
- */
 int run_test_suite_printRequestById(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_id, oracle_val, actual_val;
@@ -145,16 +119,6 @@ int run_test_suite_printRequestById(const char* input_path, const char* oracle_p
     return failures;
 }
 
-/*
- * Esegue la suite di test per la funzione printRequestsByType.
- * Accerta che il filtro basato sul carattere della specializzazione
- * funzioni senza interrompere l'attraversamento della coda.
- * Parametri:
- * input_path: percorso file contenente i volumi di test e i caratteri tipo (es. 'a')
- * oracle_path: percorso file contenente i risultati di verifica
- * Ritorna:
- * Il totale dei test non superati, oppure -1 se i file sono illeggibili.
- */
 int run_test_suite_printRequestsByType(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, oracle_val, actual_val;
@@ -210,16 +174,7 @@ int run_test_suite_printRequestsByType(const char* input_path, const char* oracl
     return failures;
 }
 
-/*
- * Esegue la suite di test per la funzione printRequestsByApartment.
- * Garantisce che la logica di smistamento per numero civico gestisca
- * adeguatamente le interrogazioni, compreso il caso speciale '0' per l'edificio.
- * Parametri:
- * input_path: percorso del file degli scenari
- * oracle_path: percorso dell'oracolo di output
- * Ritorna:
- * Numero totale dei fallimenti, o -1 in caso di assenza file.
- */
+
 int run_test_suite_printRequestsByApartment(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_apt, oracle_val, actual_val;
@@ -274,16 +229,6 @@ int run_test_suite_printRequestsByApartment(const char* input_path, const char* 
     return failures;
 }
 
-/*
- * Esegue la suite di test per la funzione getRequestById.
- * Verifica che la funzione restituisca l'indirizzo di memoria corretto
- * della richiesta associata all'ID richiesto, proteggendo il dato ritornato.
- * Parametri:
- * input_path: percorso file di configurazione scenari
- * oracle_path: percorso file contenente le flag di presenza attese
- * Ritorna:
- * La somma dei test falliti, altrimenti -1 per problemi di caricamento file.
- */
 int run_test_suite_getRequestById(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_id, oracle_val, actual_val;
