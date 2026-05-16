@@ -17,6 +17,7 @@
 #include "../tests/testing_include/testingUtils.h"
 #include "../tests/testing_include/testingList.h"
 #include "../tests/testing_include/pqueueTesting.h"
+#include "../tests/testing_include/testingBtree.h"
 #include "../include/utils.h"
 
 #define MAX_TECH 350
