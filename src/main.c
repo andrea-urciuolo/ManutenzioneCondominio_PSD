@@ -540,9 +540,9 @@ int main(int argc, char* argv[]) {
                         scanf("%d", &tpId);
                         clearBuffer();
                         if (checkCompleted == 'a') {
-                            printInterventionsByTechnician(completedIntervention, tpId);
+                            printInterventionsByTech(completedIntervention, tpId);
                         } else if (checkCompleted == 'b') {
-                            printInterventionsByTechnician(uncompletedIntervention, tpId);
+                            printInterventionsByTech(uncompletedIntervention, tpId);
                         }
                         break;
                     case 'e':
