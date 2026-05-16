@@ -76,12 +76,12 @@ int main(int argc, char* argv[]) {
         run_test_suite_sizeList("tests/cases/list/sizeList/TS_input.txt", "tests/cases/list/sizeList/oracle.txt");
 
         // PQUEUE MODULE TESTS
-        run_test_suite_newPQ("tests/cases/pqueue/newPQ/TS_input.txt", "tests/cases/pqueue/newPQ/oracle.txt");
-        run_test_suite_emptyPQ("tests/cases/pqueue/emptyPQ/TS_input.txt", "tests/cases/pqueue/emptyPQ/oracle.txt");
-        run_test_suite_getMax("tests/cases/pqueue/getMax/TS_input.txt", "tests/cases/pqueue/getMax/oracle.txt");
-        run_test_suite_deleteMax("tests/cases/pqueue/deleteMax/TS_input.txt", "tests/cases/pqueue/deleteMax/oracle.txt");
-        run_test_suite_insert("tests/cases/pqueue/insert/TS_input.txt", "tests/cases/pqueue/insert/oracle.txt");
-        run_test_suite_deallocatePQ("tests/cases/pqueue/deallocatePQ/TS_input.txt", "tests/cases/pqueue/deallocatePQ/oracle.txt");
+        run_test_suite_newPQ("tests/cases/Pqueue/newPQ/TS_input.txt", "tests/cases/Pqueue/newPQ/oracle.txt");
+        run_test_suite_emptyPQ("tests/cases/Pqueue/emptyPQ/TS_input.txt", "tests/cases/Pqueue/emptyPQ/oracle.txt");
+        run_test_suite_getMax("tests/cases/Pqueue/getMax/TS_input.txt", "tests/cases/Pqueue/getMax/oracle.txt");
+        run_test_suite_deleteMax("tests/cases/Pqueue/deleteMax/TS_input.txt", "tests/cases/Pqueue/deleteMax/oracle.txt");
+        run_test_suite_insert("tests/cases/Pqueue/insert/TS_input.txt", "tests/cases/Pqueue/insert/oracle.txt");
+        run_test_suite_deallocatePQ("tests/cases/Pqueue/deallocatePQ/TS_input.txt", "tests/cases/Pqueue/deallocatePQ/oracle.txt");
         return 0;
     }
 
