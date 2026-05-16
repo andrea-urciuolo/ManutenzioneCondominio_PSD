@@ -33,39 +33,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    if (strcmp(argv[1], "--development") == 0) {
-        printf("Software aperto in modalità developer\n");
-        Btree myTree = newBtree();
-        char specializations[] = {'a', 'b', 'c', 'd', 'e', 'f'};
-        char tempName[30];
-
-        printf("--- Avvio generazione automatica 100 tecnici ---\n");
-
-        for (int i = 1; i <= 100; i++) {
-            // Creates names like:  "Tecnico_1", "Tecnico_2", ecc...
-            sprintf(tempName, "Tecnico_%d", i);
-
-            char spec = specializations[i % 6];
-
-            technician t = buildTechnician(i, tempName, spec);
-
-            if (t != NULL) {
-                myTree = insertTechnician(myTree, t);
-            }
-        }
-
-        printf("\nAlbero generato. Visualizzazione delle specializzazioni:\n");
-        printf("(La radice e' all'estrema sinistra, i rami crescono a destra)\n");
-
-        showTree(myTree);
-
-        printf("\n--- Fine Visualizzazione ---\n");
-
-        return 0;
-    }
-
-
-
     // Testing Mode execution
     if (strcmp(argv[1], "--test") == 0) {
         printf("\n==================================================\n");
@@ -118,6 +85,11 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
+    // Execution Mode check
+    if (strcmp(argv[1], "--exe") != 0 && strcmp(argv[1], "--dev") != 0) {
+        printf("\nERRORE: Modalità di apertura errata.\n");
+        return 1;
+    }
 
     // --- Application Initialization ---
 
@@ -129,17 +101,120 @@ int main(int argc, char* argv[]) {
     request reqID[MAX_REQ] = {NULL};
     int countTechnician = 0;
     int countRequest = 0;
-    char check = 'g';
+    char check = 'j';
+
+    // Check --dev Mode
+    if (strcmp(argv[1], "--dev") == 0) {
+        printf("\n==================================================\n");
+        printf("        SOFTWARE APERTO IN MODALITA' DEVELOPER      \n");
+        printf("==================================================\n");
+
+        // --- 1. AUTOMATIC GENERATION OF TECHNICIANS ---
+        char specializations[] = {'a', 'b', 'c', 'd', 'e', 'f'};
+        char tempName[30];
+
+        printf("\n--- Avvio generazione automatica 100 tecnici ---\n");
+        for (int i = 0; i < 100; i++) {
+            if (countTechnician >= MAX_TECH) break;
+
+            sprintf(tempName, "Tecnico_%d", countTechnician + 1);
+            char spec = specializations[countTechnician % 6];
+
+            technician t = buildTechnician(countTechnician, tempName, spec);
+
+            if (t != NULL) {
+                treeTechnician = insertTechnician(treeTechnician, t);
+                techID[countTechnician] = t;
+                countTechnician++;
+            }
+        }
+        printf("Generati con successo %d tecnici.\n", countTechnician);
+
+        // --- 2. AUTOMATIC GENERATION OF REQUESTS ---
+        char tempDesc[100];
+        char tempDate[12];
+
+        printf("\n--- Avvio generazione automatica 100 richieste ---\n");
+        for (int i = 0; i < 100; i++) {
+            if (countRequest >= MAX_REQ) break;
+
+            // Variables to randomize the parameters of the adt
+            char typeReq = specializations[countRequest % 6];
+            int urgencyReq = (countRequest % 5) + 1;
+            int apartmentReq = (typeReq == 'e') ? 0 : (countRequest + 1);
+
+            sprintf(tempDate, "2026/05/%02d", (countRequest % 28) + 1);
+            sprintf(tempDesc, "Problema simulato di tipo %c di livello %d nell'appartamento %d", typeReq, urgencyReq, apartmentReq);
+
+            // Generation of the request with random parameters
+            request r = createRequest_TESTING(countRequest, typeReq, urgencyReq, apartmentReq, tempDate, tempDesc);
+
+            if (r != NULL) {
+                // Insert in pq if the allocation didn't fail
+                if (insert(pqueueRequest, r) != 0) {
+                    reqID[countRequest] = r;
+                    countRequest++;
+                } else {
+                    // Error handling
+                    deallocateRequest(r);
+                }
+            }
+        }
+        printf("Generate con successo %d richieste caricate in PQueue.\n", countRequest);
+
+        // --- 3. AUTOMATIC GENERATION OF INTEFVENTIONS ---
+        printf("\n--- Avvio generazione automatica 20 interventi ---\n");
+        int countInterventionsGenerated = 0;
+        char tempTime[6];
+
+        for (int i = 0; i < 20; i++) {
+            request currentReq = getMax(pqueueRequest);
+            if (currentReq == NULL) break;
+
+            int currentReqID = getIdRequest(currentReq);
+            char typeReq = getType(currentReq);
+
+            technician suitableTech = NULL;
+            for (int j = 0; j < countTechnician; j++) {
+                if (getSpecialization(techID[j]) == typeReq) {
+                    suitableTech = techID[j];
+                    break;
+                }
+            }
+
+            if (suitableTech == NULL && countTechnician > 0) {
+                suitableTech = techID[i % countTechnician];
+            }
+
+            if (suitableTech != NULL) {
+                sprintf(tempDate, "2026/06/%02d", (countInterventionsGenerated % 28) + 1);
+                sprintf(tempTime, "%02d:00", (9 + (countInterventionsGenerated % 8)));
+
+                intervention newInter = buildIntervention(currentReq, suitableTech, tempDate, tempTime);
+
+                if (newInter != NULL) {
+                    // Insert the intervention to the list uncompletedIntervention
+                    uncompletedIntervention = consList(uncompletedIntervention, newInter);
+
+                    deleteMax(pqueueRequest);
+                    reqID[currentReqID] = NULL;
+
+                    countInterventionsGenerated++;
+                }
+            }
+        }
+        printf("Generati con successo %d interventi in corso (Stato: Non Completati).\n", countInterventionsGenerated);
+
+        // 4. VISUALIZATION OF THE TREE STRUCTURE
+        printf("\n--- Inizio Visualizzazione Albero ---\n");
+        printf("(La radice e' all'estrema sinistra, i rami crescono a destra)\n");
+        showTree(treeTechnician);
+        printf("\n--- Fine Visualizzazione albero ---\n\n");
+    }
 
     printf("\n==================================================\n");
     printf("               GESTIONALE MANUTENZIONI             \n");
     printf("==================================================\n");
-
-    // Standard Execution Mode check
-    if (strcmp(argv[1], "--exe") != 0) {
-        printf("\nERRORE: Modalità di apertura errata.\n");
-        return 1;
-    }
 
     // --- Main Menu Loop ---
     while (check != 'z') {
