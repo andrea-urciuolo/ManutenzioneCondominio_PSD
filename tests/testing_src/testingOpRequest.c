@@ -26,15 +26,12 @@ int run_test_suite_printAllRequests(const char* input_path, const char* oracle_p
         test_count++;
         PQueue q = NULL;
         actual_val = 0;
-
-        // Lo scenario -1 viene usato per testare la robustezza contro i puntatori a NULL
         if (scenario == -1) {
             printAllRequests(NULL);
             actual_val = 1; 
         } else {
             q = newPQ();
             
-            // Popola la coda con gli elementi necessari unicamente per valutare il volume di stampa
             for(int i = 0; i < scenario; i++) {
                 insert(q, NULL); 
             }
@@ -43,7 +40,6 @@ int run_test_suite_printAllRequests(const char* input_path, const char* oracle_p
             actual_val = 1; 
         }
 
-        // actual_val a 1 funge da conferma che la funzione è terminata senza errori fatali (es. SegFault)
         if (actual_val == oracle_val) {
             printf("[PASS] Test %d: Scenario %d | Esecuzione completata in sicurezza\n", test_count, scenario);
         } else {
@@ -84,7 +80,6 @@ int run_test_suite_printRequestById(const char* input_path, const char* oracle_p
         PQueue q = NULL;
         actual_val = 0;
 
-        // Verifica che il sistema non vada in crash cercando un ID in una coda inesistente
         if (scenario == -1) {
             printRequestById(NULL, target_id);
             actual_val = 1; 
@@ -260,8 +255,6 @@ int run_test_suite_getRequestById(const char* input_path, const char* oracle_pat
             
             res = getRequestById(q, target_id);
         }
-
-        // Converte il puntatore in una flag binaria: 1 se estratto con successo, 0 se l'ID non esiste
         actual_val = (res != NULL) ? 1 : 0;
 
         if (actual_val == oracle_val) {
