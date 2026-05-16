@@ -19,6 +19,7 @@
 #include "../tests/testing_include/pqueueTesting.h"
 #include "../tests/testing_include/testingBtree.h"
 #include "../tests/testing_include/testingOpRequest.h"
+#include "../tests/testing_include/testingOpIntervention.h"
 #include "../include/utils.h"
 
 #define MAX_TECH 350
@@ -95,8 +96,17 @@ int main(int argc, char* argv[]) {
         // OPREQUEST MODULE TESTS
         run_test_suite_printAllRequests("tests/cases/opRequest/printAllRequests/TS_input.txt", "tests/cases/opRequest/printAllRequests/oracle.txt");
         run_test_suite_printRequestById("tests/cases/opRequest/printRequestById/TS_input.txt", "tests/cases/opRequest/printRequestById/oracle.txt");
+        run_test_suite_printRequestsByType("tests/cases/opRequest/printRequestsByType/TS_input.txt", "tests/cases/opRequest/printRequestsByType/oracle.txt");
+        run_test_suite_printRequestsByApartment("tests/cases/opRequest/printRequestsByApartment/TS_input.txt", "tests/cases/opRequest/printRequestsByApartment/oracle.txt");
+        run_test_suite_getRequestById("tests/cases/opRequest/getRequestById/TS_input.txt", "tests/cases/opRequest/getRequestById/oracle.txt");
 
         // OPINTERVENTION MODULE TESTS
+        run_test_suite_printAllInterventions("tests/cases/opIntervention/printAllInterventions/TS_input.txt", "tests/cases/opIntervention/printAllInterventions/oracle.txt");
+        run_test_suite_printInterventionById("tests/cases/opIntervention/printInterventionById/TS_input.txt", "tests/cases/opIntervention/printInterventionById/oracle.txt");
+        run_test_suite_printInterventionsByDate("tests/cases/opIntervention/printInterventionsByDate/TS_input.txt", "tests/cases/opIntervention/printInterventionsByDate/oracle.txt");
+        run_test_suite_printInterventionsByTech("tests/cases/opIntervention/printInterventionsByTech/TS_input.txt", "tests/cases/opIntervention/printInterventionsByTech/oracle.txt");
+        run_test_suite_printInterventionsByType("tests/cases/opIntervention/printInterventionsByType/TS_input.txt", "tests/cases/opIntervention/printInterventionsByType/oracle.txt");
+        run_test_suite_checkConflict("tests/cases/opIntervention/checkConflict/TS_input.txt", "tests/cases/opIntervention/checkConflict/oracle.txt");
         return 0;
     }
 
