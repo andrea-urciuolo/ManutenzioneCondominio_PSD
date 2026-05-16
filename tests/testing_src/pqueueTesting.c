@@ -1,8 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../../include/PQueue.h"
 #include "../../include/request.h"
-#include "../testing_include/pqueueTesting.h"
+#include "../testing_include/testingRequest.h"
+
+
+static request create_dummy_request(int urgency) {
+
+    return createRequest_TESTING(1, 'A', urgency, 101, "2026/05/16", "Dummy Test Request");
+}
 
 int run_test_suite_newPQ(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
@@ -80,11 +87,16 @@ int run_test_suite_emptyPQ(const char* input_path, const char* oracle_path) {
             
             if (scenario > 0 && scenario < 999) {
                 for(int i = 0; i < scenario; i++) {
-                    insert(q, (request)(size_t)i);
+                    request r = create_dummy_request(i);
+                    insert(q, r);
                 }
             } else if (scenario == 999) {
-                insert(q, (request)(size_t)1);
+                request r = create_dummy_request(10);
+                insert(q, r);
+                
+                request max_r = getMax(q);
                 deleteMax(q);
+                if (max_r != NULL) deallocateRequest(max_r);
             }
 
             actual_val = emptyPQ(q);
@@ -98,6 +110,12 @@ int run_test_suite_emptyPQ(const char* input_path, const char* oracle_path) {
         }
 
         if (q != NULL) {
+
+            while (!emptyPQ(q)) {
+                request r = getMax(q);
+                deleteMax(q);
+                if (r != NULL) deallocateRequest(r);
+            }
             deallocatePQ(q);
         }
     }
@@ -139,13 +157,17 @@ int run_test_suite_getMax(const char* input_path, const char* oracle_path) {
             
             if (scenario > 0 && scenario < 999) {
                 for(int i = 0; i < scenario; i++) {
-                    insert(q, (request)(size_t)i);
+                    request r = create_dummy_request(i);
+                    insert(q, r);
                 }
             } else if (scenario == 999) {
-                insert(q, (request)(size_t)1);
-                insert(q, (request)(size_t)2);
-                deleteMax(q);
-                deleteMax(q);
+                request r1 = create_dummy_request(10);
+                request r2 = create_dummy_request(20);
+                insert(q, r1);
+                insert(q, r2);
+                
+                request max1 = getMax(q); deleteMax(q); deallocateRequest(max1);
+                request max2 = getMax(q); deleteMax(q); deallocateRequest(max2);
             }
 
             res = getMax(q);
@@ -161,6 +183,11 @@ int run_test_suite_getMax(const char* input_path, const char* oracle_path) {
         }
 
         if (q != NULL) {
+            while (!emptyPQ(q)) {
+                request r = getMax(q);
+                deleteMax(q);
+                if (r != NULL) deallocateRequest(r);
+            }
             deallocatePQ(q);
         }
     }
@@ -200,10 +227,15 @@ int run_test_suite_deleteMax(const char* input_path, const char* oracle_path) {
             q = newPQ();
             
             for(int i = 0; i < scenario; i++) {
-                insert(q, (request)(size_t)i);
+                request r = create_dummy_request(i);
+                insert(q, r);
             }
 
+            request to_free = getMax(q);
             actual_val = deleteMax(q);
+            if (to_free != NULL) {
+                deallocateRequest(to_free);
+            }
         }
 
         if (actual_val == oracle_val) {
@@ -214,6 +246,11 @@ int run_test_suite_deleteMax(const char* input_path, const char* oracle_path) {
         }
 
         if (q != NULL) {
+            while (!emptyPQ(q)) {
+                request r = getMax(q);
+                deleteMax(q);
+                if (r != NULL) deallocateRequest(r);
+            }
             deallocatePQ(q);
         }
     }
@@ -249,12 +286,13 @@ int run_test_suite_insert(const char* input_path, const char* oracle_path) {
         PQueue q = NULL;
 
         if (scenario == -1) {
-            actual_val = insert(NULL, (request)(size_t)1);
+            actual_val = insert(NULL, NULL);
         } else {
             q = newPQ();
             
             for(int i = 0; i < scenario; i++) {
-                actual_val += insert(q, (request)(size_t)i);
+                request r = create_dummy_request(i);
+                actual_val += insert(q, r);
             }
         }
 
@@ -266,6 +304,11 @@ int run_test_suite_insert(const char* input_path, const char* oracle_path) {
         }
 
         if (q != NULL) {
+            while (!emptyPQ(q)) {
+                request r = getMax(q);
+                deleteMax(q);
+                if (r != NULL) deallocateRequest(r);
+            }
             deallocatePQ(q);
         }
     }
@@ -308,8 +351,15 @@ int run_test_suite_deallocatePQ(const char* input_path, const char* oracle_path)
             
             if (scenario > 0) {
                 for(int i = 0; i < scenario; i++) {
-                    insert(q, (request)(size_t)i);
+                    request r = create_dummy_request(i);
+                    insert(q, r);
                 }
+            }
+
+            while (!emptyPQ(q)) {
+                request r = getMax(q);
+                deleteMax(q);
+                if (r != NULL) deallocateRequest(r);
             }
 
             deallocatePQ(q);
