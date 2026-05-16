@@ -22,6 +22,7 @@ void printAllInterventions(list l) {
         // Cast the generic item to an intervention type
         intervention inter = (intervention)getFirst(current);
         printIntervention(inter);
+        
         // Move to the next node in the list
         current = tailList(current);
     }
@@ -87,7 +88,7 @@ void printInterventionsByDate(list l, const char* date) {
 }
 
 /* Prints all interventions assigned to a specific technician (by technician ID) */
-void printInterventionsByTechnician(list l, int techId) {
+void printInterventionsByTech(list l, int techId) {
     if (emptyList(l)) {
         printf("La lista degli interventi è vuota.\n");
         return;
