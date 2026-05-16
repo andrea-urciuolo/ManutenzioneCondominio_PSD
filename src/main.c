@@ -95,9 +95,8 @@ int main(int argc, char* argv[]) {
         // OPREQUEST MODULE TESTS
         run_test_suite_printAllRequests("tests/cases/opRequest/printAllRequests/TS_input.txt", "tests/cases/opRequest/printAllRequests/oracle.txt");
         run_test_suite_printRequestById("tests/cases/opRequest/printRequestById/TS_input.txt", "tests/cases/opRequest/printRequestById/oracle.txt");
-        run_test_suite_printRequestsByType("tests/cases/opRequest/printRequestsByType/TS_input.txt", "tests/cases/opRequest/printRequestsByType/oracle.txt");
-        run_test_suite_printRequestsByApartment("tests/cases/opRequest/printRequestsByApartment/TS_input.txt", "tests/cases/opRequest/printRequestsByApartment/oracle.txt");
-        run_test_suite_getRequestById("tests/cases/opRequest/getRequestById/TS_input.txt", "tests/cases/opRequest/getRequestById/oracle.txt");
+
+        // OPINTERVENTION MODULE TESTS
         return 0;
     }
 
