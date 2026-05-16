@@ -20,6 +20,7 @@
 #include "../tests/testing_include/testingBtree.h"
 #include "../tests/testing_include/testingOpRequest.h"
 #include "../tests/testing_include/testingOpIntervention.h"
+#include "../tests/testing_include/testingOpTechnician.h"
 #include "../include/utils.h"
 
 #define MAX_TECH 350
@@ -107,6 +108,13 @@ int main(int argc, char* argv[]) {
         run_test_suite_printInterventionsByTech("tests/cases/opIntervention/printInterventionsByTech/TS_input.txt", "tests/cases/opIntervention/printInterventionsByTech/oracle.txt");
         run_test_suite_printInterventionsByType("tests/cases/opIntervention/printInterventionsByType/TS_input.txt", "tests/cases/opIntervention/printInterventionsByType/oracle.txt");
         run_test_suite_checkConflict("tests/cases/opIntervention/checkConflict/TS_input.txt", "tests/cases/opIntervention/checkConflict/oracle.txt");
+
+        // OPTECHNICIAN MODULE TESTS
+        run_test_suite_printAllTechnicians("tests/cases/opTechnician/printAllTechnicians/TS_input.txt", "tests/cases/opTechnician/printAllTechnicians/oracle.txt");
+        run_test_suite_printTechniciansBySpecialization("tests/cases/opTechnician/printTechniciansBySpecialization/TS_input.txt", "tests/cases/opTechnician/printTechniciansBySpecialization/oracle.txt");
+        run_test_suite_printTechniciansByWorkload("tests/cases/opTechnician/printTechniciansByWorkload/TS_input.txt", "tests/cases/opTechnician/printTechniciansByWorkload/oracle.txt");
+        run_test_suite_printMostActiveTechnician("tests/cases/opTechnician/printMostActiveTechnician/TS_input.txt", "tests/cases/opTechnician/printMostActiveTechnician/oracle.txt");
+        run_test_suite_findTechnicianByType("tests/cases/opTechnician/findTechnicianByType/TS_input.txt", "tests/cases/opTechnician/findTechnicianByType/oracle.txt");
         return 0;
     }
 
