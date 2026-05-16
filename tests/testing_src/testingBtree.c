@@ -8,7 +8,7 @@
 
 static technician create_dummy_technician(char specialization) {
 
-    return createTechnician_TESTING(1, "Mario", "Rossi", specialization, 2026);
+    return buildTechnician(1, "Mario Rossi", specialization);
 }
 
 int run_test_suite_newBtree(const char* input_path, const char* oracle_path) {
@@ -103,7 +103,7 @@ int run_test_suite_emptyBtree(const char* input_path, const char* oracle_path) {
             clearTreeNodes(T);
         }
         if (t1 != NULL) {
-            deallocateTechnician(t1);
+            deleteTechnician(t1);
         }
     }
 
@@ -167,7 +167,7 @@ int run_test_suite_insertTechnician(const char* input_path, const char* oracle_p
         }
 
         for (int i = 0; i < tech_idx; i++) {
-            deallocateTechnician(allocated_techs[i]);
+            deleteTechnician(allocated_techs[i]);
         }
     }
 
@@ -224,7 +224,7 @@ int run_test_suite_sizeBtree(const char* input_path, const char* oracle_path) {
         }
         if (scenario > 0) {
             for (int i = 0; i < scenario; i++) {
-                deallocateTechnician(allocated_techs[i]);
+                deleteTechnician(allocated_techs[i]);
             }
         }
     }
@@ -281,7 +281,7 @@ int run_test_suite_clearTreeNodes(const char* input_path, const char* oracle_pat
 
         if (scenario > 0) {
             for (int i = 0; i < scenario; i++) {
-                deallocateTechnician(allocated_techs[i]);
+                deleteTechnician(allocated_techs[i]);
             }
         }
     }
