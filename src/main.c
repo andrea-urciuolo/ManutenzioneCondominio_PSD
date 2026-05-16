@@ -18,6 +18,7 @@
 #include "../tests/testing_include/testingList.h"
 #include "../tests/testing_include/pqueueTesting.h"
 #include "../tests/testing_include/testingBtree.h"
+#include "../tests/testing_include/testingOpRequest.h"
 #include "../include/utils.h"
 
 #define MAX_TECH 350
@@ -90,6 +91,13 @@ int main(int argc, char* argv[]) {
         run_test_suite_insertTechnician("tests/cases/Btree/insertTechnician/TS_input.txt", "tests/cases/Btree/insertTechnician/oracle.txt");
         run_test_suite_sizeBtree("tests/cases/Btree/sizeBtree/TS_input.txt", "tests/cases/Btree/sizeBtree/oracle.txt");
         run_test_suite_clearTreeNodes("tests/cases/Btree/clearTreeNodes/TS_input.txt", "tests/cases/Btree/clearTreeNodes/oracle.txt");
+
+        // OPREQUEST MODULE TESTS
+        run_test_suite_printAllRequests("tests/cases/opRequest/printAllRequests/TS_input.txt", "tests/cases/opRequest/printAllRequests/oracle.txt");
+        run_test_suite_printRequestById("tests/cases/opRequest/printRequestById/TS_input.txt", "tests/cases/opRequest/printRequestById/oracle.txt");
+        run_test_suite_printRequestsByType("tests/cases/opRequest/printRequestsByType/TS_input.txt", "tests/cases/opRequest/printRequestsByType/oracle.txt");
+        run_test_suite_printRequestsByApartment("tests/cases/opRequest/printRequestsByApartment/TS_input.txt", "tests/cases/opRequest/printRequestsByApartment/oracle.txt");
+        run_test_suite_getRequestById("tests/cases/opRequest/getRequestById/TS_input.txt", "tests/cases/opRequest/getRequestById/oracle.txt");
         return 0;
     }
 
