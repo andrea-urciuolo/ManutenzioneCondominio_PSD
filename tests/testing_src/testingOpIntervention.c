@@ -6,46 +6,53 @@
 #include "../../include/request.h"
 #include "../../include/technician.h"
 #include "../../include/list.h"
+
+// Include della funzione factory di testing per le richieste
 #include "../testing_include/testingRequest.h"
-#include "../testing_include/testingTechnician.h"
-#include "../testing_include/testingIntervention.h" 
 
-
+/*
+ * Funzione helper interna per generare un intervento reale e valido.
+ * Aggiornata con buildTechnician e buildIntervention reali del progetto.
+ */
 static intervention create_dummy_intervention(int requestId, char type, int techId, const char* date, const char* time) {
-
     request r = createRequest_TESTING(requestId, type, 3, 101, "2026/01/01", "Richiesta Test");
+    technician t = buildTechnician(techId, "Nome Cognome", 'A');
+    intervention inter = buildIntervention(r, t, date, time);
 
-    technician t = createTechnician_TESTING(techId, "Nome", "Cognome", 'A', 2026);
-
-    intervention inter = createIntervention_TESTING(r, t, date, time, "Note Intervento");
-    
     return inter;
 }
 
+/*
+ * Funzione helper per liberare la memoria completa di un intervento isolato
+ */
 static void deep_deallocate_intervention(intervention inter) {
     if (inter == NULL) return;
-    
+
     request r = getRequestIntervention(inter);
     technician t = getTechnicianIntervention(inter);
-    
+
     if (r != NULL) deallocateRequest(r);
-    if (t != NULL) deallocateTechnician(t);
-    
+    if (t != NULL) deleteTechnician(t);
+
     deallocateIntervention(inter);
 }
 
+/*
+ * Funzione helper ricorsiva per ripulire un'intera lista di interventi
+ */
 static void deep_clear_list(list l) {
     list current = l;
     while (!emptyList(current)) {
         intervention inter = (intervention)getFirst(current);
         deep_deallocate_intervention(inter);
-        
+
         list next_node = tailList(current);
         free(current);
         current = next_node;
     }
 }
 
+// --- TEST SUITE: printAllInterventions ---
 int run_test_suite_printAllInterventions(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, oracle_val, actual_val;
@@ -53,7 +60,7 @@ int run_test_suite_printAllInterventions(const char* input_path, const char* ora
 
     f_in = fopen(input_path, "r");
     f_orc = fopen(oracle_path, "r");
-    
+
     if (!f_in || !f_orc) {
         printf("[ERROR] Impossibile aprire i file di test per printAllInterventions.\n");
         return -1;
@@ -69,14 +76,14 @@ int run_test_suite_printAllInterventions(const char* input_path, const char* ora
 
         if (scenario == -1) {
             printAllInterventions(NULL);
-            actual_val = 1; 
+            actual_val = 1;
         } else {
             for(int i = 0; i < scenario; i++) {
                 intervention inter = create_dummy_intervention(i, 'A', 100 + i, "2026/05/16", "10:00");
-                l = consList(inter, l);
+                l = consList(l, inter);
             }
             printAllInterventions(l);
-            actual_val = 1; 
+            actual_val = 1;
         }
 
         if (actual_val == oracle_val) {
@@ -91,13 +98,14 @@ int run_test_suite_printAllInterventions(const char* input_path, const char* ora
         }
     }
 
-    fclose(f_in); 
+    fclose(f_in);
     fclose(f_orc);
     printf("-------------------------------------------\n");
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
 
+// --- TEST SUITE: printInterventionById ---
 int run_test_suite_printInterventionById(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_id, oracle_val, actual_val;
@@ -120,15 +128,14 @@ int run_test_suite_printInterventionById(const char* input_path, const char* ora
 
         if (scenario == -1) {
             printInterventionById(NULL, target_id);
-            actual_val = 1; 
+            actual_val = 1;
         } else {
-
             for(int i = 1; i <= scenario; i++) {
                 intervention inter = create_dummy_intervention(i, 'A', 100 + i, "2026/05/16", "10:00");
-                l = consList(inter, l);
+                l = consList(l, inter);
             }
             printInterventionById(l, target_id);
-            actual_val = 1; 
+            actual_val = 1;
         }
 
         if (actual_val == oracle_val) {
@@ -143,13 +150,14 @@ int run_test_suite_printInterventionById(const char* input_path, const char* ora
         }
     }
 
-    fclose(f_in); 
+    fclose(f_in);
     fclose(f_orc);
     printf("-------------------------------------------\n");
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
 
+// --- TEST SUITE: printInterventionsByDate ---
 int run_test_suite_printInterventionsByDate(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, oracle_val, actual_val;
@@ -173,15 +181,15 @@ int run_test_suite_printInterventionsByDate(const char* input_path, const char* 
 
         if (scenario == -1) {
             printInterventionsByDate(NULL, target_date);
-            actual_val = 1; 
+            actual_val = 1;
         } else {
             for(int i = 0; i < scenario; i++) {
                 const char* d = (i % 2 == 0) ? "2026/05/16" : "2026/12/25";
                 intervention inter = create_dummy_intervention(i, 'A', 50, d, "09:00");
-                l = consList(inter, l);
+                l = consList(l, inter);
             }
             printInterventionsByDate(l, target_date);
-            actual_val = 1; 
+            actual_val = 1;
         }
 
         if (actual_val == oracle_val) {
@@ -196,13 +204,14 @@ int run_test_suite_printInterventionsByDate(const char* input_path, const char* 
         }
     }
 
-    fclose(f_in); 
+    fclose(f_in);
     fclose(f_orc);
     printf("-------------------------------------------\n");
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
 
+// --- TEST SUITE: printInterventionsByTech ---
 int run_test_suite_printInterventionsByTech(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_tech_id, oracle_val, actual_val;
@@ -225,15 +234,15 @@ int run_test_suite_printInterventionsByTech(const char* input_path, const char* 
 
         if (scenario == -1) {
             printInterventionsByTech(NULL, target_tech_id);
-            actual_val = 1; 
+            actual_val = 1;
         } else {
             for(int i = 0; i < scenario; i++) {
                 int t_id = (i % 2 == 0) ? 7 : 9;
                 intervention inter = create_dummy_intervention(i, 'B', t_id, "2026/05/16", "11:30");
-                l = consList(inter, l);
+                l = consList(l, inter);
             }
             printInterventionsByTech(l, target_tech_id);
-            actual_val = 1; 
+            actual_val = 1;
         }
 
         if (actual_val == oracle_val) {
@@ -248,13 +257,14 @@ int run_test_suite_printInterventionsByTech(const char* input_path, const char* 
         }
     }
 
-    fclose(f_in); 
+    fclose(f_in);
     fclose(f_orc);
     printf("-------------------------------------------\n");
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
 
+// --- TEST SUITE: printInterventionsByType ---
 int run_test_suite_printInterventionsByType(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, oracle_val, actual_val;
@@ -278,15 +288,15 @@ int run_test_suite_printInterventionsByType(const char* input_path, const char* 
 
         if (scenario == -1) {
             printInterventionsByType(NULL, target_type);
-            actual_val = 1; 
+            actual_val = 1;
         } else {
             for(int i = 0; i < scenario; i++) {
                 char t = (i % 2 == 0) ? 'X' : 'Y';
                 intervention inter = create_dummy_intervention(i, t, 12, "2026/05/16", "14:15");
-                l = consList(inter, l);
+                l = consList(l, inter);
             }
             printInterventionsByType(l, target_type);
-            actual_val = 1; 
+            actual_val = 1;
         }
 
         if (actual_val == oracle_val) {
@@ -301,13 +311,14 @@ int run_test_suite_printInterventionsByType(const char* input_path, const char* 
         }
     }
 
-    fclose(f_in); 
+    fclose(f_in);
     fclose(f_orc);
     printf("-------------------------------------------\n");
     printf("Total Tests: %d | Failures: %d\n", test_count, failures);
     return failures;
 }
 
+// --- TEST SUITE: checkConflict ---
 int run_test_suite_checkConflict(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_tech_id, oracle_val, actual_val;
@@ -324,8 +335,7 @@ int run_test_suite_checkConflict(const char* input_path, const char* oracle_path
     printf("Starting Test Suite: checkConflict\n");
     printf("-------------------------------------------\n");
 
-    // Legge input complessi: scenario, id_tecnico, data_target, ora_target
-    while (fscanf(f_in, "%d %d %s %s", &scenario, &target_tech_id, target_date, target_time) != EOF && 
+    while (fscanf(f_in, "%d %d %s %s", &scenario, &target_tech_id, target_date, target_time) != EOF &&
            fscanf(f_orc, "%d", &oracle_val) != EOF) {
         test_count++;
         list l = newList();
@@ -335,11 +345,11 @@ int run_test_suite_checkConflict(const char* input_path, const char* oracle_path
         } else {
             if (scenario > 0) {
                 intervention inter1 = create_dummy_intervention(1, 'A', 10, "2026/05/16", "10:30");
-                l = consList(inter1, l);
+                l = consList(l, inter1);
             }
             if (scenario > 1) {
                 intervention inter2 = create_dummy_intervention(2, 'B', 20, "2026/12/25", "18:00");
-                l = consList(inter2, l);
+                l = consList(l, inter2);
             }
             
             actual_val = checkConflict(l, target_tech_id, target_date, target_time);
