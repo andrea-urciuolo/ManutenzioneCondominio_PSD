@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../../include/PQueue.h"
 #include "../../include/request.h"
+#include "../testing_include/pqueueTesting.h"
 
 int run_test_suite_newPQ(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
