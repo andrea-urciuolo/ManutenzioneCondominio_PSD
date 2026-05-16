@@ -167,7 +167,7 @@ int run_test_suite_insertTechnician(const char* input_path, const char* oracle_p
         }
 
         for (int i = 0; i < tech_idx; i++) {
-            deallocateTechnician(allocated_techs[i]);
+            deleteTechnician(allocated_techs[i]);
         }
     }
 
@@ -224,7 +224,7 @@ int run_test_suite_sizeBtree(const char* input_path, const char* oracle_path) {
         }
         if (scenario > 0) {
             for (int i = 0; i < scenario; i++) {
-                deallocateTechnician(allocated_techs[i]);
+                deleteTechnician(allocated_techs[i]);
             }
         }
     }
@@ -281,7 +281,7 @@ int run_test_suite_clearTreeNodes(const char* input_path, const char* oracle_pat
 
         if (scenario > 0) {
             for (int i = 0; i < scenario; i++) {
-                deallocateTechnician(allocated_techs[i]);
+                deleteTechnician(allocated_techs[i]);
             }
         }
     }
