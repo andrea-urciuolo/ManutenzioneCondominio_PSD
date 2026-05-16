@@ -82,6 +82,13 @@ int main(int argc, char* argv[]) {
         run_test_suite_deleteMax("tests/cases/Pqueue/deleteMax/TS_input.txt", "tests/cases/Pqueue/deleteMax/oracle.txt");
         run_test_suite_insert("tests/cases/Pqueue/insert/TS_input.txt", "tests/cases/Pqueue/insert/oracle.txt");
         run_test_suite_deallocatePQ("tests/cases/Pqueue/deallocatePQ/TS_input.txt", "tests/cases/Pqueue/deallocatePQ/oracle.txt");
+
+        // BTREE MODULE TESTS
+        run_test_suite_newBtree("tests/cases/Btree/newBtree/TS_input.txt", "tests/cases/Btree/newBtree/oracle.txt");
+        run_test_suite_emptyBtree("tests/cases/Btree/emptyBtree/TS_input.txt", "tests/cases/Btree/emptyBtree/oracle.txt");
+        run_test_suite_insertTechnician("tests/cases/Btree/insertTechnician/TS_input.txt", "tests/cases/Btree/insertTechnician/oracle.txt");
+        run_test_suite_sizeBtree("tests/cases/Btree/sizeBtree/TS_input.txt", "tests/cases/Btree/sizeBtree/oracle.txt");
+        run_test_suite_clearTreeNodes("tests/cases/Btree/clearTreeNodes/TS_input.txt", "tests/cases/Btree/clearTreeNodes/oracle.txt");
         return 0;
     }
 
