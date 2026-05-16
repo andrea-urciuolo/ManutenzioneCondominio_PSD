@@ -8,7 +8,7 @@
 
 static technician create_dummy_technician(char specialization) {
 
-    return createTechnician_TESTING(1, "Mario", "Rossi", specialization, 2026);
+    return buildTechnician(1, "Mario Rossi", specialization);
 }
 
 int run_test_suite_newBtree(const char* input_path, const char* oracle_path) {
@@ -103,7 +103,7 @@ int run_test_suite_emptyBtree(const char* input_path, const char* oracle_path) {
             clearTreeNodes(T);
         }
         if (t1 != NULL) {
-            deallocateTechnician(t1);
+            deleteTechnician(t1);
         }
     }
 
