@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     
     if (argc != 2) {
         printf("\nERRORE: Numero di argomenti errato.\n");
-        printf("Uso: ./manutenzione --exe (per avviare) oppure ./manutenzione --test (per i test)\n\n");
+        printf("Uso: .\\manutenzione --exe | .\\manutenzione --dev | .\\manutenzione --test\n\n");
         return 1;
     }
 
