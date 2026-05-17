@@ -32,8 +32,7 @@ int run_test_suite_printAllTechnicians(const char* input_path, const char* oracl
     while (fscanf(f_in, "%d", &scenario) != EOF && fscanf(f_orc, "%d", &oracle_val) != EOF) {
         test_count++;
         Btree T = newBtree();
-        
-        // Array per salvare i puntatori e pulire la memoria a fine ciclo
+
         technician arr[50];
         for(int k=0; k<50; k++) arr[k] = NULL; 
 
@@ -45,7 +44,7 @@ int run_test_suite_printAllTechnicians(const char* input_path, const char* oracl
         } else {
             char specializations[] = {'a', 'b', 'c', 'd', 'e', 'f'};
             for (int i = 0; i < scenario; i++) {
-                char spec = specializations[i % 6]; // Stessa logica usata nel tuo main.c!
+                char spec = specializations[i % 6];
                 arr[i] = create_dummy_tech_with_workload(i, spec, i);
                 T = insertTechnician(T, arr[i]);
             }

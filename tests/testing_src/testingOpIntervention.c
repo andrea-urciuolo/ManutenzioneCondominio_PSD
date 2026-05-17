@@ -10,10 +10,7 @@
 // Include della funzione factory di testing per le richieste
 #include "../testing_include/testingRequest.h"
 
-/*
- * Funzione helper interna per generare un intervento reale e valido.
- * Aggiornata con buildTechnician e buildIntervention reali del progetto.
- */
+
 static intervention create_dummy_intervention(int requestId, char type, int techId, const char* date, const char* time) {
     request r = createRequest_TESTING(requestId, type, 3, 101, "2026/01/01", "Richiesta Test");
     technician t = buildTechnician(techId, "Nome Cognome", 'A');
@@ -22,9 +19,7 @@ static intervention create_dummy_intervention(int requestId, char type, int tech
     return inter;
 }
 
-/*
- * Funzione helper per liberare la memoria completa di un intervento isolato
- */
+
 static void deep_deallocate_intervention(intervention inter) {
     if (inter == NULL) return;
 
@@ -37,9 +32,7 @@ static void deep_deallocate_intervention(intervention inter) {
     deallocateIntervention(inter);
 }
 
-/*
- * Funzione helper ricorsiva per ripulire un'intera lista di interventi
- */
+
 static void deep_clear_list(list l) {
     list current = l;
     while (!emptyList(current)) {
@@ -52,7 +45,7 @@ static void deep_clear_list(list l) {
     }
 }
 
-// --- TEST SUITE: printAllInterventions ---
+
 int run_test_suite_printAllInterventions(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, oracle_val, actual_val;
@@ -105,7 +98,6 @@ int run_test_suite_printAllInterventions(const char* input_path, const char* ora
     return failures;
 }
 
-// --- TEST SUITE: printInterventionById ---
 int run_test_suite_printInterventionById(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_id, oracle_val, actual_val;
@@ -157,7 +149,6 @@ int run_test_suite_printInterventionById(const char* input_path, const char* ora
     return failures;
 }
 
-// --- TEST SUITE: printInterventionsByDate ---
 int run_test_suite_printInterventionsByDate(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, oracle_val, actual_val;
@@ -211,7 +202,6 @@ int run_test_suite_printInterventionsByDate(const char* input_path, const char* 
     return failures;
 }
 
-// --- TEST SUITE: printInterventionsByTech ---
 int run_test_suite_printInterventionsByTech(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_tech_id, oracle_val, actual_val;
@@ -264,7 +254,6 @@ int run_test_suite_printInterventionsByTech(const char* input_path, const char* 
     return failures;
 }
 
-// --- TEST SUITE: printInterventionsByType ---
 int run_test_suite_printInterventionsByType(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, oracle_val, actual_val;
@@ -318,7 +307,6 @@ int run_test_suite_printInterventionsByType(const char* input_path, const char* 
     return failures;
 }
 
-// --- TEST SUITE: checkConflict ---
 int run_test_suite_checkConflict(const char* input_path, const char* oracle_path) {
     FILE *f_in, *f_orc;
     int scenario, target_tech_id, oracle_val, actual_val;
