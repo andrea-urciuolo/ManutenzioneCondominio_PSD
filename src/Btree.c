@@ -52,19 +52,15 @@ Btree figlioDX(Btree T) {
 }
 
 Btree insertTechnician(Btree T, technician newTech) {
-    if (emptyBtree(T)) {
-        return consBtree(newTech, newBtree(), newBtree());
-    }
+    if (T == NULL) return consBtree(newTech, NULL, NULL);
 
-    technician rootTech = getItem(getRoot(T));
-
-    if (getSpecialization(newTech) <= getSpecialization(rootTech)) {
-        Btree newLeft = insertTechnician(figlioSX(T), newTech);
-        return consBtree(rootTech, newLeft, figlioDX(T));
+    if (getSpecialization(newTech) <= getSpecialization(T->value)) {
+        T->left = insertTechnician(T->left, newTech);
     } else {
-        Btree newRight = insertTechnician(figlioDX(T), newTech);
-        return consBtree(rootTech, figlioSX(T), newRight);
+        T->right = insertTechnician(T->right, newTech);
     }
+
+    return T;
 }
 
 int sizeBtree(Btree T) {
@@ -75,15 +71,12 @@ int sizeBtree(Btree T) {
 
 
 void clearTreeNodes(Btree T) {
-    if (emptyBtree(T)) return;
+    if (T == NULL) return;
 
-    clearTreeNodes(figlioSX(T));
+    clearTreeNodes(T->left);
+    clearTreeNodes(T->right);
 
-    clearTreeNodes(figlioDX(T));
-
-    node* curr = getRoot(T);
-
-    free(curr);
+    free(T);
 }
 
 // --- Functions to visualize the tree structure ---

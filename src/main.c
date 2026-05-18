@@ -663,10 +663,9 @@ int main(int argc, char* argv[]) {
     }
     deallocatePQ(pqueueRequest);
 
-    // 2. Clear Technicians (Usiamo l'Array per sicurezza e semplicità)
+    // 2. Clear Technicians
     for (int i = 0; i < MAX_TECH; i++) {
         if (techID[i] != NULL) {
-            // Liberiamo l'oggetto tecnico una sola volta qui
             deleteTechnician(techID[i]);
             techID[i] = NULL;
         }
@@ -674,6 +673,7 @@ int main(int argc, char* argv[]) {
 
     // 3. Clear Btree Nodes
     clearTreeNodes(treeTechnician);
+    treeTechnician = NULL;
 
     // 4. Clear Completed Interventions
     while (!emptyList(completedIntervention)) {
