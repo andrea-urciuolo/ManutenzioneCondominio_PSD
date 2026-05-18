@@ -353,7 +353,7 @@ int run_test_suite_getDescription(const char* input_path, const char* oracle_pat
     return failures;
 }
 
-int run_test_suite_deallocateRequest(const char* input_path, const char* oracle_path) {
+int run_test_suite_deallocateRequest(const char* input_path) {
     FILE *f_in;
     char buffer[512];
     int failures = 0;

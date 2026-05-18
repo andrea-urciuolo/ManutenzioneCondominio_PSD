@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
         run_test_suite_getApartment("tests/cases/request/getApartment/TS_input.txt", "tests/cases/request/getApartment/oracle.txt");
         run_test_suite_getSubmissionDate("tests/cases/request/getSubmissionDate/TS_input.txt", "tests/cases/request/getSubmissionDate/oracle.txt");
         run_test_suite_getDescription("tests/cases/request/getDescription/TS_input.txt", "tests/cases/request/getDescription/oracle.txt");
-        run_test_suite_deallocateRequest("tests/cases/request/deallocateRequest/TS_input.txt", "tests/cases/request/deallocateRequest/oracle.txt");
+        run_test_suite_deallocateRequest("tests/cases/request/deallocateRequest/TS_input.txt");
 
         // TECHNICIAN MODULE TESTS
         run_test_suite_deleteTechnician("tests/cases/technician/deleteTechnician/TS_input.txt");
