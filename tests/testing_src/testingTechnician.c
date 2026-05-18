@@ -121,7 +121,11 @@ int run_test_suite_getSpecialization(const char* input_path, const char* oracle_
     f_in = fopen(input_path, "r");
     f_orc = fopen(oracle_path, "r");
 
-    if (!f_in || !f_orc) return -1;
+    if (!f_in || !f_orc) {
+        if (f_in) fclose(f_in);
+        if (f_orc) fclose(f_orc);
+        return -1;
+    }
 
     printf("Starting Test Suite: getSpecialization\n");
     printf("-------------------------------------------\n");

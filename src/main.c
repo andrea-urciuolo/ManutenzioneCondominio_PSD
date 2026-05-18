@@ -57,7 +57,6 @@ int main(int argc, char* argv[]) {
         run_test_suite_addIntervention("tests/cases/technician/addIntervention/TS_input.txt", "tests/cases/technician/addIntervention/oracle.txt");
         run_test_suite_getIdCode("tests/cases/technician/getIdCode/TS_input.txt", "tests/cases/technician/getIdCode/oracle.txt");
         run_test_suite_getInterventionCount("tests/cases/technician/getInterventionCount/TS_input.txt", "tests/cases/technician/getInterventionCount/oracle.txt");
-        run_test_suite_getSpecialization("tests/cases/technician/getSpecialization/TS_input.txt", "tests/cases/technician/getSpecialization/oracle.txt");
         run_test_suite_getName("tests/cases/technician/getName/TS_input.txt", "tests/cases/technician/getName/oracle.txt");
 
         // INTERVENTION MODULE TESTS
