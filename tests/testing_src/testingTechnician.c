@@ -141,7 +141,8 @@ int run_test_suite_getSpecialization(const char* input_path, const char* oracle_
             deleteTechnician(tech);
         }
     }
-    fclose(f_in); fclose(f_orc);
+    fclose(f_in);
+    fclose(f_orc);
     return failures;
 }
 

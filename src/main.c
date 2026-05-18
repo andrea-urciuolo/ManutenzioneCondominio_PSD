@@ -648,7 +648,8 @@ int main(int argc, char* argv[]) {
                     printf("\nERRORE: Nessun intervento in corso trovato per la richiesta ID %d.\n", targetId);
                 }
                 break;
-
+            case 'z':
+                break;
             default:
                 printf("\nERRORE: Selezione non valida. Per favore, scegli un'opzione dal menu.\n");
         }
