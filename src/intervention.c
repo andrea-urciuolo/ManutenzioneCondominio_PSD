@@ -30,12 +30,24 @@ intervention newIntervention(request r, technician t) {
 
     // Date input loop: ensures format correctness and valid calendar dates
     char dateAppointment[11];
+    char checkRequestAppointment[11];
+    int flagCheck;
     do {
+        flagCheck = 0;
+        if (!error) {
+            printf("Inserire la data per l'intervento (YYYY/MM/DD): ");
+        } else {
+            printf("ERRORE! Formato non valido. Riprova (YYYY/MM/DD): ");
+        }
+        scanf("%10s", dateAppointment);
         clearBuffer();
-        if (!error) printf("Inserire la data per l'intervento (YYYY/MM/DD): ");
-        else printf("ERRORE! Formato non valido. Riprova (YYYY/MM/DD): ");
+        strcpy(checkRequestAppointment, getSubmissionDate(r));
+        if (StrToInt(checkRequestAppointment) > StrToInt(dateAppointment)) {
+            printf("Data inserita non valida\n");
+            flagCheck = 1;
+        }
         error = 1;
-    } while (scanf("%10s", dateAppointment) != 1 || !checkDateValidity(dateAppointment));
+    } while (flagCheck == 1 || !checkDateValidity(dateAppointment));
 
     // Safely copy the validated date into the struct
     strncpy(inter->dateAppointment, dateAppointment, sizeof(inter->dateAppointment) - 1);
@@ -49,7 +61,7 @@ intervention newIntervention(request r, technician t) {
         if (!error) printf("Inserire l'orario per l'intervento (HH:MM): ");
         else printf("ERRORE! Formato non valido. Riprova (HH:MM): ");
         error = 1;
-    } while (scanf("%5s", timeAppointment) != 1);
+    } while (scanf("%5s", timeAppointment) != 1 || !checkTimeValidity(timeAppointment));
 
     // Safely copy the validated time string
     strncpy(inter->timeAppointment, timeAppointment, sizeof(inter->timeAppointment) - 1);

@@ -1,0 +1,368 @@
+Index: src/intervention.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#include <stdio.h>\r\n#include <stdlib.h>\r\n#include <string.h>\r\n#include \"intervention.h\"\r\n#include \"request.h\"\r\n#include \"tecnico.h\"\r\n\r\nstruct c_intervention {\r\n    request r;\r\n    tecnico t;\r\n    char dateAppointment[11];\r\n    char timeAppointment[6];\r\n    int estimatedTime;                       // Necessary time for the intervention in hours, MIN = 1, MAX = 4;\r\n};\r\n\r\nintervention newIntervention(request r, tecnico t, char dateAppointment[], char timeAppointment[], int estimatedTime) {\r\n    // Allocate memory for the intervention adt\r\n    intervention inter = malloc(sizeof(struct intervention));\r\n    if (inter == NULL) return NULL;\r\n\r\n    // Assign parameter values\r\n    inter->r = r;\r\n    inter->t = t;\r\n    inter->estimatedTime = estimatedTime;\r\n\r\n    //Copying dateAppointment and timeAppointment avoiding a Buffer Overflow\r\n    strncpy(inter->dateAppointment, dateAppointment, sizeof(inter->dateAppointment) - 1);\r\n    inter->dateAppointment[sizeof(inter->dateAppointment) - 1] = '\\0';\r\n    strncpy(inter->timeAppointment, timeAppointment, sizeof(inter->timeAppointment) - 1);\r\n    inter->timeAppointment[sizeof(inter->timeAppointment) - 1] = '\\0';\r\n\r\n    return inter;\r\n}\r\n\r\nrequest getRequestIntervention(intervention inter) {\r\n    return inter->r;\r\n}\r\n\r\ntecnico getTecnicoIntervention(intervention inter) {\r\n    return inter->t;\r\n}\r\n\r\nchar* getDateAppointment(intervention inter) {\r\n    return inter->dateAppointment;\r\n}\r\n\r\nchar* getTimeAppointment(intervention inter) {\r\n    return inter->timeAppointment;\r\n}\r\n\r\nint getEstimatedTime(intervention inter) {\r\n    return inter->estimatedTime;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/intervention.c b/src/intervention.c
+--- a/src/intervention.c	(revision 584bab80ff329af70bc32fbd86d624dc417a798a)
++++ b/src/intervention.c	(date 1776961037008)
+@@ -15,7 +15,7 @@
+ 
+ intervention newIntervention(request r, tecnico t, char dateAppointment[], char timeAppointment[], int estimatedTime) {
+     // Allocate memory for the intervention adt
+-    intervention inter = malloc(sizeof(struct intervention));
++    intervention inter = malloc(sizeof(struct c_intervention));
+     if (inter == NULL) return NULL;
+ 
+     // Assign parameter values
+Index: src/tecnico.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#include <stdio.h>\r\n#include <stdlib.h>\r\n#include <string.h>\r\n#include \"../include/tecnico.h\"\r\n\r\n#define PLUMBER 'a'\r\n#define ELECTRICIAN 'b'\r\n#define CONSTRUCTOR 'c'\r\n#define TERMOHYDRAULIC 'd'\r\n#define ELEVETOR 'e'\r\n#define BLACKSMITH 'f'\r\n\r\nstruct c_tecnico {\r\n    int codiceIdentificativo;   // code that identifies the technician\r\n    char nome[50];\r\n    char specializzazione;\r\n    int disponibilita;          /* 1 = available, 0 = busy */\r\n    int numeroInterventi;\r\n}; \r\n\r\n/* Allocates memory and initializes a new technician with a random ID, given name, specialization, and default values. */\r\ntecnico creaTecnico(const char* nome, char specializzazione){\r\n    \r\n    tecnico nuovotecnico = (tecnico)malloc(sizeof(struct c_tecnico)); \r\n\r\n    if(nuovotecnico == NULL){                      \r\n        printf(\"Errore nell'allocazione della memoria per creare il tecnico \\n\");       \r\n        return NULL;\r\n    }\r\n\r\n    nuovotecnico->codiceIdentificativo = (rand() % 9999) + 1;        \r\n    // TODO: add <time.h> to main and srand(time(NULL))\r\n    \r\n    strncpy(nuovotecnico->nome, nome, 49);\r\n    nuovotecnico->nome[49] = '\\0';\r\n\r\n   \r\n    nuovotecnico->specializzazione = specializzazione;\r\n\r\n    nuovotecnico->disponibilita = 1;       \r\n    nuovotecnico->numeroInterventi = 0; \r\n    \r\n    return nuovotecnico;\r\n}\r\n\r\n/* Frees the memory previously allocated for the given technician. */\r\nvoid eliminaTecnico(tecnico t){        \r\n    if( t != NULL)\r\n        free(t);            \r\n}\r\n\r\n/* Prints all the details and current status of the technician to the standard output. */\r\nvoid stampaTecnico(const tecnico t){\r\n    if(t == NULL){\r\n        printf(\"Nessun tecnico da stampare\\n\");\r\n        return;\r\n    }\r\n\r\n    printf(\"--- Scheda Tecnico ---\\n\");\r\n    printf(\"Codice ID: %d\\n\", t->codiceIdentificativo);\r\n    printf(\"Nome: %s\\n\", t->nome);\r\n    printf(\"Specializzazione: %c\\n\", t->specializzazione); // Usato %c per il singolo char\r\n    \r\n    if (t->disponibilita == 1) {\r\n        printf(\"Stato: Disponibile\\n\");\r\n    } else {                                \r\n        printf(\"Stato: Occupato\\n\");\r\n    }\r\n    printf(\"Interventi effettuati: %d\\n\", t->numeroInterventi);\r\n    printf(\"----------------------\\n\");\r\n}\r\n\r\n/* Updates the availability status of the technician (1 for available, 0 for busy). */\r\nvoid impostaDisponibilita(tecnico t, int stato){\r\n    if(t != NULL){\r\n        if(stato == 0 || stato == 1 ){\r\n            t->disponibilita = stato;\r\n        } else{\r\n            printf(\"Errore: stato non valido. Usare 1 (Disponibile) o 0 (Occupato)\\n\");\r\n        }\r\n    }\r\n}\r\n\r\n/* Increments the total number of interventions assigned to the technician by one. */\r\nvoid aggiungiIntervento(tecnico t) {\r\n    if (t != NULL) {\r\n        t->numeroInterventi += 1;\r\n    }\r\n}\r\n\r\n/* Returns the unique identification code of the technician. */\r\nint getCodiceIdentificativo(tecnico t) {\r\n    if (t == NULL) return -1;\r\n    return t->codiceIdentificativo;\r\n}\r\n\r\n/* Returns the current availability status of the technician. */\r\nint getDisponibilita(tecnico t) {\r\n    if (t == NULL) return -1;\r\n    return t->disponibilita;\r\n}\r\n\r\n/* Returns the total number of interventions currently assigned to or completed by the technician. */\r\nint getIntervento(tecnico t) {\r\n    if (t == NULL) return -1;\r\n    return t->numeroInterventi;\r\n}\r\n\r\n/* Returns a pointer to the string containing the technician's name. */\r\nconst char* getNome(tecnico t) {\r\n    if (t == NULL) return NULL;\r\n    return t->nome;\r\n}\r\n\r\n/* Returns the character representing the technician's specific area of expertise. */\r\nchar getSpecializzazione(tecnico t) {\r\n    if (t == NULL) return 'z';\r\n    return t->specializzazione;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/tecnico.c b/src/tecnico.c
+--- a/src/tecnico.c	(revision 584bab80ff329af70bc32fbd86d624dc417a798a)
++++ b/src/tecnico.c	(date 1776961037009)
+@@ -2,6 +2,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include "../include/tecnico.h"
++#include "../include/utils.h" 
+ 
+ #define PLUMBER 'a'
+ #define ELECTRICIAN 'b'
+@@ -11,109 +12,92 @@
+ #define BLACKSMITH 'f'
+ 
+ struct c_tecnico {
+-    int codiceIdentificativo;   // code that identifies the technician
+-    char nome[50];
+-    char specializzazione;
+-    int disponibilita;          /* 1 = available, 0 = busy */
+-    int numeroInterventi;
++    int idCode;                 // Code that identifies the technician
++    char name[50];              // Technician's name
++    char specialization;        // Character representing the specialization
++    int interventionCount;      // Total number of interventions
+ }; 
+ 
+-/* Allocates memory and initializes a new technician with a random ID, given name, specialization, and default values. */
+-tecnico creaTecnico(const char* nome, char specializzazione){
++
++/* Allocates memory and initializes a new technician asking the user for their details */
++tecnico creaTecnico() { 
+     
+-    tecnico nuovotecnico = (tecnico)malloc(sizeof(struct c_tecnico)); 
++    tecnico newTechnician = (tecnico)malloc(sizeof(struct c_tecnico)); 
+ 
+-    if(nuovotecnico == NULL){                      
++    if(newTechnician == NULL){                      
+         printf("Errore nell'allocazione della memoria per creare il tecnico \n");       
+         return NULL;
+     }
+ 
+-    nuovotecnico->codiceIdentificativo = (rand() % 9999) + 1;        
+-    // TODO: add <time.h> to main and srand(time(NULL))
++    newTechnician->idCode = (rand() % 9999) + 1;        
+     
+-    strncpy(nuovotecnico->nome, nome, 49);
+-    nuovotecnico->nome[49] = '\0';
+-
+-   
+-    nuovotecnico->specializzazione = specializzazione;
+-
+-    nuovotecnico->disponibilita = 1;       
+-    nuovotecnico->numeroInterventi = 0; 
++    /* Asks the user for the technician's name directly from the terminal */
++    printf("Inserisci il nome del tecnico: ");
++    readString(newTechnician->name, sizeof(newTechnician->name));
++    
++    /* Asks for the specialization */
++    printf("Inserisci la specializzazione (a=PLUMBER, b=ELECTRICIAN, c=CONSTRUCTOR, d=TERMOHYDRAULIC, e=ELEVETOR, f=BLACKSMITH): ");
++    
++    /* The space before %c is essential to ignore any leftover 'Enter' in the buffer */
++    scanf(" %c", &newTechnician->specialization);
++    
++    /* Clears the buffer to remove the trailing newline left by scanf */
++    clearBuffer();
++       
++    newTechnician->interventionCount = 0; 
+     
+-    return nuovotecnico;
++    return newTechnician;
+ }
+ 
+ /* Frees the memory previously allocated for the given technician. */
+-void eliminaTecnico(tecnico t){        
+-    if( t != NULL)
+-        free(t);            
++void eliminaTecnico(tecnico tech) {        
++    if(tech != NULL)
++        free(tech);            
+ }
+ 
+ /* Prints all the details and current status of the technician to the standard output. */
+-void stampaTecnico(const tecnico t){
+-    if(t == NULL){
++void stampaTecnico(const tecnico tech) {
++    if(tech == NULL){
+         printf("Nessun tecnico da stampare\n");
+         return;
+     }
+ 
+     printf("--- Scheda Tecnico ---\n");
+-    printf("Codice ID: %d\n", t->codiceIdentificativo);
+-    printf("Nome: %s\n", t->nome);
+-    printf("Specializzazione: %c\n", t->specializzazione); // Usato %c per il singolo char
++    printf("Codice ID: %d\n", tech->idCode);
++    printf("Nome: %s\n", tech->name);
++    printf("Specializzazione: %c\n", tech->specialization); 
+     
+-    if (t->disponibilita == 1) {
+-        printf("Stato: Disponibile\n");
+-    } else {                                
+-        printf("Stato: Occupato\n");
+-    }
+-    printf("Interventi effettuati: %d\n", t->numeroInterventi);
++    printf("Interventi effettuati: %d\n", tech->interventionCount);
+     printf("----------------------\n");
+ }
+ 
+-/* Updates the availability status of the technician (1 for available, 0 for busy). */
+-void impostaDisponibilita(tecnico t, int stato){
+-    if(t != NULL){
+-        if(stato == 0 || stato == 1 ){
+-            t->disponibilita = stato;
+-        } else{
+-            printf("Errore: stato non valido. Usare 1 (Disponibile) o 0 (Occupato)\n");
+-        }
+-    }
+-}
+-
+ /* Increments the total number of interventions assigned to the technician by one. */
+-void aggiungiIntervento(tecnico t) {
+-    if (t != NULL) {
+-        t->numeroInterventi += 1;
++void aggiungiIntervento(tecnico tech) {
++    if (tech != NULL) {
++        tech->interventionCount += 1;
+     }
+ }
+ 
+ /* Returns the unique identification code of the technician. */
+-int getCodiceIdentificativo(tecnico t) {
+-    if (t == NULL) return -1;
+-    return t->codiceIdentificativo;
+-}
+-
+-/* Returns the current availability status of the technician. */
+-int getDisponibilita(tecnico t) {
+-    if (t == NULL) return -1;
+-    return t->disponibilita;
++int getCodiceIdentificativo(tecnico tech) {
++    if (tech == NULL) return -1;
++    return tech->idCode;
+ }
+ 
+ /* Returns the total number of interventions currently assigned to or completed by the technician. */
+-int getIntervento(tecnico t) {
+-    if (t == NULL) return -1;
+-    return t->numeroInterventi;
++int getIntervento(tecnico tech) {
++    if (tech == NULL) return -1;
++    return tech->interventionCount;
+ }
+ 
+ /* Returns a pointer to the string containing the technician's name. */
+-const char* getNome(tecnico t) {
+-    if (t == NULL) return NULL;
+-    return t->nome;
++const char* getNome(tecnico tech) {
++    if (tech == NULL) return NULL;
++    return tech->name;
+ }
+ 
+ /* Returns the character representing the technician's specific area of expertise. */
+-char getSpecializzazione(tecnico t) {
+-    if (t == NULL) return 'z';
+-    return t->specializzazione;
++char getSpecializzazione(tecnico tech) {
++    if (tech == NULL) return 'z';
++    return tech->specialization;
+ }
+\ No newline at end of file
+Index: src/request.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#include <stdio.h>\r\n#include <stdlib.h>\r\n#include <string.h>\r\n#include \"../include/request.h\"\r\n#include \"../include/utils.h\"\r\n\r\nstruct c_request {\r\n    int idCode;                  // Id code for the request\r\n    char type;                   // Type of request   Es: Fixing the plumbering\r\n    int urgency;                 // Level of urgency  1 (low) - 5 (high)\r\n    int apartment;               // Civic number who sent the request, 0 if it's for the whole building\r\n    char submissionDate[11];     // Format: YYYY/MM/DD\r\n    char* description;           // Description of the problem\r\n};\r\n\r\nrequest newRequest() {\r\n\trequest r = malloc(sizeof(struct c_request));\r\n\tif (r == NULL) return NULL;\r\n\r\n\tint error = 0;\r\n\tint idCode;\r\n\tdo {\r\n\t\tif (!error) printf(\"Inserire l'id della richiesta: \");\r\n\t\telse printf(\"ERRORE! Inserire un id valido (solo cifre): \");\r\n\t\terror = 1;\r\n\t} while (scanf(\"%d\", &idCode) != 1);\r\n\r\n\tr->idCode = idCode;\r\n\r\n\terror = 0;\r\n\tchar type;\r\n\twhile (true) {\r\n\t\tif (!error) {\r\n\t\t\tprintf(\"Inserire la tipologia della richiesta\\n\");\r\n\t\t\tprintf(\"[a] Intervento all'impianto idraulico\\n\");\r\n\t\t\tprintf(\"[b] Intervento all'impianto elettrico\\n\");\r\n\t\t\tprintf(\"[c] Intervento edile\\n\");\r\n\t\t\tprintf(\"[d] Intervento all'impianto termoidraulico\\n\");\r\n\t\t\tprintf(\"[e] Intervento sull'ascensore\\n\");\r\n\t\t\tprintf(\"[f] Intervento su serrature e metalli\\n\");\r\n\t\t}\r\n\t\tprintf(\".. : \");\r\n\t\ttype = getchar();\r\n\t\tif (type < 97 || type > 102) {\r\n\t\t\tprintf(\"ERRORE! Inserire un type valido\\n\");\r\n\t\t\terror = 1;\r\n\t\t\tcontinue;\r\n\t\t}\r\n\r\n\t\tr->type = type;\r\n\t\tbreak;\r\n\t}\r\n\r\n\terror = 0;\r\n\tint urgency;\r\n\tdo {\r\n\t\tif (!error) printf(\"Inserire l'urgenza della richiesta [1 (bassa) - 5 (alta)]: \");\r\n\t\telse printf(\"ERRORE! Inserire un livello di urgenza valido: \");\r\n\t\terror = 1;\r\n\t} while ((scanf(\"%d\", &urgency) != 1) || (urgency < 1 || urgency > 5));\r\n\r\n\tr->urgency = urgency;\r\n\r\n\r\n\terror = 0;\r\n\tint apartment;\r\n\tif (type == 'e') {\r\n\t\tapartment = 0;\r\n\t} else {\r\n\t\tdo {\r\n\t\t\tif (!error) printf(\"Inserire il numero civico della richiesta: \");\r\n\t\t\telse printf(\"ERRORE! Inserire un numero civico valido: \");\r\n\t\t\terror = 1;\r\n\t\t} while ((scanf(\"%d\", &apartment) != 1) || (apartment < 1));\r\n\t}\r\n\r\n\r\n\t// TODO: Aggiungere controlli in caso di data inesistente\r\n\terror = 0;\r\n\tchar submissionDate[11];\r\n    clearBuffer();\r\n\r\n    do {\r\n       if (!error) printf(\"Inserire la data di sottomissione (YYYY/MM/DD): \");\r\n       else printf(\"ERRORE! Formato non valido. Riprova (YYYY/MM/DD): \");\r\n       error = 1;\r\n    } while (scanf(\"%10s\", submissionDate) != 1);\r\n\r\n    strncpy(r->submissionDate, submissionDate, sizeof(r->submissionDate) - 1);\r\n    r->submissionDate[sizeof(r->submissionDate) - 1] = '\\0';\r\n\r\n\r\n\terror = 0;\r\n\tchar buffer[512];\r\n\tclearBuffer();\r\n\r\n\tdo {\r\n       if (!error) printf(\"Inserire una breve descrizione del problema: \");\r\n       else printf(\"ERRORE! La descrizione non può essere vuota: \");\r\n       error = 1;\r\n\r\n       if (fgets(buffer, sizeof(buffer), stdin) != NULL) {\r\n           buffer[strcspn(buffer, \"\\n\")] = '\\0';\r\n       }\r\n\r\n    } while (strlen(buffer) == 0);\r\n\r\n    r->description = malloc(strlen(buffer) + 1);\r\n    if (r->description == NULL) {\r\n        free(r);\r\n        return NULL;\r\n    }\r\n\r\n    strcpy(r->description, buffer);\r\n\r\n    return r;\r\n}\r\n\r\nint getIdCode(request r) {\r\n    if (r == NULL) return -1;\r\n    return r->idCode;\r\n}\r\n\r\nchar getType(request r) {\r\n    if (r == NULL) return 'z'; // Return Default value for the type parameter\r\n    return r->type;\r\n}\r\n\r\nint getUrgency(request r) {\r\n    if (r == NULL) return -1;\r\n    return r->urgency;\r\n}\r\n\r\nint getApartment(request r) {\r\n    if (r == NULL) return -1;\r\n    return r->apartment;\r\n}\r\n\r\nchar* getSubmissionDate(request r) {\r\n    if (r == NULL) return NULL;\r\n    return r->submissionDate;\r\n}\r\n\r\nchar* getDescription(request r) {\r\n    if (r == NULL) return NULL;\r\n    return r->description;\r\n}\r\n\r\nvoid printRequest(request r) {\r\n\tif (r == NULL) return;\r\n\tprintf(\"------------\\n\");\r\n\tprintf(\"---Richiesta id: %d---\\n\", getIdCode(r));\r\n\tswitch (getType(r)) {\r\n\t\tcase 'a':\r\n\t\t\tprintf(\"- Intervento all'impianto idraulico\\n\");\r\n\t\t\tbreak;\r\n\t\tcase 'b':\r\n\t\t\tprintf(\"- Intervento all'impianto elettrico\\n\");\r\n\t\t\tbreak;\r\n\t\tcase 'c':\r\n\t\t\tprintf(\"- Intervento edile\\n\");\r\n\t\t\tbreak;\r\n\t\tcase 'd':\r\n\t\t\tprintf(\"- Intervento all'impianto termoidraulico\\n\");\r\n\t\t\tbreak;\r\n\t\tcase 'e':\r\n\t\t\tprintf(\"- Intervento sull'ascensore\\n\");\r\n\t\t\tbreak;\r\n\t\tcase 'f':\r\n\t\t\tprintf(\"- Intervento su serrature e metalli\\n\");\r\n\t\t\tbreak;\r\n\t\tdefault:\r\n\t\t\tprintf(\"- ERRORE\\n\");\r\n\t\t\treturn;\r\n\t}\r\n\tprintf(\"- Livello di urgenza: %d\\n\", getUrgency(r));\r\n\tif (getApartment(r) == 0) {\r\n\t\tprintf(\"- Intervento all'intero edificio\\n\");\r\n\t} else {\r\n\t\tprintf(\"- Intervento all'appartamento n.%d\\n\", getApartment(r));\r\n\t}\r\n\tprintf(\"- Data invio della richiesta: %s\\n\", getSubmissionDate(r));\r\n\r\n\tprintf(\"- Descrizione:\\n\");\r\n\t// Printing the description around 25 char for row\r\n\tint i = 0;\r\n\tint charForRow = 0;\r\n\tchar* tmpDescription = getDescription(r);\r\n\r\n\twhile (tmpDescription[i] != '\\0') {\r\n\t\tif (charForRow > 25 && tmpDescription[i] == ' ') {\r\n\t\t\tprintf(\"\\n\");\r\n\t\t\tcharForRow = 0;\r\n\t\t}else{\r\n\t\t\tputchar(tmpDescription[i]);\r\n\t\t\tcharForRow++;\r\n\t\t}\r\n\t\ti++;\r\n\t}\r\n\tprintf(\"\\n------------\\n\");\r\n}\r\n\r\nvoid deallocateRequest(request r) {\r\n    if (r == NULL) return;\r\n    free(r->description);\r\n    free(r);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/request.c b/src/request.c
+--- a/src/request.c	(revision 584bab80ff329af70bc32fbd86d624dc417a798a)
++++ b/src/request.c	(date 1776961256207)
+@@ -2,7 +2,6 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include "../include/request.h"
+-#include "../include/utils.h"
+ 
+ struct c_request {
+     int idCode;                  // Id code for the request
+@@ -13,105 +12,34 @@
+     char* description;           // Description of the problem
+ };
+ 
+-request newRequest() {
+-	request r = malloc(sizeof(struct c_request));
+-	if (r == NULL) return NULL;
++request newRequest(int idCode, char type, int urgency, int apartment, char submissionDate[], char* description) {
++    // Allocate memory for the request adt
++    request r = malloc(sizeof(struct c_request));
++    if (r == NULL) return NULL;
+ 
+-	int error = 0;
+-	int idCode;
+-	do {
+-		if (!error) printf("Inserire l'id della richiesta: ");
+-		else printf("ERRORE! Inserire un id valido (solo cifre): ");
+-		error = 1;
+-	} while (scanf("%d", &idCode) != 1);
+-
+-	r->idCode = idCode;
+-
+-	error = 0;
+-	char type;
+-	while (true) {
+-		if (!error) {
+-			printf("Inserire la tipologia della richiesta\n");
+-			printf("[a] Intervento all'impianto idraulico\n");
+-			printf("[b] Intervento all'impianto elettrico\n");
+-			printf("[c] Intervento edile\n");
+-			printf("[d] Intervento all'impianto termoidraulico\n");
+-			printf("[e] Intervento sull'ascensore\n");
+-			printf("[f] Intervento su serrature e metalli\n");
+-		}
+-		printf(".. : ");
+-		type = getchar();
+-		if (type < 97 || type > 102) {
+-			printf("ERRORE! Inserire un type valido\n");
+-			error = 1;
+-			continue;
+-		}
+-
+-		r->type = type;
+-		break;
+-	}
+-
+-	error = 0;
+-	int urgency;
+-	do {
+-		if (!error) printf("Inserire l'urgenza della richiesta [1 (bassa) - 5 (alta)]: ");
+-		else printf("ERRORE! Inserire un livello di urgenza valido: ");
+-		error = 1;
+-	} while ((scanf("%d", &urgency) != 1) || (urgency < 1 || urgency > 5));
+-
+-	r->urgency = urgency;
+-
++    // Assign parameter values
++    r->idCode = idCode;
++    r->type = type;
++    r->urgency = urgency;
++    r->apartment = apartment;
+ 
+-	error = 0;
+-	int apartment;
+-	if (type == 'e') {
+-		apartment = 0;
+-	} else {
+-		do {
+-			if (!error) printf("Inserire il numero civico della richiesta: ");
+-			else printf("ERRORE! Inserire un numero civico valido: ");
+-			error = 1;
+-		} while ((scanf("%d", &apartment) != 1) || (apartment < 1));
+-	}
+-
+-
+-	// TODO: Aggiungere controlli in caso di data inesistente
+-	error = 0;
+-	char submissionDate[11];
+-    clearBuffer();
+-
+-    do {
+-       if (!error) printf("Inserire la data di sottomissione (YYYY/MM/DD): ");
+-       else printf("ERRORE! Formato non valido. Riprova (YYYY/MM/DD): ");
+-       error = 1;
+-    } while (scanf("%10s", submissionDate) != 1);
+-
++    // Copying submissionDate avoiding a Buffer Overflow
+     strncpy(r->submissionDate, submissionDate, sizeof(r->submissionDate) - 1);
+     r->submissionDate[sizeof(r->submissionDate) - 1] = '\0';
+ 
+-
+-	error = 0;
+-	char buffer[512];
+-	clearBuffer();
+-
+-	do {
+-       if (!error) printf("Inserire una breve descrizione del problema: ");
+-       else printf("ERRORE! La descrizione non può essere vuota: ");
+-       error = 1;
+-
+-       if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+-           buffer[strcspn(buffer, "\n")] = '\0';
+-       }
++    // Error handling in case of missing description
++    if (description == NULL) {
++        free(r);
++        return NULL;
++    }
+ 
+-    } while (strlen(buffer) == 0);
+-
+-    r->description = malloc(strlen(buffer) + 1);
++    // Allocate memory for the description of the request
++    r->description = malloc(strlen(description) + 1);
+     if (r->description == NULL) {
+         free(r);
+         return NULL;
+     }
+-
+-    strcpy(r->description, buffer);
++    strcpy(r->description, description);
+ 
+     return r;
+ }
+@@ -151,22 +79,22 @@
+ 	printf("------------\n");
+ 	printf("---Richiesta id: %d---\n", getIdCode(r));
+ 	switch (getType(r)) {
+-		case 'a':
++		case PLUMBER:
+ 			printf("- Intervento all'impianto idraulico\n");
+ 			break;
+-		case 'b':
++		case ELECTRICIAN:
+ 			printf("- Intervento all'impianto elettrico\n");
+ 			break;
+-		case 'c':
++		case CONSTRUCTION:
+ 			printf("- Intervento edile\n");
+ 			break;
+-		case 'd':
++		case TERMOHYDRAULIC:
+ 			printf("- Intervento all'impianto termoidraulico\n");
+ 			break;
+-		case 'e':
++		case ELEVETOR:
+ 			printf("- Intervento sull'ascensore\n");
+ 			break;
+-		case 'f':
++		case BLACKSMITH:
+ 			printf("- Intervento su serrature e metalli\n");
+ 			break;
+ 		default:

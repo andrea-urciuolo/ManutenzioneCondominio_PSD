@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BackendCodeEditorMiscSettings">
+    <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
+    <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppFormatterOtherPage" type="string" />
+    <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
+  </component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bd642d31-1db9-40bc-9125-3b4f612ba790" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;andrea-urciuolo&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/andrea-urciuolo/ManutenzioneCondominio_PSD.git&quot;,
+    &quot;accountId&quot;: &quot;22f790cd-f9e6-4e84-bdbb-72f4dfd55b34&quot;
+  }
+}</component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="TQk5UglH" />
+  </component>
+  <component name="MakefileLocalSettings">
+    <option name="availableProjects">
+      <map>
+        <entry>
+          <key>
+            <ExternalProjectPojo>
+              <option name="name" value="ManutenzioneCondominio_PSD" />
+              <option name="path" value="$PROJECT_DIR$" />
+            </ExternalProjectPojo>
+          </key>
+          <value>
+            <list>
+              <ExternalProjectPojo>
+                <option name="name" value="ManutenzioneCondominio_PSD" />
+                <option name="path" value="$PROJECT_DIR$" />
+              </ExternalProjectPojo>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
+      </map>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2025" />
+    <option name="minorVersion" value="3.3" />
+    <option name="productBranch" value="Classic" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="3Cf7mCPUUzwABJoJh8hCFZIfywR" />
+  <component name="ProjectStatusUIService">{
+  &quot;uiKindId&quot;: &quot;Widget&quot;
+}</component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;C/C++ File.main.c.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.manutenzione.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\andre\CLionProjects\ManutenzioneCondominio_PSD\tests\cases\list\reverseList" />
+      <recent name="C:\Users\andre\CLionProjects\ManutenzioneCondominio_PSD\tests\testing_src" />
+      <recent name="C:\Users\andre\CLionProjects\ManutenzioneCondominio_PSD\tests\testing_include" />
+    </key>
+  </component>
+  <component name="RunManager" selected="C/C++ File.main.c">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ManutenzioneCondominio_PSD" TARGET_NAME="main.c" CONFIG_NAME="main.c">
+      <option name="sourceFile" value="src\main.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ManutenzioneCondominio_PSD" TARGET_NAME="main.c" CONFIG_NAME="main.c">
+      <option name="sourceFile" value="src\main.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ManutenzioneCondominio_PSD" TARGET_NAME="main.c" CONFIG_NAME="main.c">
+      <option name="sourceFile" value="src\main.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ManutenzioneCondominio_PSD" TARGET_NAME="main.c" CONFIG_NAME="main.c">
+      <option name="sourceFile" value="src\main.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ManutenzioneCondominio_PSD" TARGET_NAME="main.c" CONFIG_NAME="main.c">
+      <option name="sourceFile" value="src\main.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ManutenzioneCondominio_PSD" TARGET_NAME="main.c" CONFIG_NAME="main.c">
+      <option name="sourceFile" value="src\main.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="manutenzione" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="manutenzione" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="manutenzione" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="manutenzione" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="manutenzione" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="manutenzione" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="manutenzione" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="manutenzione" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="manutenzione" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="manutenzione" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="manutenzione" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="manutenzione" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="C/C++ File.main.c" />
+        <item itemvalue="Makefile Target.manutenzione" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bd642d31-1db9-40bc-9125-3b4f612ba790" name="Changes" comment="" />
+      <created>1776764926286</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1776764926286</updated>
+      <workItem from="1776764927608" duration="3332000" />
+      <workItem from="1776854292724" duration="109000" />
+      <workItem from="1776873856330" duration="237000" />
+      <workItem from="1776874112798" duration="4971000" />
+      <workItem from="1776940592925" duration="1881000" />
+      <workItem from="1776942496511" duration="548000" />
+      <workItem from="1776943062562" duration="2151000" />
+      <workItem from="1776956238470" duration="314000" />
+      <workItem from="1776956577639" duration="34000" />
+      <workItem from="1776956631187" duration="714000" />
+      <workItem from="1776957365231" duration="4105000" />
+      <workItem from="1776961515772" duration="1258000" />
+      <workItem from="1776962804627" duration="287000" />
+      <workItem from="1776963118452" duration="158000" />
+      <workItem from="1776963291853" duration="1143000" />
+      <workItem from="1776964467531" duration="24000" />
+      <workItem from="1777023184142" duration="2274000" />
+      <workItem from="1777206649933" duration="731000" />
+      <workItem from="1777237375136" duration="4986000" />
+      <workItem from="1777291468837" duration="5411000" />
+      <workItem from="1777296969454" duration="676000" />
+      <workItem from="1777297718106" duration="210000" />
+      <workItem from="1777297943163" duration="103000" />
+      <workItem from="1777298078816" duration="224000" />
+      <workItem from="1777396698681" duration="28000" />
+      <workItem from="1777455790453" duration="2157000" />
+      <workItem from="1777458988953" duration="181000" />
+      <workItem from="1777715615858" duration="2431000" />
+      <workItem from="1777718221409" duration="1825000" />
+      <workItem from="1777720155944" duration="1347000" />
+      <workItem from="1777734383414" duration="576000" />
+      <workItem from="1777821941533" duration="7193000" />
+      <workItem from="1777829332803" duration="778000" />
+      <workItem from="1777901037896" duration="3929000" />
+      <workItem from="1777906016703" duration="3680000" />
+      <workItem from="1777921464260" duration="1417000" />
+      <workItem from="1777969961965" duration="193000" />
+      <workItem from="1777970206441" duration="168000" />
+      <workItem from="1777995976482" duration="3048000" />
+      <workItem from="1778000359760" duration="1330000" />
+      <workItem from="1778059754482" duration="116000" />
+      <workItem from="1778070092994" duration="5483000" />
+      <workItem from="1778139573201" duration="2897000" />
+      <workItem from="1778144699744" duration="2115000" />
+      <workItem from="1778154370001" duration="3368000" />
+      <workItem from="1778172697017" duration="8653000" />
+      <workItem from="1778185585724" duration="1545000" />
+      <workItem from="1778240551190" duration="2827000" />
+      <workItem from="1778331476231" duration="2303000" />
+      <workItem from="1778333889100" duration="4164000" />
+      <workItem from="1778585666048" duration="204000" />
+      <workItem from="1778585992599" duration="168000" />
+      <workItem from="1778605804474" duration="8724000" />
+      <workItem from="1778693512711" duration="921000" />
+      <workItem from="1778699040545" duration="3521000" />
+      <workItem from="1778861167534" duration="12025000" />
+      <workItem from="1778925250232" duration="3427000" />
+      <workItem from="1778928902515" duration="2647000" />
+      <workItem from="1778935904581" duration="8069000" />
+      <workItem from="1779026069824" duration="1118000" />
+      <workItem from="1779032092541" duration="187000" />
+      <workItem from="1779101138600" duration="2823000" />
+      <workItem from="1779109977910" duration="731000" />
+      <workItem from="1779549325145" duration="8000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
